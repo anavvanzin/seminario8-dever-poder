@@ -2364,9 +2364,9 @@
       <div class="cmd">load caso.INSS &gt; conselho</div>
       <p class="sub">A trabalhadora rural, indeferida automaticamente, leva seu caso ao <em style="color:#9af5cf">Conselho de Contestação Algorítmica</em>. Quatro perspectivas jurídicas — as quatro leituras do seminário — deliberam em três fases. No fim, o sistema não decide pela pessoa: ele <em style="color:#9af5cf">devolve a ela o contraditório que o Estado suprimiu.</em><span class="blink"></span></p>
       <div style="margin-top:36px;display:flex;flex-wrap:wrap;gap:18px">
-        <a href="Conselho.html" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:12px;padding:18px 28px;background:#3fe0a0;color:#0c1318;text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:2px solid #3fe0a0;transition:all .2s" onmouseover="this.style.background='transparent';this.style.color='#3fe0a0'" onmouseout="this.style.background='#3fe0a0';this.style.color='#0c1318'">
-          ▶ abrir o conselho
-          <span style="font-size:14px;opacity:.7;font-weight:400">→ local · offline</span>
+        <a href="javascript:void(0)" onclick="cShow();return false" style="display:inline-flex;align-items:center;gap:12px;padding:18px 28px;background:#3fe0a0;color:#0c1318;text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:2px solid #3fe0a0;transition:all .2s;cursor:pointer" onmouseover="this.style.background='transparent';this.style.color='#3fe0a0'" onmouseout="this.style.background='#3fe0a0';this.style.color='#0c1318'">
+          ▶ Iniciar a Deliberação
+          <span style="font-size:14px;opacity:.7;font-weight:400">→ 3 fases · 4 personas</span>
         </a>
         <a href="https://conselho-de-contesta-o-algor-tmica-1066380962084.us-west1.run.app" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:12px;padding:18px 28px;background:transparent;color:#9af5cf;text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;border:2px solid #9af5cf;transition:all .2s" onmouseover="this.style.background='#9af5cf';this.style.color='#0c1318'" onmouseout="this.style.background='transparent';this.style.color='#9af5cf'">
           ↗ versão em produção
@@ -2475,6 +2475,310 @@
   </section>
 
 </deck-stage>
+
+<style>
+  /* ═══ Consejo Overlay ═══ */
+  #consejo-overlay {
+    display: none; position: fixed; z-index: 99999; inset: 0;
+    background: var(--paper); font-family: var(--serif-body); color: var(--ink);
+    overflow: hidden; animation: cIn .3s ease-out;
+  }
+  @keyframes cIn { from { opacity:0; } to { opacity:1; } }
+  #consejo-overlay .c-bar {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 28px; background:var(--paper-warm); border-bottom:2px solid var(--ink);
+  }
+  #consejo-overlay .c-bar h3 {
+    font-family:var(--serif-display); font-size:20px; font-weight:500; color:var(--ink); margin:0;
+  }
+  #consejo-overlay .c-bar h3 em { font-style:italic; color:var(--accent); }
+  #consejo-overlay .c-bar .c-return {
+    padding:8px 20px; background:var(--accent); color:#fff; border:none; border-radius:6px;
+    font-family:var(--mono); font-size:12px; cursor:pointer; letter-spacing:.08em;
+    transition:all .2s;
+  }
+  #consejo-overlay .c-bar .c-return:hover { background:var(--accent-2); }
+  #consejo-overlay .c-phases {
+    display:flex; gap:8px; padding:12px 28px; background:var(--paper); border-bottom:1px solid var(--rule-strong);
+  }
+  #consejo-overlay .c-phases button {
+    padding:8px 16px; background:var(--paper-dark); border:1px solid var(--rule-strong); border-radius:6px;
+    cursor:pointer; font-family:var(--serif-display); font-size:14px; font-weight:500;
+    color:var(--ink-3); transition:all .2s;
+  }
+  #consejo-overlay .c-phases button.cp-active {
+    background:var(--accent); color:#fff; border-color:var(--accent);
+  }
+  #consejo-overlay .c-status {
+    font-family:var(--mono); font-size:11px; padding:8px 28px; color:var(--ink-4);
+    border-bottom:1px solid var(--rule);
+  }
+  #consejo-overlay .c-status .online { color:var(--term-neon); }
+  #consejo-overlay .c-status .offline { color:var(--term-err); }
+  #consejo-overlay .c-main {
+    padding:20px 32px; overflow-y:auto; height:calc(100vh - 170px);
+    display:grid; grid-template-columns:1fr 1fr; gap:16px;
+  }
+  #consejo-overlay .c-full { grid-column:1/-1; }
+  #consejo-overlay .c-ctx {
+    grid-column:1/-1; background:var(--paper-warm); border:1px solid var(--rule-strong);
+    border-radius:8px; padding:20px; font-size:14px; line-height:1.6; color:var(--ink-2);
+  }
+  #consejo-overlay .c-ctx strong { font-family:var(--serif-display); font-size:18px; }
+  #consejo-overlay .c-card {
+    background:#fff; border:1px solid var(--rule-strong); border-radius:8px;
+    padding:18px; border-top:3px solid var(--accent);
+  }
+  #consejo-overlay .c-card-h {
+    display:flex; align-items:center; gap:10px; margin-bottom:12px; padding-bottom:10px;
+    border-bottom:1px solid var(--rule);
+  }
+  #consejo-overlay .c-ico {
+    width:36px; height:36px; border-radius:50%; display:grid; place-items:center;
+    font-size:16px; color:#fff;
+  }
+  #consejo-overlay .c-ico.def { background:var(--accent); }
+  #consejo-overlay .c-ico.cie { background:var(--accent2); }
+  #consejo-overlay .c-ico.adm { background:var(--gold); }
+  #consejo-overlay .c-ico.cid { background:var(--ink); }
+  #consejo-overlay .c-card h4 { font-family:var(--serif-display); font-size:15px; margin:0; color:var(--ink); }
+  #consejo-overlay .c-card h4 + span { font-size:10px; color:var(--ink-4); }
+  #consejo-overlay .c-body { font-size:13px; line-height:1.65; color:var(--ink-2); }
+  #consejo-overlay .c-body strong { color:var(--accent); }
+  #consejo-overlay .c-body em { color:var(--ink-3); font-style:italic; }
+  #consejo-overlay .c-rank {
+    background:var(--paper-warm); border:1px solid var(--ink); border-radius:8px; padding:18px;
+  }
+  #consejo-overlay .c-rank h3 { font-family:var(--serif-display); font-size:17px; margin-bottom:12px; color:var(--accent); }
+  #consejo-overlay .c-ri {
+    display:flex; align-items:center; gap:12px; padding:10px; background:#fff;
+    border:1px solid var(--rule); border-radius:6px; margin-bottom:8px;
+  }
+  #consejo-overlay .c-rp { font-size:18px; font-weight:700; color:var(--accent); min-width:40px; font-family:var(--serif-display); }
+  #consejo-overlay .c-final {
+    background:#fff; border:2px solid var(--accent); border-radius:10px; padding:24px; margin-top:10px;
+  }
+  #consejo-overlay .c-final h3 { font-family:var(--serif-display); font-size:19px; color:var(--accent); margin-bottom:14px; }
+  #consejo-overlay .c-final .s { margin-bottom:12px; }
+  #consejo-overlay .c-final .s h4 { font-family:var(--mono); font-size:11px; letter-spacing:.2em; color:var(--ink-3); text-transform:uppercase; margin-bottom:5px; }
+  #consejo-overlay .c-final .s p { font-size:13px; line-height:1.65; color:var(--ink-2); }
+  #consejo-overlay .c-final .s ul { padding-left:20px; }
+  #consejo-overlay .c-final .al { background:rgba(139,26,26,.08); border-left:3px solid var(--accent); padding:12px; border-radius:0 6px 6px 0; margin-top:12px; }
+  #consejo-overlay .c-final .al p { font-size:13px; color:var(--accent); margin:0; }
+</style>
+
+<div id="consejo-overlay">
+  <div class="c-bar">
+    <h3><em>Conselho de Contestação</em> · INSS — Aposentadoria Rural</h3>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span id="c-status-text" style="font-family:var(--mono);font-size:11px;color:var(--ink-4)">verificando...</span>
+      <button class="c-return" onclick="cHide()">← Voltar à tese</button>
+    </div>
+  </div>
+  <div class="c-phases" id="c-phases"></div>
+  <div class="c-main" id="c-main"></div>
+</div>
+
+<script>
+const cases = [
+  {
+    id: 1,
+    title: "Bolsa Familia Cancelado",
+    desc: "Beneficio cancelado automaticamente por inconsistencia de dados. Sem explicacao do criterio.",
+    tag: "Cadastro Unico",
+    context: "Uma familia de baixa renda teve o Bolsa Familia cancelado automaticamente apos um cruzamento de dados entre Receita Federal, CNIS e Cadastro Unico. A notificacao apenas dizia: INCONSISTENCIA DE DADOS. Nenhuma explicacao sobre qual dado, qual criterio, ou como contestar.",
+    personas: {
+      defensoria: `<strong>Problema juridico:</strong> Violacao do contraditorio e da ampla defesa (art. 5, LV, CF). A decisao foi tomada unilateralmente sem dar a familia chance de se manifestar previamente.<br><br><strong>Leis aplicaveis:</strong> Art. 20, LGPD (revisao de decisao automatizada). Art. 2, Lei 14.129/2021 (garantir ao usuario compreensao das regras).<br><br><strong>Recomendacao:</strong> Contestacao junto ao Ministerio da Cidadania + pedido LAI na Dataprev exigindo o criterio exato do algoritmo. Se nao responder em 20 dias, acionar Defensoria Publica para mandado de seguranca.`,
+      cientista: `<strong>Problema tecnico:</strong> O sistema cruzou CPF, renda declarada e composicao familiar, mas nao revelou qual variavel disparou o cancelamento. E uma caixa-preta.<br><br><strong>Explicabilidade:</strong> Se fosse um modelo de machine learning, precisariamos do SHAP ou feature importance para saber qual campo (renda per capita? idade do responsavel? endereco?) foi determinante.<br><br><strong>Alerta:</strong> Cruzamentos automatizados entre bases governamentais geram erros em cascata. Um erro no CNIS (ex: registro de emprego fantasme) propaga para o CadUnico e gera exclusao automatica.`,
+      admin: `<strong>Problema de governanca:</strong> Faltou supervisao humana obrigatoria antes do cancelamento (art. 20, §2, LGPD). O algoritmo nao pode ser o ultimo passo sem revisao humana em decisoes com efeitos em direitos sociais.<br><br><strong>Lei 14.129/2021:</strong> Art. 6 exige que decisoes automatizadas sejam explicaveis. A notificacao INCONSISTENCIA DE DADOS viola o principio da transparencia.<br><br><strong>Recomendacao administrativa:</strong> O orgao gestor deve publicar portaria com os criterios de cancelamento e criar canal de contestacao direta, sem necessidade de DPU.`,
+      cidadao: `<strong>Impacto real:</strong> Esta familia depende do Bolsa Familia para comprar alimentos. Cancelamento automatico = fome imediata. A tecnologia nao mede isso.<br><br><strong>Exclusao digital:</strong> A familia nao tem internet em casa. Como vai acessar o gov.br para contestar? Como vai ler o tal criterio se ele for publicado apenas online?<br><br><strong>Questao de classe:</strong> Quem tem renda informal, mora em area rural, ou nao tem CPF regularizado e sempre o primeiro excluido por cruzamentos de dados. O algoritmo reproduz desigualdades.`
+    },
+    rankings: [
+      { pos: 1, name: "Defensoria Publica", score: "1.25", votes: 4 },
+      { pos: 2, name: "Cidadao", score: "2.00", votes: 4 },
+      { pos: 3, name: "Cientista de Dados", score: "3.00", votes: 4 },
+      { pos: 4, name: "Administrador Publico", score: "3.75", votes: 4 }
+    ],
+    final: {
+      sintese: "Cancelamento automatico do Bolsa Familia sem explicacao do criterio algoritmico, violando o contraditorio, a LGPD art. 20 e a Lei 14.129/2021.",
+      consenso: "Todos os conselheiros concordam: (1) a decisao carece de motivacao; (2) falta canal de contestacao acessivel; (3) a supervisao humana e obrigatoria antes de cancelar beneficios.",
+      dissenso: "O Administrador Publico defende que a ineficiencia do sistema e um problema de infraestrutura, nao de direitos. Os demais rejeitam essa leitura: direitos sociais nao podem ser sacrificados por problemas tecnicos do Estado.",
+      fundamentacao: "Art. 5, LV (contraditorio); Art. 6, CF (direitos sociais); Art. 20, LGPD (revisao de decisoes automatizadas); Art. 6, Lei 14.129/2021 (explicabilidade); Art. 37, CF (principios da administracao publica, incluindo motivacao).",
+      recomendacao: "1) Pedido LAI a Dataprev exigindo criterio do algoritmo; 2) Contestacao no Fala.BR; 3) Se indeferido, mandado de seguranca na Vara Federal com pedido de liminar. 4) Pressionar gestor municipal para atualizar CadUnico.",
+      alerta: "O cruzamento automatizado entre CNIS e CadUnico esta sendo usado como atalho burocratico para reduzir filas de beneficiarios, mascarando uma decisao politica de austeridade como decisao tecnica."
+    }
+  },
+  {
+    id: 2,
+    title: "IPTU Triplicado Automaticamente",
+    desc: "IPTU subiu 300% apos atualizacao automatizada do cadastro imobiliario. Sem notificacao previa.",
+    tag: "Municipio",
+    context: "Um proprietario residencial teve o IPTU triplicado em 2025 apos a Prefeitura atualizar o cadastro imobiliario via algoritmo que cruza dados de IPTU, carteira de trabalho, matricula escolar dos filhos e registro de comercio. O sistema reclassificou automaticamente o imovel de residencial para misto (residencial/comercial) sem inspecao presencial.",
+    personas: {
+      defensoria: `<strong>Problema juridico:</strong> Ofensa ao principio da legalidade tributaria (art. 150, CF). A nova classificacao nao tem fundamento em lei municipal nem em vistoria tecnica. E um aumento de tributo por algoritmo.<br><br><strong>LGPD art. 20:</strong> A decisao foi tomada unicamente por tratamento automatizado e afeta interesse patrimonial. O contribuinte tem direito a revisao.<br><br><strong>Recomendacao:</strong> Impugnacao ao IPTU + pedido de anulacao do lancamento. Pedir LAI na Secretaria de Fazenda sobre o criterio de reclassificacao.`,
+      cientista: `<strong>Problema tecnico:</strong> O algoritmo usou dados correlacionais como se fossem causais: ter filhos em escola particular e registro de MEI no mesmo endereco nao prova uso comercial do imovel.<br><br><strong>Vies:</strong> O modelo provavelmente foi treinado com dados de bairros comerciais ricos, gerando falso positivo para residencias de classe media em transicao.<br><br><strong>Transparencia:</strong> A prefeitura deve publicar: features usadas, pesos, threshold de reclassificacao, e taxa de erro do modelo. Nada foi publicado.`,
+      admin: `<strong>Problema de governanca:</strong> A Lei Complementar 101/2000 (LRF) exige que aumentos de receita tributaria sejam previamente comunicados. A atualizacao automatizada violou o principio da publicidade.<br><br><strong>Lei 14.129/2021:</strong> Art. 4 exige transparencia em sistemas automatizados. A reclassificacao nao foi explicada.<br><br><strong>Recomendacao:</strong> A prefeitura deve instituir revisao humana obrigatoria antes de qualquer reclassificacao cadastral com efeito tributario.`,
+      cidadao: `<strong>Impacto real:</strong> IPTU triplicado = R$ 3.600/ano em vez de R$ 1.200. Para uma familia com renda de R$ 4.000, isso e 7,5% da renda. O algoritmo nao calcula isso.<br><br><strong>Acesso:</strong> A prefeitura publicou a reclassificacao apenas no site. Quem nao acessa internet nao soube ate receber o carnê.<br><br><strong>Territorio:</strong> Bairros perifericos com moradia mista (lojinha no terreo, casa em cima) sao os mais atingidos. O algoritmo nao distingue loja de sala de estar.`
+    },
+    rankings: [
+      { pos: 1, name: "Defensoria Publica", score: "1.00", votes: 4 },
+      { pos: 2, name: "Cientista de Dados", score: "2.25", votes: 4 },
+      { pos: 3, name: "Cidadao", score: "2.75", votes: 4 },
+      { pos: 4, name: "Administrador Publico", score: "4.00", votes: 4 }
+    ],
+    final: {
+      sintese: "Reclassificacao tributaria automatizada de imovel residencial para misto, sem vistoria, sem notificacao e sem fundamento legal claro, caracterizando violacao dos principios da legalidade, anterioridade e da motivacao.",
+      consenso: "Todos concordam que: (1) a reclassificacao carece de vistoria presencial; (2) correlacao entre dados nao e causalidade; (3) o contribuinte deve ser notificado antes do aumento.",
+      dissenso: "O Administrador Publico defende que a atualizacao cadastral automatizada e necessaria para combater sonegacao. Os demais respondem: a eficiencia da arrecadacao nao justifica o sacrificio da legalidade.",
+      fundamentacao: "Art. 150, CF (principios tributarios); Art. 20, LGPD; Art. 4, Lei 14.129/2021; Art. 37, CF (motivacao); LC 101/2000 (LRF, transparencia fiscal).",
+      recomendacao: "1) Impugnacao ao lancamento do IPTU; 2) LAI na Secretaria de Fazenda exigindo o algoritmo; 3) Mandado de seguranca se indeferido; 4) Requerer vistoria tecnica gratuita.",
+      alerta: "A prefeitura esta usando o algoritmo para aumentar a arrecadacao sem aumentar a carga tributaria via lei -- um mecanismo de delegacao indevida do poder de tributar para uma ferramenta tecnica."
+    }
+  },
+  {
+    id: 3,
+    title: "Auxilio Emergencial Negado",
+    desc: "Cidadao considerado inelegivel automaticamente por cruzamento de dados do CNIS, sem chance de corrigir.",
+    tag: "Beneficio",
+    context: "Um trabalhador autonomo teve o pedido do Auxilio Emergencial negado automaticamente apos cruzamento de dados entre PIS/Pasep, CNIS e Receita Federal. O sistema indicou inelegibilidade por vinculo empregaticio ativo. O cidadao nunca teve carteira assinada. O erro veio de um registro fantasme no CNIS.",
+    personas: {
+      defensoria: `<strong>Problema juridico:</strong> Ofensa ao direito ao minimo existencial (art. 6, CF) e ao devido processo legal. A negativa foi automatica, sem contraditorio previo.<br><br><strong>LGPD art. 46:</strong> O controlador (Dataprev) e responsavel pela qualidade dos dados. Um erro no CNIS nao pode ser usado contra o cidadao sem chance de correcao.<br><br><strong>Recomendacao:</strong> Contestacao extrajudicial via Dataprev + pedido de correcao no CNIS via INSS. Se persistir, mandado de seguranca com pedido de liminar.`,
+      cientista: `<strong>Problema tecnico:</strong> O cruzamento de bases (PIS, CNIS, CPF) usa fuzzy matching que gera falsos positivos quando ha homonimos ou digitacao errada.<br><br><strong>Qualidade de dados:</strong> O CNIS tem 2,3 milhoes de registros fantasmas segundo TCU. Usar essa base como ground truth e um erro metodologico grave.<br><br><strong>Recomendacao tecnica:</strong> O sistema deve exigir match exato (CPF + data de nascimento + nome da mae) antes de declarar inelegibilidade. Fuzzy matching so para aprovacao, nunca para negativa.`,
+      admin: `<strong>Problema:</strong> A Portaria 147/2020 autorizou o cruzamento automatizado, mas nao previu um mecanismo de revisao humana para negativas. Isso viola o art. 20, LGPD.<br><br><strong>Governanca:</strong> O Ministerio da Cidadania (orgao gestor) deve validar cada negativa antes de enviar a Caixa. A Portaria delegou essa validacao a um algoritmo.<br><br><strong>Recomendacao:</strong> Revisar a Portaria para incluir revisao humana obrigatoria em todas as negativas automaticas.`,
+      cidadao: `<strong>Impacto:</strong> Trabalhador autonomo sem renda durante pandemia. Negativa automatica = inscricao no Serasa por conta de luz, aluguel e agua atrasados.<br><br><strong>Sem acesso:</strong> A Dataprev so aceita contestacao online. Quem nao tem internet ou nao sabe usar o site fica excluido.<br><br><strong>Raca e classe:</strong> Trabalhadores autonomos negros e perifericos sao os mais atingidos por erros no CNIS, pois tem maior instabilidade de registro e mais homonimos em bases publicas.`
+    },
+    rankings: [
+      { pos: 1, name: "Defensoria Publica", score: "1.50", votes: 4 },
+      { pos: 2, name: "Cientista de Dados", score: "2.00", votes: 4 },
+      { pos: 3, name: "Cidadao", score: "2.50", votes: 4 },
+      { pos: 4, name: "Administrador Publico", score: "4.00", votes: 4 }
+    ],
+    final: {
+      sintese: "Negativa automatica de beneficio social baseada em dado fantasme do CNIS, sem revisao humana, sem contraditorio e sem canal acessivel de correcao.",
+      consenso: "Todos concordam: (1) a negativa automatica de beneficio requer revisao humana; (2) dados de baixa qualidade nao podem ser base para exclusao; (3) o cidadao precisa de canal fisico e digital de contestacao.",
+      dissenso: "O Administrador Publico argumenta que o volume de 50 milhoes de pedidos inviabiliza revisao humana individual. Os demais respondem: o volume justifica mais investimento em qualidade de dados e supervisao, nao justifica automatizacao sem contrapeso.",
+      fundamentacao: "Art. 6, CF (direitos sociais); Art. 20, LGPD; Art. 46, LGPD (qualidade dos dados); Art. 5, LV, CF (contraditorio); Lei 13.982/2020 (Auxilio Emergencial).",
+      recomendacao: "1) Contestacao via portal Dataprev; 2) Requerimento de correcao no CNIS via INSS; 3) Pedido LAI sobre criterio de cruzamento; 4) Se indeferido, DPU para mandado de seguranca com liminar.",
+      alerta: "O governo esta usando alegacao de escala (50 milhoes de pedidos) para justificar ausencia de direitos fundamentais. Escala nao anula o contraditorio."
+    }
+  },
+  {
+    id: 4,
+    title: "INSS — Aposentadoria Rural Negada",
+    desc: "Aposentadoria rural por idade indeferida automaticamente, sem contraditorio previo, por inferencia equivocada e em desacordo com a propria IN 128/2022 do INSS.",
+    tag: "Previdencia",
+    context: "Uma trabalhadora rural (segurada especial) teve a aposentadoria por idade rural indeferida automaticamente. O sistema cruzou CNIS, CadUnico, dados do ITR/CAR e geolocalizacao e INFERIU que ela exercia atividade urbana, desconsiderando a autodeclaracao rural. A notificacao do Meu INSS dizia apenas: NAO COMPROVADA A QUALIDADE DE SEGURADO ESPECIAL. Nenhuma explicacao sobre quais dados, qual peso, ou como o sistema concluiu pela atividade urbana. O indeferimento ocorreu SEM a analise e o contraditorio previo que a propria IN INSS 128/2022 exige.",
+    personas: {
+      defensoria: `<strong>Problema juridico:</strong> Violacao frontal do contraditorio e da ampla defesa (art. 5, LV, CF), que devem ser <em>previos</em> a decisao -- e nao supridos por recurso posterior. A negativa automatica retira da segurada a chance de influenciar o resultado antes que ele produza efeitos.<br><br><strong>Norma descumprida pelo proprio orgao:</strong> A IN INSS 128/2022 preve autodeclaracao do segurado especial e analise antes do indeferimento. O INSS editou a regra e a violou.<br><br><strong>Leis aplicaveis:</strong> Art. 20, LGPD (revisao de decisao automatizada); art. 194 e 201, CF (previdencia como direito).<br><br><strong>Recomendacao:</strong> Recurso ao Conselho de Recursos da Previdencia Social (CRPS) arguindo nulidade por ausencia de contraditorio previo + pedido LAI/Dataprev sobre o criterio de inferencia.`,
+      cientista: `<strong>Problema tecnico:</strong> O sistema inferiu "atividade urbana" a partir de <em>proxies</em> (lacunas no CNIS, endereco geocodificado, registros correlatos) e tratou inferencia como prova. Inferencia nao e fato.<br><br><strong>Vies de proxy:</strong> Trabalho rural informal e sazonal produz CNIS fragmentado por natureza -- exatamente o padrao que o modelo leu como "urbano". O modelo penaliza a informalidade que deveria proteger.<br><br><strong>Explicabilidade:</strong> Sem SHAP/feature importance publicado, ninguem sabe se foi o endereco, a lacuna contributiva ou o cruzamento com o ITR que disparou a negativa. A autodeclaracao -- dado primario -- foi ignorada em favor de inferencia secundaria.`,
+      admin: `<strong>Problema de governanca:</strong> Faltou a supervisao humana obrigatoria antes do indeferimento (art. 20, §2, LGPD). Decisao previdenciaria com efeito em direito social nao pode ter o algoritmo como ultimo passo.<br><br><strong>Regulador que se descumpre:</strong> A IN 128/2022 e norma do proprio INSS; automatizar o indeferimento sem o rito que ela preve e o regulado violando a regra que, como regulador, ele mesmo editou.<br><br><strong>Lei 14.129/2021:</strong> Art. 6 exige decisoes automatizadas explicaveis. "Nao comprovada a qualidade de segurado especial" nao e motivacao -- e formula vazia.<br><br><strong>Recomendacao:</strong> Revisao humana obrigatoria em toda negativa automatica e publicacao do criterio de inferencia rural/urbano.`,
+      cidadao: `<strong>Impacto real:</strong> Trabalhadora rural idosa sem renda. Indeferimento automatico = mais meses sem o beneficio que ja deveria estar recebendo, enquanto recorre.<br><br><strong>Literacia algoritmica:</strong> A pessoa muitas vezes nem sabe que foi uma maquina que decidiu -- nem o que e "inteligencia artificial". Sem compreender que houve uma decisao algoritmica, ela nao tem como contestar. Empoderar nao e so abrir um canal: e traduzir a decisao em linguagem que ela entenda. Transparencia nao basta -- precisa ser inteligivel.<br><br><strong>Noticia humana, nao de maquina:</strong> A negativa de um beneficio a quem esta em situacao de vulnerabilidade deveria, em tese, ser comunicada por um ser humano -- nao por uma notificacao automatica e fria no app. O humano no circuito nao so na decisao, mas no cuidado da comunicacao.<br><br><strong>Exclusao digital, genero e territorio:</strong> A negativa chega pelo Meu INSS. Quem vive no campo, sem internet estavel e sem letramento digital, precisa viajar ate a agencia ou a Defensoria so para entender o que houve. E a segurada especial rural -- muitas vezes mulher, cuja atividade nem sempre gera registro proprio -- e a mais penalizada por sistemas que leem ausencia de registro como ausencia de trabalho. O algoritmo apaga o trabalho invisivel.`
+    },
+    rankings: [
+      { pos: 1, name: "Defensoria Publica", score: "1.25", votes: 4 },
+      { pos: 2, name: "Cidadao", score: "2.25", votes: 4 },
+      { pos: 3, name: "Cientista de Dados", score: "2.50", votes: 4 },
+      { pos: 4, name: "Administrador Publico", score: "4.00", votes: 4 }
+    ],
+    final: {
+      sintese: "Indeferimento automatico de aposentadoria rural por inferencia equivocada de atividade urbana, sem o contraditorio previo exigido pela IN INSS 128/2022, sem motivacao adequada e sem revisao humana -- com a agravante de o orgao violar a propria norma que editou.",
+      consenso: "Todos os conselheiros concordam: (1) o contraditorio deve ser PREVIO a decisao, e recurso posterior nao sana a nulidade; (2) autodeclaracao (dado primario) nao pode ser sobreposta por inferencia (dado secundario) sem analise humana; (3) a motivacao 'nao comprovada a qualidade de segurado especial' e insuficiente; (4) a contestacao pressupoe COMPREENSAO -- a pessoa precisa saber que houve decisao algoritmica e entende-la (inteligibilidade, nao so transparencia); e (5) a comunicacao de negativa a pessoa vulneravel deveria ser feita por um humano, nao por notificacao automatica.",
+      dissenso: "O Administrador Publico pondera que o volume de requerimentos pressiona pela automacao. Os demais respondem: quando o proprio regulador (INSS) descumpre a IN 128/2022 que editou, o problema nao e de escala, mas de subaplicacao deliberada da norma contra o administrado.",
+      fundamentacao: "Art. 5, LV, CF (contraditorio e ampla defesa previos); art. 194 e 201, CF (previdencia social); art. 20 e §2, LGPD (revisao e supervisao humana de decisao automatizada); art. 6, Lei 14.129/2021 (explicabilidade); IN INSS 128/2022 (rito do segurado especial). Cf. Tavares, Bitencourt e Cristovam (2024) sobre explicabilidade e contraditorio algoritmico.",
+      recomendacao: "1) Recurso ao CRPS por nulidade (ausencia de contraditorio previo); 2) Pedido LAI/Dataprev exigindo o criterio de inferencia rural/urbano; 3) Requerimento LGPD art. 20 de revisao da decisao automatizada; 4) Se mantido, acionar a Defensoria/DPU para mandado de seguranca com pedido de liminar.",
+      alerta: "Este e o caso-sintese do seminario: o mesmo Estado que, como REGULADOR, edita a IN 128/2022 e a explicabilidade da Lei 14.129/2021 e, como REGULADO, o operador que automatiza o indeferimento e suprime o contraditorio que ele proprio exige. Do poder-dever ao dever-poder: quem faz a regra e quem mais a descumpre."
+    }
+  }
+];
+
+let cPhase = 1;
+let cOnline = false;
+
+async function cCheckOnline() {
+  try {
+    const r = await fetch('https://conselho-de-contesta-o-algor-tmica-1066380962084.us-west1.run.app/api/cases', { mode:'no-cors' });
+    cOnline = true;
+  } catch(e) {
+    cOnline = false;
+  }
+  document.getElementById('c-status-text').innerHTML = cOnline
+    ? '<span class="online">● ao vivo · LLMs deliberando</span>'
+    : '<span class="offline">● offline · pareceres curados</span>';
+}
+
+function cShow() {
+  cPhase = 1;
+  document.getElementById('consejo-overlay').style.display = 'block';
+  cRender();
+  cCheckOnline();
+}
+
+function cHide() {
+  document.getElementById('consejo-overlay').style.display = 'none';
+}
+
+function cSetPhase(p) { cPhase = p; cRender(); }
+
+function cRender() {
+  const c = cases.find(x => x.id === 4); // INSS case
+  if (!c) return;
+
+  // Phases bar
+  document.getElementById('c-phases').innerHTML =
+    ['Fase 1 · Pareceres','Fase 2 · Avaliações','Fase 3 · Parecer Final']
+      .map((l,i) => `<button class="${ i+1===cPhase?'cp-active':'' }" onclick="cSetPhase(${i+1})">${l}</button>`)
+      .join('');
+
+  const m = document.getElementById('c-main');
+
+  if (cPhase === 1) {
+    m.innerHTML = `
+      <div class="c-ctx"><strong>Caso: ${ c.title }</strong><br><em>${ c.context }</em></div>
+      <div class="c-card">
+        <div class="c-card-h"><div class="c-ico def">⚖</div><div><h4>Defensoria Pública</h4><span>Tavares, Bitencourt & Cristóvam</span></div></div>
+        <div class="c-body">${ c.personas.defensoria }</div>
+      </div>
+      <div class="c-card">
+        <div class="c-card-h"><div class="c-ico cie">📊</div><div><h4>Cientista de Dados</h4><span>Salgado & Saito</span></div></div>
+        <div class="c-body">${ c.personas.cientista }</div>
+      </div>
+      <div class="c-card">
+        <div class="c-card-h"><div class="c-ico adm">🏛</div><div><h4>Administrador Público</h4><span>Cristóvam & Hahn</span></div></div>
+        <div class="c-body">${ c.personas.admin }</div>
+      </div>
+      <div class="c-card">
+        <div class="c-card-h"><div class="c-ico cid">👤</div><div><h4>Cidadão</h4><span>Sarlet & Molinaro</span></div></div>
+        <div class="c-body">${ c.personas.cidadao }</div>
+      </div>
+    `;
+  } else if (cPhase === 2) {
+    const it = c.rankings.map(r =>
+      `<div class="c-ri"><span class="c-rp">#${r.pos}</span><span>${r.name}</span><span style="color:var(--ink-4);font-size:11px;margin-left:auto">Média: ${r.score} (${r.votes} avaliações)</span></div>`
+    ).join('');
+    m.innerHTML = `
+      <div class="c-full c-rank">
+        <h3>Ranking · Melhor Proteção ao Cidadão</h3>
+        <p style="font-size:12px;color:var(--ink-4);margin-bottom:14px">Avaliação cruzada anônima. Menor pontuação = maior prioridade aos direitos.</p>
+        ${ it }
+      </div>
+    `;
+  } else {
+    const recs = c.final.recomendacao ? c.final.recomendacao.split(/[;\n]/).filter(Boolean).map(x => `<li>${x.trim()}</li>`).join('') : '';
+    m.innerHTML = `
+      <div class="c-full c-final">
+        <h3>Parecer Final do Relator</h3>
+        <div class="s"><h4>Síntese</h4><p>${c.final.sintese}</p></div>
+        <div class="s"><h4>Consenso</h4><p>${c.final.consenso}</p></div>
+        <div class="s"><h4>Dissenso</h4><p>${c.final.dissenso}</p></div>
+        <div class="s"><h4>Fundamentação</h4><p>${c.final.fundamentacao}</p></div>
+        <div class="s"><h4>Recomendação</h4><ul>${recs}</ul></div>
+        <div class="al"><p><strong>ALERTA:</strong> ${c.final.alerta}</p></div>
+      </div>
+    `;
+  }
+}
+</script>
+
 
   <!-- ═════════════════ TWEAKS PANEL ═════════════════ -->
   <div id="tweaks-panel">

@@ -6,61 +6,62 @@ Ana Vitória Vanzin & Vinícius Oliveira · PPGD/UFSC · Maio 2026
 
 ---
 
-Entrega acadêmica completa do Seminário VIII da disciplina Direito da Administração Pública (Prof. Cristóvam). A apresentação lê quatro artigos do IJDL como um único arco dramático, culminando na tese autoral do **Estado como Regulador ⇄ Regulado**: quem edita a regra é, com frequência, quem mais a descumpre contra o cidadão.
+## 🔗 Acessar
 
-## O que está aqui
+**http://anavanzin.com/seminario8-dever-poder/**
 
-| Arquivo | Descrição |
-|---|---|
-| `index.html` | Índice/dossiê de entrega — ponto de entrada com todas as peças |
-| `Seminario8.html` | **Deck principal** — 34 slides, navegação ← →, sistema editorial (papel + Garamond + bordô) |
-| `Seminario8-print.html` | Versão para impressão (A4, print-friendly) |
-| `Conselho.html` | Protótipo do Conselho de Contestação Algorítmica — 4 personas analisam decisões automatizadas |
-| `Seminario8-animado.html` | Animação em 6 cenas (32s, loop) — resumo visual do arco completo |
-| `Wireframes.html` | Bastidor: 3 direções visuais comparadas lado a lado |
-| `deck-stage.js` | Engine de navegação do deck (← →, thumbnails, speaker notes, print) |
-| `animations.jsx` | Engine de animação (Stage, Sprite, Easing, timeline) |
-| `video-atoms.jsx` | Átomos visuais reutilizáveis (JanusHead, BlackBox, PhoneFrame, ColumnGfx) |
-| `tweaks-panel.jsx` | Painel de tweaks reutilizável |
-| `uploads/` | Materiais de referência: roteiro de falas, planos, análises, protótipos anteriores |
-| `assets/` | Gravuras e ornamentos editoriais |
-| `screenshots/` | Capturas de tela de referência |
+---
 
-## Estrutura do deck (34 slides)
+Apresentação interdisciplinar que lê quatro artigos do IJDL como um único arco dramático: o **Estado como Regulador ⇄ Regulado**. Quem edita a regra é, com frequência, quem mais a descumpre contra o cidadão.
 
-Capa → Pergunta orientadora → Chave de leitura (Janus)
+## Peças da entrega
 
-**Parte I — Promessa** (Art. I–II: Salgado & Saito, Cristóvam & Hahn)
-→ ★ Nossas leituras I e II
+| # | Arquivo | O que é | Como usar |
+|---|---------|---------|-----------|
+| i | `Seminario8.html` | **Deck principal** — 35 slides, sistema editorial | ← → para navegar |
+| ii | `Seminario8-print.html` | Versão A4 para impressão | Ctrl+P → PDF |
+| iii | `Conselho.html` | Protótipo do Conselho (offline) | Abrir no navegador |
+| iv | `Wireframes.html` | Bastidor: 3 direções visuais | Para o debate |
+| v | `Seminario8-Video.html` | **Vídeo de abertura** (56s, 6 cenas, 4 paletas) | ▶ autoplay |
 
-**Parte II — Choque** (Art. III–IV: Sarlet & Molinaro, Tavares et al.)
-→ ★ Nossas leituras III e IV
+> ✅ **No slide 31:** clique "Iniciar a Deliberação" → o Conselho abre em tela cheia (overlay) com a mesma paleta editorial do deck. 3 fases: Pareceres → Avaliações Cruzadas → Parecer Final. Ao final, "Voltar à Tese" retorna ao slide final.
 
-**Ato autoral** — Tese Regulador ⇄ Regulado, caso INSS, Black Box, SyRI, tabela
+## Estrutura (35 slides)
 
-**Resolução** — Propedêutica (literacia + notícia humana), Protótipo GovLens, Demo, Fecho
+**Slide 00** — Abertura com link para vídeo animado (56s)
+**Slides 01–03** — Capa, pergunta, chave de leitura (Janus)
+**Slides 04–15** — **Parte I: Promessa** (Art. I–II: Salgado & Saito, Cristóvam & Hahn)
+**Slides 16–24** — **Parte II: Choque** (Art. III–IV: Sarlet & Molinaro, Tavares et al.)
+**Slides 25–29** — **Conflito** (Tese, INSS, Black Box, SyRI, Tabela)
+**Slides 30–33** — **Resolução** (Propedêutica, Protótipo, Demo, Fecho)
+**Slide 34** — **Tese final** (4 colunas: explicável, contestável, inclusiva, controlável)
 
 ## Tese central
 
 > O Estado opera como **regulador ⇄ regulado**: quem edita a regra é, com frequência, quem mais a descumpre contra o cidadão. Do poder-dever ao dever-poder.
 
-**Caso-âncora:** aposentadoria rural negada automaticamente pelo INSS sem contraditório prévio, em desacordo com a IN 128/2022.
+**Caso-âncora:** Aposentadoria rural negada automaticamente pelo INSS sem contraditório prévio (IN 128/2022).
 
-**Espelho internacional:** SyRI (Haia, 2020) — sistema de detecção de fraude holandês declarado ilegal por violar privacidade e devido processo.
+**Espelho internacional:** SyRI (Haia, 2020) — sistema holandês de detecção de fraude declarado ilegal.
 
 ## Contribuição autoral
 
-- **Camada propedêutica:** literacia algorítmica (contestar pressupõe compreender) + notícia humana (decisão adversa a vulnerável comunicada por pessoa, não por máquina)
-- **Mapeamento persona → artigo:** as 4 vozes do Conselho = as 4 leituras do seminário
+- **Literacia algorítmica:** não se contesta o que não se compreende
+- **Notícia humana:** decisão adversa a vulnerável deve ser comunicada por pessoa, não por máquina
+- **4 personas × 4 artigos:** Defensoria (Tavares), Cientista (Salgado), Admin (Cristóvam), Cidadão (Sarlet)
 
-## Como usar
+## Offline
 
-Abra `index.html` no navegador para o dossiê completo. A partir dele:
+O Service Worker cacheia fontes Google e assets na primeira visita. Depois de carregar uma vez, o deck funciona mesmo sem internet.
 
-- Clique em **i** para o deck → navegue com ← →
-- Clique em **iii** para o protótipo do Conselho
-- Clique em **v** para a animação (▶ play, scrubber, loop)
+## Tech stack
 
-## Stack técnica
+HTML/CSS/JS vanilla. Navegação via `<deck-stage>` web component. Fontes: EB Garamond, Spectral, JetBrains Mono. Sem dependências de build ou servidor.
 
-HTML/CSS/JS vanilla + React (Babel standalone) para a animação. Fontes: EB Garamond, Spectral, JetBrains Mono via Google Fonts. Sem dependências de build ou servidor — abra os arquivos direto no navegador.
+## Repositório
+
+```bash
+git clone https://github.com/anavvanzin/seminario8-dever-poder
+cd seminario8-dever-poder
+# Abra index.html no navegador
+```
