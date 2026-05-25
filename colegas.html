@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seminário 8 — Kit Digital para Colegas · Vanzin & Oliveira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');</script>
+</head>
+
+<style>
+:root{
+  --vc-black:#171717;
+  --vc-white:#ffffff;
+  --vc-gray900:#171717;
+  --vc-gray600:#4d4d4d;
+  --vc-gray500:#666666;
+  --vc-gray400:#808080;
+  --vc-gray100:#ebebeb;
+  --vc-gray50:#fafafa;
+  --vc-develop-blue:#0a72ef;
+  --vc-preview-pink:#de1d8d;
+  --vc-ship-red:#ff5b4f;
+  --vc-border-shadow:rgba(0,0,0,0.08) 0px 0px 0px 1px;
+  --vc-card-shadow:rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px, #fafafa 0px 0px 0px 1px;
+  --vc-font-primary:'Geist', Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --vc-font-mono:'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html,body{
+  background:var(--vc-white);
+  font-family:var(--vc-font-primary);
+  color:var(--vc-gray600);
+  line-height:1.56;
+  -webkit-font-smoothing:antialiased;
+}
+
+.sheet{max-width:1200px;margin:0 auto;padding:80px 24px;position:relative}
+@media(max-width:900px){.sheet{padding:48px 16px}}
+
+.top-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 0;
+  box-shadow:0 1px 0 0 rgba(0,0,0,0.08);
+  margin-bottom:48px;
+  position:sticky;top:0;background:var(--vc-white);z-index:100;
+}
+.top-bar .brand{font-family:var(--vc-font-mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--vc-gray400)}
+.top-bar .brand b{color:var(--vc-black);font-weight:600}
+
+.hero{margin-bottom:64px}
+.hero .eyebrow{font-family:var(--vc-font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--vc-gray400);margin-bottom:16px}
+.hero h1{font-size:52px;font-weight:300;letter-spacing:-.03em;line-height:1.15;color:var(--vc-black);margin-bottom:24px}
+.hero h1 em{font-style:italic}
+.hero h1 span{color:var(--vc-gray400)}
+.hero p{font-size:18px;line-height:1.65;color:var(--vc-gray500);max-width:720px}
+
+.thesis-band{
+  background:var(--vc-black);color:#fff;border-radius:8px;padding:28px 32px;margin-bottom:56px;
+  display:flex;flex-wrap:wrap;gap:16px;align-items:baseline;justify-content:space-between;
+}
+.thesis-band .label{font-family:var(--vc-font-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--vc-gray400)}
+.thesis-band p{font-size:20px;font-weight:300;line-height:1.4;flex:1;min-width:280px}
+.thesis-band p em{font-style:italic;color:var(--vc-white);font-weight:500}
+.thesis-band .source{font-size:12px;color:var(--vc-gray400);font-family:var(--vc-font-mono)}
+
+.section-header{margin-bottom:32px;display:flex;justify-content:space-between;align-items:baseline}
+.section-header h2{font-size:24px;font-weight:500;letter-spacing:-.02em;color:var(--vc-black)}
+.section-header .count{font-family:var(--vc-font-mono);font-size:13px;color:var(--vc-gray400)}
+
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;margin-bottom:64px}
+
+.card{
+  box-shadow:var(--vc-card-shadow);border-radius:8px;padding:24px;
+  background:var(--vc-white);transition:box-shadow .2s;
+  display:flex;flex-direction:column;gap:14px;
+}
+.card:hover{box-shadow:rgba(0,0,0,0.12) 0px 0px 0px 1px, rgba(0,0,0,0.08) 0px 4px 6px}
+.card.primary{border-left:3px solid var(--vc-develop-blue)}
+.card.featured{border-left:3px solid var(--vc-preview-pink)}
+.card.secondary{border-left:3px solid var(--vc-gray400)}
+
+.card-kicker{font-family:var(--vc-font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--vc-gray400)}
+.card h3{font-size:18px;font-weight:500;color:var(--vc-black)}
+.card h3 em{font-style:italic;color:var(--vc-develop-blue)}
+.card p{font-size:14px;line-height:1.6;color:var(--vc-gray500)}
+.card .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+.tag{
+  font-family:var(--vc-font-mono);font-size:11px;padding:3px 8px;
+  background:var(--vc-gray50);border-radius:4px;color:var(--vc-gray500);
+}
+.tag.hot{background:var(--vc-develop-blue);color:#fff}
+.tag.app{background:var(--vc-preview-pink);color:#fff}
+
+.card-action{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--vc-font-mono);font-size:13px;font-weight:500;
+  color:var(--vc-develop-blue);text-decoration:none;
+  padding:8px 0;transition:gap .15s;
+}
+.card-action:hover{gap:12px}
+.card-action .arrow{font-size:16px}
+
+.article-section{margin-bottom:64px}
+.article-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+
+.article-card{
+  box-shadow:var(--vc-border-shadow);border-radius:8px;padding:20px;
+  background:var(--vc-white);
+}
+.article-card .ref{font-family:var(--vc-font-mono);font-size:10px;letter-spacing:.06em;color:var(--vc-gray400);margin-bottom:8px}
+.article-card h4{font-size:15px;font-weight:500;color:var(--vc-black);margin-bottom:6px;line-height:1.35}
+.article-card .authors{font-size:13px;color:var(--vc-gray500);margin-bottom:10px}
+.article-card .abstract{font-size:13px;line-height:1.55;color:var(--vc-gray400)}
+
+.framework-section{margin-bottom:64px}
+.colonnade{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:700px){.colonnade{grid-template-columns:repeat(2,1fr)}}
+.pillar{
+  box-shadow:var(--vc-border-shadow);border-radius:8px;padding:24px 20px;
+  text-align:center;background:var(--vc-white);
+}
+.pillar .num{font-family:var(--vc-font-mono);font-size:32px;font-weight:500;color:var(--vc-develop-blue);margin-bottom:4px}
+.pillar .lbl{font-size:16px;font-weight:500;color:var(--vc-black);margin-bottom:8px}
+.pillar .desc{font-size:12px;line-height:1.45;color:var(--vc-gray400)}
+.pillar .icon{font-size:28px;margin-bottom:8px}
+
+.qr-section{text-align:center;margin-bottom:64px;padding:48px 24px;box-shadow:var(--vc-border-shadow);border-radius:8px}
+.qr-section h3{font-size:20px;font-weight:500;color:var(--vc-black);margin-bottom:8px}
+.qr-section p{font-size:14px;color:var(--vc-gray500);margin-bottom:20px}
+.qr-section img{width:120px;height:120px;border:1.5px solid var(--vc-gray100);border-radius:8px;padding:8px;background:#fff}
+
+.footer{text-align:center;padding:40px 0 20px;border-top:1px solid var(--vc-gray100)}
+.footer p{font-family:var(--vc-font-mono);font-size:12px;color:var(--vc-gray400)}
+</style>
+
+<body>
+
+<div class="sheet">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="brand"><b>Seminário VIII</b> · Kit Digital</div>
+    <span style="font-family:var(--vc-font-mono);font-size:11px;color:var(--vc-gray400)">PPGD/UFSC · Maio 2026</span>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">Do Poder-Dever ao Dever-Poder</div>
+    <h1>Todo o material do seminário<br><span>em um único lugar.</span></h1>
+    <p>Este kit reúne os slides da apresentação, o protótipo interativo do Conselho de Contestação Algorítmica, os artigos de referência, o vídeo de abertura, os scripts completos e o guia de estudo — tudo que você precisa para continuar o debate depois da aula.</p>
+  </section>
+
+  <!-- THESIS BAND -->
+  <div class="thesis-band">
+    <div>
+      <div class="label">— tese central —</div>
+      <p>O Estado opera como <em>regulador ⇄ regulado</em>: quem edita a regra é, com frequência, quem mais a descumpre contra o cidadão.</p>
+    </div>
+    <span class="source">Ana V. Vanzin & Vinícius Oliveira · PPGD/UFSC</span>
+  </div>
+
+  <!-- ═══ DELIVERABLES ═══ -->
+  <div class="section-header">
+    <h2>Peças da Entrega</h2>
+    <span class="count">06 · itens</span>
+  </div>
+
+  <div class="card-grid">
+
+    <!-- Slide Deck -->
+    <a class="card primary" href="Seminario8.html" style="text-decoration:none;color:inherit;">
+      <div class="card-kicker">peça principal</div>
+      <h3>Os <em>slides</em> — deck completo</h3>
+      <p>33 lâminas em arco dramático: promessa → choque → conflito → resolução. Navegação por ← →. Inclui o Conselho de Contestação integrado no slide 32.</p>
+      <div class="tags">
+        <span class="tag hot">← → navegar</span>
+        <span class="tag">33 slides</span>
+        <span class="tag">editorial</span>
+      </div>
+    </a>
+
+    <!-- Conselho App -->
+    <a class="card featured" href="https://conselho-de-contesta-o-algor-tmica-1066380962084.us-west1.run.app" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
+      <div class="card-kicker">app · ao vivo</div>
+      <h3>O <em>Conselho</em> de Contestação</h3>
+      <p>Protótipo interativo com 6 casos e 4 personas jurídicas (Defensoria, Cientista de Dados, Administrador, Cidadão). Três fases de deliberação, com pareceres via LLMs reais (Cloud Run + Gemini).</p>
+      <div class="tags">
+        <span class="tag app">★ cloud run</span>
+        <span class="tag">6 casos</span>
+        <span class="tag">4 personas</span>
+        <span class="tag">3 fases</span>
+      </div>
+    </a>
+
+    <!-- Vídeo -->
+    <a class="card" href="Seminario8-Video.html" style="text-decoration:none;color:inherit;">
+      <div class="card-kicker">abertura</div>
+      <h3>Vídeo <em>animado</em> · 56s</h3>
+      <p>Animação de abertura no estilo editorial do deck. 6 cenas resumindo o arco do seminário: Janus, 4 artigos, caso INSS, caixa-preta e as 4 colunas.</p>
+      <div class="tags">
+        <span class="tag">56 segundos</span>
+        <span class="tag">6 cenas</span>
+        <span class="tag">autoplay</span>
+      </div>
+    </a>
+
+    <!-- Versão Impressa -->
+    <a class="card" href="Seminario8-print.html" style="text-decoration:none;color:inherit;">
+      <div class="card-kicker">para imprimir</div>
+      <h3>Versão para <em>impressão</em></h3>
+      <p>Mesmo conteúdo do deck, reflowed para folhas A4. Sem fundos escuros, sem animação. Use Ctrl+P e salve como PDF para anotar ou distribuir.</p>
+      <div class="tags">
+        <span class="tag">A4</span>
+        <span class="tag">Ctrl+P → PDF</span>
+        <span class="tag">toner-friendly</span>
+      </div>
+    </a>
+
+    <!-- Script Completo -->
+    <a class="card" href="SCRIPT-COMPLETO.md" style="text-decoration:none;color:inherit;">
+      <div class="card-kicker">roteiro</div>
+      <h3>Script <em>completo</em></h3>
+      <p>Falas integrais de Ana e Vinícius, slide por slide, com transições, versões de emergência e caixa de munição para o debate.</p>
+      <div class="tags">
+        <span class="tag">Markdown</span>
+        <span class="tag">6 atos</span>
+        <span class="tag">~30KB</span>
+      </div>
+    </a>
+
+    <!-- Guia Vinícius -->
+    <a class="card" href="GUIA-VINICIUS.md" style="text-decoration:none;color:inherit;">
+      <div class="card-kicker">guia rápido</div>
+      <h3>Guia de <em>consulta</em></h3>
+      <p>Mapa slide→quem fala, dados importantes de cada artigo, atalhos de navegação e contingências. Virou guia de estudo para os colegas.</p>
+      <div class="tags">
+        <span class="tag">cheat sheet</span>
+        <span class="tag">mapa visual</span>
+        <span class="tag">contingências</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- ═══ ARTIGOS DE REFERÊNCIA ═══ -->
+  <div class="section-header">
+    <h2>Artigos do Seminário</h2>
+    <span class="count">04 · referências</span>
+  </div>
+
+  <div class="article-grid">
+
+    <div class="article-card">
+      <div class="ref">art. I · IJDL</div>
+      <h4>Privacidade multifuncional: defesa, prestação normativa e proteção de dados</h4>
+      <div class="authors">Ezequiel Anderson Junior · Rocco Antonio Rangel Rosso Nelson</div>
+      <div class="abstract">Propõe três funções da privacidade contemporânea — defesa contra o Estado, prestação normativa pelo Estado e prestação fática de proteção — e examina a LGPD como marco da quarta geração de proteção de dados.</div>
+    </div>
+
+    <div class="article-card">
+      <div class="ref">art. II · IJDL</div>
+      <h4>Governo aberto, transparência e controle social da Administração Pública digital</h4>
+      <div class="authors">José Sérgio da Silva Cristóvam · Tatiana Meinhart Hahn</div>
+      <div class="abstract">Analisa a Lei 14.129/2021 (Governo Digital) e três municípios brasileiros (São Paulo, Recife e Florianópolis) sob a ótica dos princípios de governo aberto: transparência, participação, accountability e tecnologia.</div>
+    </div>
+
+    <div class="article-card">
+      <div class="ref">art. III · IJDL</div>
+      <h4>Big data, algoritmos e inteligência artificial na Administração Pública</h4>
+      <div class="authors">Ingo Wolfgang Sarlet · Gabrielle Bezerra Sales Sarlet</div>
+      <div class="abstract">Discute os desafios do big data no setor público brasileiro: 251 milhões de CPFs sob tratamento estatal, tensão entre eficiência administrativa e proteção de dados, e a fragilidade dos princípios da LGPD diante da escala.</div>
+    </div>
+
+    <div class="article-card">
+      <div class="ref">art. IV · IJDL</div>
+      <h4>Explicabilidade e contraditório algorítmico na Administração Pública</h4>
+      <div class="authors">José Sérgio da Silva Cristóvam · Raquel Cavalcanti Ramos Machado · Pedro Henrique Tavares</div>
+      <div class="abstract">Defende que o contraditório deve ser prévio à decisão automatizada — não suprido por recurso posterior. Tipifica decisões em humanas, híbridas e algorítmicas e ancora o argumento no caso INSS.</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ SUGESTÕES DE LEITURA ═══ -->
+  <div class="section-header" style="margin-top:64px">
+    <h2>Sugestões de Leitura Complementar</h2>
+    <span class="count">03 · para aprofundar</span>
+  </div>
+
+  <div class="article-grid">
+
+    <div class="article-card">
+      <div class="ref">direito comparado</div>
+      <h4>SyRI: o algoritmo que o Tribunal de Haia proibiu</h4>
+      <div class="authors">District Court of The Hague · 2020</div>
+      <div class="abstract">O Sistema de Indicadores de Risco (SyRI) cruzava bases de dados governamentais para detectar fraude em benefícios sociais na Holanda. O Tribunal distrital de Haia declarou o sistema ilegal por violar o Artigo 8.º da Convenção Europeia de Direitos Humanos (direito à privacidade).</div>
+    </div>
+
+    <div class="article-card">
+      <div class="ref">política pública</div>
+      <h4>Robodebt: cobrança automatizada que deu errado</h4>
+      <div class="authors">Royal Commission into the Robodebt Scheme · Austrália · 2023</div>
+      <div class="abstract">O programa australiano de cobrança automatizada de dívidas sociais utilizou cruzamento algorítmico de dados para gerar cobranças em massa, muitas vezes indevidas. O caso resultou em uma Comissão Real e é referência mundial em dano algorítmico estatal.</div>
+    </div>
+
+    <div class="article-card">
+      <div class="ref">direitos fundamentais</div>
+      <h4>LGPD e decisões automatizadas: Art. 20 e o direito à revisão humana</h4>
+      <div class="authors">Laura Schertel Mendes · Danilo Doneda</div>
+      <div class="abstract">Interpretação do Artigo 20 da LGPD, que garante ao titular o direito de solicitar revisão de decisões tomadas unicamente com base em tratamento automatizado de dados pessoais. Discute os limites entre eficiência administrativa e devido processo.</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ 4 COLUNAS ═══ -->
+  <div class="section-header" style="margin-top:64px">
+    <h2>As Quatro Colunas da Administração 4.0 Democrática</h2>
+    <span class="count">framework · contribuição autoral</span>
+  </div>
+
+  <div class="colonnade">
+    <div class="pillar">
+      <div class="icon">🔍</div>
+      <div class="num">i.</div>
+      <div class="lbl">explicável</div>
+      <div class="desc">Toda decisão automatizada deve poder ser explicada em linguagem que o cidadão compreenda. Transparência não basta — é preciso inteligibilidade.</div>
+    </div>
+    <div class="pillar">
+      <div class="icon">⚖️</div>
+      <div class="num">ii.</div>
+      <div class="lbl">contestável</div>
+      <div class="desc">O contraditório deve ser prévio à decisão, e não suprido por recurso posterior. A pessoa precisa ter chance real de influenciar o resultado antes que ele produza efeitos.</div>
+    </div>
+    <div class="pillar">
+      <div class="icon">👥</div>
+      <div class="num">iii.</div>
+      <div class="lbl">inclusiva</div>
+      <div class="desc">Canais físicos e digitais de contestação devem ser acessíveis a quem não tem letramento digital. A exclusão digital não pode ser exclusão de direitos.</div>
+    </div>
+    <div class="pillar">
+      <div class="icon">🛡️</div>
+      <div class="num">iv.</div>
+      <div class="lbl">controlável</div>
+      <div class="desc">O Estado que regula a tecnologia é o mesmo que a opera. Por isso, o controle precisa ser externo: auditoria independente, LAI, DPU, Judiciário.</div>
+    </div>
+  </div>
+
+  <!-- ═══ QR CODE ═══ -->
+  <div class="qr-section">
+    <h3>Compartilhe este kit</h3>
+    <p>Escaneie o QR Code para acessar este mesmo material em qualquer dispositivo</p>
+    <img src="assets/qr.png" alt="QR Code">
+    <div style="font-family:var(--vc-font-mono);font-size:13px;color:var(--vc-gray500);margin-top:12px">
+      anavanzin.com/seminario8-dever-poder/colegas.html
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>Ana Vitória Vanzin & Vinícius Oliveira · PPGD/UFSC · Maio 2026</p>
+    <p style="margin-top:4px">Tese de doutorado em andamento: ICONOCRACIA — Alegoria Feminina na História da Cultura Jurídica</p>
+  </div>
+
+</div>
+
+</body>
+</html>
