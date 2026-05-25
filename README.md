@@ -77,7 +77,10 @@ Apresentação interdisciplinar que lê quatro artigos do IJDL como um único ar
 | iv | `Wireframes.html` | Bastidor: 3 direções visuais | Para o debate |
 | v | `Seminario8-Video.html` | **Vídeo de abertura** (56s, 6 cenas, 4 paletas) | ▶ autoplay |
 | vi | `PLANO-ENTREGA.md` | Plano detalhado de execução e divisão de falas | Checklist de condução |
-| index-improved.html | **Landing page v2.0** | Novo índice com design system Vercel | Acesso principal |
+| vii | `colegas.html` | **Guia de Estudo / Kit Digital** — companion editorial para os colegas | Acesso principal dos colegas |
+| viii | `conselho-architecture.html` | Bastidor: diagrama de arquitetura do app (Cloud Run + Gemini) | Para perguntas técnicas |
+| — | `index.html` / `index-improved.html` | **Landing page v2.0** (idênticas; `index.html` é a raiz do deploy) | Acesso principal |
+| — | `Índice.html` | Landing histórica v1 "Pergaminho" (link para `Seminario8-animado.html`) | Arquivo |
 
 > ✅ **No slide 31:** clique "Iniciar a Deliberação" → o Conselho abre em tela cheia (overlay) com a mesma paleta acadêmica do deck. 3 fases: Pareceres → Avaliações Cruzadas → Parecer Final. Ao final, "Voltar à Tese" retorna ao slide final.
 
