@@ -1,6 +1,6 @@
-# Screenshots de referência
-*.png
-*.jpg
+# Screenshots de referência (só na raiz screenshots/)
+screenshots/*.png
+screenshots/*.jpg
 
 # Scraps do design tool
 scraps/
