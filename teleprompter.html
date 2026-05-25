@@ -62,6 +62,18 @@
       margin-bottom: 24px;
     }
 
+    /* speaker chip */
+    .who {
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+      display: inline-block; padding: 4px 12px; border-radius: 3px;
+      margin: 0 0 24px 8px;
+    }
+    .who.ana  { color: #5bbf8a; background: rgba(91,191,138,0.12);  border: 1px solid rgba(91,191,138,0.3); }
+    .who.vini { color: #6f9bff; background: rgba(111,155,255,0.12); border: 1px solid rgba(111,155,255,0.32); }
+    body.light .who.ana  { color: #0a7d4f; background: rgba(10,125,79,0.08); border-color: rgba(10,125,79,0.3); }
+    body.light .who.vini { color: #2b5fb0; background: rgba(43,95,176,0.08); border-color: rgba(43,95,176,0.3); }
+
     .title {
       font-size: 0.95rem; font-style: italic; color: var(--muted);
       margin-bottom: 40px; letter-spacing: 0.02em;
@@ -128,6 +140,8 @@
       #wrap { padding: 20px; }
       body { background: white; color: #111; font-size: 13px; }
       .badge { color: #444; background: none; border-color: #888; }
+      .who.ana { color: #0a7d4f; background: none; border-color: #0a7d4f; }
+      .who.vini { color: #2b5fb0; background: none; border-color: #2b5fb0; }
       .passback { color: #555; }
       .emerg { display: block !important; border-color: #ccc; }
       .emerg p { color: #555; }
@@ -157,8 +171,26 @@
 <script>
 const CARDS = [
   {
-    slide: "03",
-    title: "Chave de leitura",
+    slide: "01", speaker: "Vinícius", title: "Capa · abertura",
+    speech: `
+      <p>"Bom dia, boa tarde a todos. Obrigado, professor Cristóvam, pela disciplina e pelo espaço."</p>
+      <p>"Hoje a Ana e eu vamos apresentar <strong>quatro artigos</strong> sobre Administração Pública orientada por dados, governo aberto, LGPD e decisão algorítmica — mas não como quatro leituras separadas. A gente vai ler os quatro como <strong>um único arco dramático</strong>."</p>
+      <p>"Os artigos são: <strong>Salgado e Saito</strong>, sobre privacidade e multifuncionalidade; <strong>Cristóvam e Hahn</strong>, sobre governo aberto e INDA; <strong>Sarlet e Molinaro</strong>, sobre big data e proteção de dados na saúde; e <strong>Tavares, Bitencourt e Cristóvam</strong>, sobre explicabilidade e contraditório algorítmico."</p>
+      <p>"Eu exponho a dogmática de cada um. A Ana entra depois com a leitura crítica que costura os quatro — a nossa contribuição autoral."</p>
+    `,
+    passBack: null, emerg: null
+  },
+  {
+    slide: "02", speaker: "Vinícius", title: "Pergunta orientadora",
+    speech: `
+      <p>"Antes de abrir os artigos, a pergunta que organiza tudo: <strong>quando a Administração Pública se torna digital, ela se torna automaticamente mais democrática?</strong>"</p>
+      <p>"A resposta curta é <strong>não</strong>. A digitalização pode ampliar acesso, eficiência e transparência — mas também pode criar novas formas de opacidade, deslocar decisões para sistemas que ninguém entende, e produzir uma cidadania digital de duas velocidades."</p>
+      <p>"A tecnologia não é neutra. E o Direito Administrativo existe exatamente para isso: <strong>domesticar o poder</strong>, inclusive o poder algorítmico."</p>
+    `,
+    passBack: null, emerg: null
+  },
+  {
+    slide: "03", speaker: "Ana", title: "Chave de leitura",
     speech: `
       <p>"Antes de entrar nos artigos — a chave que costura tudo."</p>
       <p>Nestes quatro textos, o Poder Público aparece em <strong>duas posições ao mesmo tempo.</strong></p>
@@ -173,89 +205,148 @@ const CARDS = [
     emerg: "O Estado faz a regra, mas é também o maior submetido a ela. Regula dados e transparência, mas é quem mais coleta, opaciza e automatiza contra o cidadão. É daí que vem a nossa tese: do poder-dever ao dever-poder."
   },
   {
-    slide: "09",
-    title: "Nossa leitura I · Salgado & Saito · privacidade e ADI 6.387",
+    slide: "04", speaker: "Vinícius", title: "Divisor · Parte I (promessa)",
+    speech: `
+      <p>"Vamos aos dois primeiros artigos. Eles formam o que a gente chama de <strong>promessa</strong> da Administração Pública digital: a ideia de que dados, transparência e proteção podem produzir um Estado mais eficiente e mais democrático."</p>
+    `,
+    passBack: null, emerg: null
+  },
+  {
+    slide: "05–08", speaker: "Vinícius", title: "Salgado & Saito · privacidade multifuncional",
+    speech: `
+      <p>"Salgado e Saito: a <strong>privacidade não é uma coisa só</strong>. Leitura multifuncional — três dimensões ao mesmo tempo."</p>
+      <p>"<strong>1. Defesa</strong> — o direito de ser deixado em paz. Desde Warren e Brandeis, 1890; no Brasil, a <strong>ADI 6.387</strong>, que derrubou a MP 954 (compartilhar dados das teles com o IBGE na pandemia)."</p>
+      <p>"<strong>2. Prestação normativa</strong> — o Estado tem que criar o aparato que protege: LGPD, ANPD. A Constituição, art. 5º, LXXIX (EC 115/2022), tornou a proteção de dados <strong>direito fundamental expresso</strong>."</p>
+      <p>"<strong>3. Prestação fática</strong> — não basta lei: fiscalizar, sancionar, educar. A ANPD não pode ser conselho de enfeite."</p>
+      <p>"E as <strong>gerações</strong> da privacidade: 1970 (setoriais) → 1980-90 (leis gerais) → 1990-2010 (diretivas UE) → 2016+ (RGPD e LGPD)."</p>
+      <p>"Agora a Ana, com a leitura crítica. Ana?"</p>
+    `,
+    passBack: null, emerg: null
+  },
+  {
+    slide: "09", speaker: "Ana", title: "Nossa leitura I · Salgado & Saito · ADI 6.387",
     speech: `
       <p>Salgado e Saito: mesmo com todo esse aparato — LGPD, ANPD — <strong>a dimensão de defesa não desaparece.</strong></p>
       <p>Por quê? <strong>O Estado continua sendo um dos maiores agentes de tratamento de dados do país.</strong></p>
       <p>Os próprios autores lembram de forma concreta: <strong>caso Snowden</strong> — vigilância estatal em massa.<br>
-      No Brasil: <strong>MP 954 de 2020</strong> — Executivo quis compartilhar dados de telecomunicações de ~200 milhões de brasileiros sem finalidade suficientemente clara.</p>
+      No Brasil: <strong>MP 954 de 2020</strong> — Executivo tentou compartilhar dados de telecomunicações de ~200 milhões de brasileiros sem finalidade suficientemente clara.</p>
       <p>O STF teve que conter na <strong>ADI 6.387.</strong><br>
       <strong>A autotutela administrativa não bastou.</strong> Foi preciso outro Poder segurar o regulador.</p>
-      <p>Esse é o primeiro aparecimento da tese: <strong>o Estado que edita a regra de proteção de dados é também aquele contra o qual o cidadão precisa ser protegido.</strong></p>
+      <p>Primeiro aparecimento da tese: <strong>o Estado que edita a regra de proteção de dados é também aquele contra o qual o cidadão precisa ser protegido.</strong></p>
     `,
     passBack: "Vinícius.",
     emerg: "Mesmo com LGPD, dimensão de defesa não some — o Estado é dos maiores tratadores. MP 954: Executivo tentou ampliar compartilhamento sem finalidade clara. STF teve que conter na ADI 6.387. O Estado que regula é também aquele contra o qual o cidadão precisa ser defendido."
   },
   {
-    slide: "14",
-    title: "Nossa leitura II · Cristóvam & Hahn · opacidade seletiva",
+    slide: "10–13", speaker: "Vinícius", title: "Cristóvam & Hahn · governo aberto e INDA",
+    speech: `
+      <p>"Cristóvam e Hahn deslocam o debate: da proteção de dados para o <strong>governo aberto</strong>. Ancoram em três referências."</p>
+      <p>"<strong>Mark Moore</strong> — valor público: o gestor não entrega só serviços, cria valor (equidade, accountability, confiança)."</p>
+      <p>"<strong>Patrick Dunleavy</strong> — governança digital: a tecnologia redefine a burocracia. O Estado-balcão vira Estado-plataforma — que pode ser shopping de serviços ou panóptico."</p>
+      <p>"<strong>OCDE 2019</strong> — governo aberto: transparência, integridade, accountability, participação. O Brasil internalizou na <strong>INDA</strong>, quatro pilares: transparência ativa, accountability, participação e tecnologia."</p>
+      <p>"Evidência empírica — três municípios. <strong>Recife</strong>: 92,90% no PNTP 2025, 3º Selo Ouro. <strong>São Paulo</strong>: 72,95%, mas com escala (SP156, 560 serviços). <strong>Florianópolis</strong>: 87,51%, Selo Ouro, GeoPortal com 160 camadas."</p>
+      <p>"Traço comum: <strong>nenhum exibe explicabilidade algorítmica</strong>. O PNTP mede transparência fiscal — não se o algoritmo que negou um benefício é compreensível. Ana?"</p>
+    `,
+    passBack: null, emerg: null
+  },
+  {
+    slide: "14", speaker: "Ana", title: "Nossa leitura II · Cristóvam & Hahn · opacidade seletiva",
     speech: `
       <p>O que é mais importante aqui: <strong>a assimetria.</strong></p>
       <p>Governo aberto aparece como um <strong>dever jurídico:</strong> transparência, participação, accountability, dados em formato aberto.</p>
       <p>Mas quem decide o que aparece, em que formato, o que continua sigiloso? <strong>O próprio Estado.</strong></p>
       <p>A LAI obriga transparência — e no art. 23 <em>também</em> permite classificar como reservada, secreta, ultrassecreta. <strong>A mesma estrutura que promete abertura guarda as chaves da opacidade.</strong></p>
-      <p>Recife, SP e Florianópolis são boas práticas — celebramos. Mas são 3 em 5.570.<br>
-      E <strong>nenhum deles exibe instrumentos de explicabilidade algorítmica.</strong> O PNTP mede publicidade fiscal, não se o algoritmo que negou um benefício é compreensível.</p>
+      <p>Recife, SP e Florianópolis são boas práticas — mas são 3 em 5.570. E <strong>nenhum portal exibe instrumentos de explicabilidade algorítmica.</strong></p>
       <p><strong>Portais transparentes. Algoritmo opaco.</strong> O Estado promete governo aberto e conserva o poder de opacizar a si mesmo.</p>
     `,
     passBack: "Vinícius, fecha essa primeira parte.",
     emerg: "Governo aberto é dever jurídico, mas quem controla o que abre e o que fecha é o próprio Estado. LAI obriga publicidade e permite sigilo. Mesmo bons portais não dizem como um algoritmo decide. O Estado promete abertura, mas conserva o poder de opacizar a si mesmo."
   },
   {
-    slide: "20",
-    title: "Nossa leitura III · Sarlet & Molinaro · big data e grande coletor",
+    slide: "15", speaker: "Vinícius", title: "Síntese · Parte I",
     speech: `
-      <p>Em Sarlet e Molinaro, o choque aparece na <strong>escala.</strong></p>
-      <p>A LGPD trabalha com finalidade, minimização, consentimento, anonimização. O big data pressiona todas essas categorias.</p>
-      <p>E fica ainda mais delicado <strong>quando o grande coletor é o próprio Estado.</strong></p>
-      <p>O SUS é o maior sistema público de saúde do mundo. Bilhões de registros: atendimentos, internações, medicamentos, vacinas. O suposto vazamento de <strong>251 milhões de CPFs do Gov.br</strong> — mais CPFs do que brasileiros vivos — mostra a dimensão do risco.</p>
-      <p>A pergunta deixa de ser <em>"qual é a base legal para tratar esse dado?"</em> e passa a ser: <strong>quem controla o controlador?</strong></p>
+      <p>"Fecho curto. Os dois primeiros artigos dão a <strong>promessa</strong>: um Estado que protege dados e se abre ao escrutínio. A LGPD estrutura a defesa; a INDA, a transparência."</p>
+      <p>"Mas a promessa é frágil — porque <strong>quem promete é também quem pode descumprir</strong>. A Parte II mostra o choque: quando a escala do big data e a opacidade do algoritmo encontram essa promessa, o que acontece?"</p>
+    `,
+    passBack: null, emerg: null
+  },
+  {
+    slide: "16", speaker: "Vinícius", title: "Divisor · Parte II (choque)",
+    speech: `
+      <p>"Os dois próximos artigos viram a chave. Da promessa, entramos no <strong>choque de realidade</strong>."</p>
+    `,
+    passBack: null, emerg: null
+  },
+  {
+    slide: "17–19", speaker: "Vinícius", title: "Sarlet & Molinaro · big data na saúde",
+    speech: `
+      <p>"Sarlet e Molinaro escolheram o setor mais sensível: a <strong>saúde</strong>. E mostram que a LGPD foi concebida num paradigma <strong>pré-big data</strong>."</p>
+      <p>"<strong>Cinco campos:</strong> pesquisa clínica (reidentificação de 'anonimizados'); saúde pública (CEP como proxy de vulnerabilidade); gestão hospitalar (triagem por custo esperado = discriminação por proxy); medicina personalizada (dado genético não se troca como senha); wearables e IoT (dados comprados por seguradoras)."</p>
+      <p>"Diante disso, interrogam os pilares da LGPD: <strong>finalidade, minimização, consentimento</strong>. É uma lei analógica num mundo de dados exponenciais. E o Estado é um dos maiores coletores de dados de saúde do planeta. Ana?"</p>
+    `,
+    passBack: null, emerg: null
+  },
+  {
+    slide: "20", speaker: "Ana", title: "Nossa leitura III · Sarlet & Molinaro · quem controla o controlador",
+    speech: `
+      <p>O choque em Sarlet e Molinaro está na <strong>escala.</strong></p>
+      <p>A LGPD trabalha com finalidade, minimização, consentimento, anonimização. O big data pressiona todas. E fica ainda mais grave <strong>quando o grande coletor é o próprio Estado.</strong></p>
+      <p>O SUS é o maior sistema público de saúde do mundo. Bilhões de registros. O suposto vazamento de <strong>251 milhões de CPFs do Gov.br</strong> — mais CPFs do que brasileiros vivos — mostra a dimensão do risco.</p>
+      <p>A pergunta deixa de ser <em>"qual é a base legal?"</em> e passa a ser: <strong>quem controla o controlador?</strong></p>
       <p>Minimização vira letra morta. Consentimento vira ficção jurídica. <strong>Quando quem coleta é quem regula, os freios da LGPD viram sugestões.</strong></p>
     `,
     passBack: "Vinícius, o quarto artigo.",
     emerg: "Sarlet e Molinaro: big data tensiona finalidade, minimização, anonimização. O Estado reúne saúde, educação, previdência, tributos. A pergunta não é 'qual é a base legal?' — é: quem controla o controlador?"
   },
   {
-    slide: "25–28",
-    title: "Nossa leitura IV · INSS · Black Box · SyRI",
+    slide: "21–24", speaker: "Vinícius", title: "Tavares et al. · explicabilidade e contraditório",
+    speech: `
+      <p>"O artigo mais ambicioso. Quando a decisão automatizada viola direitos, como se contesta?"</p>
+      <p>"<strong>1.</strong> Algoritmo não é IA. Algoritmo é sequência determinística; IA aprende padrões e produz inferências que nem o programador prevê. A explicabilidade de um é trivial; a do outro, não."</p>
+      <p>"<strong>2.</strong> Três tipologias: decisão humana, híbrida e algorítmica. O problema está na terceira — a <strong>homologação sem análise</strong>."</p>
+      <p>"<strong>3.</strong> Explicabilidade em três tempos: prévia, concomitante, posterior. Eles defendem que a <strong>prévia e a concomitante importam mais</strong>, porque evitam o dano."</p>
+      <p>"<strong>4.</strong> Contraditório algorítmico. Art. 5º, LV. Mas contestar o quê — o código? a base de treino? Releitura: <strong>o contraditório precisa ser prévio</strong>. Recurso depois não sana a nulidade."</p>
+      <p>"E aqui o artigo encontra a realidade. Ana?"</p>
+    `,
+    passBack: null, emerg: null
+  },
+  {
+    slide: "25–28", speaker: "Ana", title: "Nossa leitura IV · INSS · Black Box · SyRI",
     speech: `
       <p>Tavares et al. defendem que o <strong>contraditório algorítmico precisa ser prévio.</strong> Recurso depois pode remediar parte do dano — mas não substitui a chance de participar antes da decisão.</p>
-      <p>Caso brasileiro: <strong>INSS.</strong> Trabalhadora rural pede aposentadoria por idade como segurada especial. O sistema cruza CNIS, CadÚnico, ITR, geolocalização. <em>Infere</em> que ela não comprova atividade rural.</p>
+      <p>Caso-âncora: <strong>INSS.</strong> Trabalhadora rural, segurada especial. O sistema cruza CNIS, CadÚnico, ITR, geolocalização. <em>Infere</em> que ela não comprova atividade rural.</p>
       <p>Inferência — não prova. E a notificação no Meu INSS diz apenas:<br>
       <strong>"NÃO COMPROVADA A QUALIDADE DE SEGURADO ESPECIAL"</strong><br>
-      Sem dizer quais dados pesaram. Qual critério foi usado. Qual contradição ela deveria corrigir.</p>
+      Sem dizer quais dados pesaram. Qual critério. Qual contradição ela deveria corrigir.</p>
       <p>Isso viola a <strong>IN 128/2022 do próprio INSS</strong> — que exige análise e contraditório prévio.<br>
       <strong>O órgão que edita a norma é o primeiro a descumpri-la. Regulador vira Regulado — e falha.</strong></p>
       <p>O que a segurada recebe: <strong>caixa-preta.</strong> Dados entram. Negativa sai. Sem rosto. Sem porquê. Sem pessoa.</p>
-      <p>Espelho internacional: <strong>SyRI, Holanda — Tribunal de Haia, 2020.</strong> Sistema estatal cruzava bases para detectar "risco de fraude" em bairros pobres, concentração de imigrantes. Proibido: violava privacidade, finalidade, minimização, devido processo.<br>
+      <p>Espelho: <strong>SyRI, Holanda — Tribunal de Haia, 2020.</strong> Sistema estatal cruzava bases para "risco de fraude" em bairros pobres, imigrantes. Proibido: violava privacidade, finalidade, minimização, devido processo.<br>
       <strong>Lá, um tribunal conteve a opacidade algorítmica do Estado. Aqui, ainda estamos no estágio da denúncia.</strong></p>
     `,
     passBack: "E em vez de só falar disso, a gente vai mostrar. Mas antes — duas camadas que vêm antes do contraditório.",
     emerg: "Contraditório deve ser prévio. INSS: segurada rural recebe negativa automática sem saber quais dados pesaram, que critério foi usado. O órgão que editou a regra é o mesmo que automatiza a violação. SyRI: tribunal holandês conteve. Aqui, ainda na denúncia."
   },
   {
-    slide: "30",
-    title: "Propedêutica · literacia algorítmica + notícia humana",
+    slide: "30", speaker: "Ana", title: "Propedêutica · literacia + notícia humana",
     speech: `
       <p>"Quero acrescentar <strong>dois degraus que vêm antes do contraditório.</strong>"</p>
       <p><strong>1. Literacia algorítmica.</strong><br>
-      A trabalhadora muitas vezes nem sabe que foi uma <em>máquina</em> que decidiu. Ela não sabe o que é inferência, viés de proxy, cruzamento de bases, modelo preditivo.<br>
+      A trabalhadora muitas vezes nem sabe que foi uma <em>máquina</em> que decidiu. Não sabe o que é inferência, viés de proxy, cruzamento de bases.<br>
       <strong>Não se contesta o que não se compreende.</strong></p>
       <p>Empoderar não é só abrir canal de recurso — é <strong>traduzir a decisão em linguagem que a pessoa entenda.</strong><br>
       Transparência não basta. O que falta é <strong>inteligibilidade.</strong></p>
       <p><strong>2. Notícia humana.</strong><br>
       Certas decisões podem ser automatizadas. Mas a <em>comunicação</em> de uma decisão adversa a alguém em situação de vulnerabilidade deveria ser feita por <strong>uma pessoa, não por uma máquina.</strong></p>
-      <p>A negativa de uma aposentadoria, o corte de um auxílio, o indeferimento de um benefício — isso não deveria chegar como frase fria num aplicativo.<br>
+      <p>A negativa de uma aposentadoria não deveria chegar como frase fria num aplicativo.<br>
       <strong>A dignidade do administrado também está em como ele é avisado.</strong></p>
-      <p>"Dois pressupostos do contraditório algorítmico: a pessoa precisa compreender — e precisa ser tratada como pessoa."</p>
+      <p>"Dois pressupostos do contraditório: a pessoa precisa compreender — e precisa ser tratada como pessoa."</p>
     `,
     passBack: "E agora a gente mostra como isso vira ferramenta.",
     emerg: "Dois pressupostos antes do contraditório. Literacia: não se contesta o que não se compreende. Notícia humana: decisão adversa a pessoa vulnerável não deveria chegar como frase fria — a pessoa precisa entender e ser tratada como pessoa."
   },
   {
-    slide: "31–33",
-    title: "Demo · Conselho de Contestação Algorítmica",
+    slide: "31–33", speaker: "Ana", title: "Demo · Conselho de Contestação Algorítmica",
     speech: `
       <p>"Construímos um protótipo: <strong>Conselho de Contestação Algorítmica.</strong>"</p>
       <p>A trabalhadora rural com aposentadoria negada. Em vez de uma negativa padronizada — <strong>quatro perspectivas:</strong></p>
@@ -263,44 +354,51 @@ const CARDS = [
       → <strong>Cientista de Dados:</strong> viés de proxy — lacuna contributiva em CNIS de trabalhador rural é a norma, não exceção.<br>
       → <strong>Administrador Público:</strong> Lei 14.129 art. 6º, falta supervisão humana, art. 20 §2º LGPD.<br>
       → <strong>Cidadão:</strong> exclusão digital, literacia, notícia humana — ninguém ligou, chegou por app.</p>
-      <p><strong>Fase 1:</strong> pareceres independentes.<br>
-      <strong>Fase 2:</strong> se avaliam anonimamente — tensões ficam visíveis.<br>
-      <strong>Fase 3:</strong> relator sintetiza com fundamentação jurídica.</p>
+      <p><strong>Fase 1:</strong> pareceres independentes. <strong>Fase 2:</strong> se avaliam — tensões ficam visíveis. <strong>Fase 3:</strong> relator sintetiza.</p>
       <p><strong>O sistema não decide pela pessoa. Ele devolve a ela o contraditório que o Estado suprimiu.</strong></p>
     `,
     clicks: [
       "→ Clique: INSS — Aposentadoria Rural Negada",
-      "→ Navegue: Fase 1 → Fase 2 → Fase 3"
+      "→ Navegue: Fase 1 → Fase 2 → Fase 3",
+      "→ Se travar: vai pro Conselho.html (Plano B offline)"
     ],
     passBack: "Vinícius, o fecho.",
     emerg: "O Conselho não substitui a Administração. Organiza quatro perspectivas: defesa, dados, governança, cidadão. A função é devolver contraditório onde havia só negativa automática."
   },
   {
-    slide: "33–34",
-    title: "Fecho",
+    slide: "33–34", speaker: "Ana", title: "Fecho (parte da Ana)",
     speech: `
       <p>O protótipo é a resposta prática à pergunta do início.</p>
       <p><strong>A Administração 4.0 não fica democrática só por ser digital.</strong></p>
       <p>Ela só é legítima quando a decisão pode ser <strong>compreendida, explicada e contestada</strong> — e isso vale com mais força justamente porque o Estado é, ao mesmo tempo, quem faz a regra e quem mais tende a relativizá-la.</p>
       <p><strong>Se o Estado quer decidir por dados, ele precisa aceitar também ser controlado por direitos.</strong></p>
-      <p>"A pergunta que fica: a Administração Pública digital está decidindo <strong>melhor</strong> — ou apenas decidindo <strong>mais rápido</strong>, com menos chance de compreensão, contestação e participação?"</p>
     `,
-    passBack: "Vinícius, o fecho constitucional.",
+    passBack: "Vinícius fecha com a releitura constitucional.",
     emerg: "Administração 4.0 não é democrática por ser digital. Só é legítima quando a decisão pode ser compreendida, explicada e contestada. Se o Estado quer decidir por dados, precisa aceitar ser controlado por direitos."
   },
   {
-    slide: "DEBATE",
-    title: "Caixa de munição",
+    slide: "33–34", speaker: "Vinícius", title: "Fecho constitucional + pergunta final",
     speech: `
-      <p><strong>Robodebt (Austrália):</strong> cobranças automáticas de dívidas sociais sem checagem humana. Centenas de milhares de cobranças indevidas. Suicídios. Estudo de caso global de falha de governança algorítmica.</p>
-      <p><strong>TJ/MA:</strong> de 80 para 969 sentenças com IA. Precedentes inexistentes (alucinação). Fundamentação genérica. CNJ edita Resolução 615/2025 — e o Judiciário a viola. Regulador ⇄ Regulado no Judiciário.</p>
-      <p><strong>SyRI — Haia 2020:</strong> bairros pobres, imigrantes. Cruzamento de bases para "risco de fraude". Tribunal proibiu: art. 8º CEDH — privacidade, finalidade, minimização, due process.</p>
+      <p>"A gente fecha com uma releitura constitucional dos institutos que atravessaram os quatro artigos."</p>
+      <p>"<strong>Privacidade</strong> — no digital, não é só ser deixado em paz: é saber quais dados o Estado tem sobre você e exigir correção. Art. 5º, LXXIX. Mas direito fundamental sem enforcement é promessa."</p>
+      <p>"<strong>Publicidade</strong> — não se esgota em portal: é publicar em formato aberto, compreensível, e não usar o sigilo como escudo. Art. 37, caput."</p>
+      <p>"<strong>Contraditório</strong> — na decisão automatizada, precisa ser prévio. Art. 5º, LV: escrito para qualquer mundo em que o Estado decida e o cidadão sofra."</p>
+      <p>"<strong>Motivação</strong> — não pode ser fórmula padronizada. 'Inconsistência de dados' não é motivação, é placeholder. Lei 9.784/99, art. 50, exige motivação clara e congruente."</p>
+      <p>"A Administração Pública digital está decidindo <strong>melhor</strong> — ou apenas <strong>mais rápido</strong>, com menos compreensão, contestação e participação? Fica a pergunta. Obrigado."</p>
+    `,
+    passBack: null, emerg: null
+  },
+  {
+    slide: "DEBATE", speaker: "Ana", title: "Caixa de munição",
+    speech: `
+      <p><strong>Robodebt (Austrália):</strong> cobranças automáticas de dívidas sociais sem checagem humana. Centenas de milhares de cobranças indevidas. Suicídios. Falha global de governança algorítmica.</p>
+      <p><strong>TJ/MA:</strong> de 80 para 969 sentenças com IA. Precedentes inexistentes. Fundamentação genérica. CNJ edita a Resolução 615/2025 — e o Judiciário a viola.</p>
+      <p><strong>SyRI — Haia 2020:</strong> bairros pobres, imigrantes. Cruzamento para "risco de fraude". Tribunal proibiu: art. 8º CEDH.</p>
       <hr style="border-color:#2a2a2a;margin:1.5em 0">
       <p><em>"Não é produto — é maquete crítica. Mostra o que falta: explicação, contestação, linguagem compreensível, cuidado humano."</em></p>
-      <p><em>"Velocidade não é eficiência quando a negativa é ilegítima. Decidir rápido um indeferimento indevido não é eficiência — é dano administrativamente acelerado."</em></p>
+      <p><em>"Velocidade não é eficiência quando a negativa é ilegítima. Decidir rápido um indeferimento indevido é dano administrativamente acelerado."</em></p>
     `,
-    passBack: null,
-    emerg: null
+    passBack: null, emerg: null
   }
 ];
 
@@ -315,7 +413,8 @@ function render() {
   document.getElementById('progress').style.width = (cur / (CARDS.length - 1) * 100) + '%';
   document.getElementById('counter').textContent = `${cur + 1} / ${CARDS.length}`;
 
-  let h = `<div class="badge">SLIDE ${c.slide}</div><div class="title">${c.title}</div><div class="speech">${c.speech}`;
+  const who = c.speaker === 'Ana' ? 'ana' : 'vini';
+  let h = `<div class="badge">SLIDE ${c.slide}</div><span class="who ${who}">${c.speaker}</span><div class="title">${c.title}</div><div class="speech">${c.speech}`;
   if (c.clicks) c.clicks.forEach(cl => h += `<div class="click">${cl}</div>`);
   h += '</div>';
   if (c.passBack) h += `<div class="passback">${c.passBack}</div>`;
