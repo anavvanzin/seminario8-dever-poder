@@ -243,7 +243,7 @@ O ponto central é este: o sistema não decide pela pessoa. Ele organiza razões
 
 [Clicar: INSS — Aposentadoria Rural Negada]
 
-“Esse é o caso-âncora.”
+“Esse é o caso-âncora. Mas vale registrar que, no menu superior, nós também incluímos o caso do Bolsa Família, do IPTU suplementar de São Paulo ou do Auxílio Emergencial. Se a banca ou os colegas quiserem debater qualquer outro desses ramos fáticos ao final, o Conselho está pronto para simular a deliberação de todos eles.”
 
 [Clicar Fase 1]
 
