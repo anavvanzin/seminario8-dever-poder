@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Algoritmo em Disputa — Conselho de Contestacao Algoritmica</title>
+<title>Algoritmo em Disputa — Conselho de Contestação Algorítmica</title>
 <style>
 :root {
   --bg: #0a0a0f;
@@ -272,7 +272,7 @@ body {
   <div class="sidebar">
     <div class="sidebar-header">
       <h1>Algoritmo em Disputa</h1>
-      <p>Conselho de Contestacao Algoritmica — Prototipo Conceitual</p>
+      <p>Conselho de Contestação Algorítmica — Protótipo Conceitual</p>
     </div>
     <div class="cases-list" id="casesList"></div>
   </div>
@@ -295,110 +295,110 @@ body {
 const cases = [
   {
     id: 1,
-    title: "Bolsa Familia Cancelado",
-    desc: "Beneficio cancelado automaticamente por inconsistencia de dados. Sem explicacao do criterio.",
-    tag: "Cadastro Unico",
-    context: "Uma familia de baixa renda teve o Bolsa Familia cancelado automaticamente apos um cruzamento de dados entre Receita Federal, CNIS e Cadastro Unico. A notificacao apenas dizia: INCONSISTENCIA DE DADOS. Nenhuma explicacao sobre qual dado, qual criterio, ou como contestar.",
+    title: "Bolsa Família Cancelado",
+    desc: "Benefício cancelado automaticamente por inconsistência de dados. Sem explicação do critério.",
+    tag: "Cadastro Único",
+    context: "Uma família de baixa renda teve o Bolsa Família cancelado automaticamente após um cruzamento de dados entre Receita Federal, CNIS e Cadastro Único. A notificação apenas dizia: INCONSISTENCIA DE DADOS. Nenhuma explicação sobre qual dado, qual critério, ou como contestar.",
     personas: {
-      defensoria: `<strong>Problema juridico:</strong> Violacao do contraditorio e da ampla defesa (art. 5, LV, CF). A decisao foi tomada unilateralmente sem dar a familia chance de se manifestar previamente.<br><br><strong>Leis aplicaveis:</strong> Art. 20, LGPD (revisao de decisao automatizada). Art. 2, Lei 14.129/2021 (garantir ao usuario compreensao das regras).<br><br><strong>Recomendacao:</strong> Contestacao junto ao Ministerio da Cidadania + pedido LAI na Dataprev exigindo o criterio exato do algoritmo. Se nao responder em 20 dias, acionar Defensoria Publica para mandado de seguranca.`,
-      cientista: `<strong>Problema tecnico:</strong> O sistema cruzou CPF, renda declarada e composicao familiar, mas nao revelou qual variavel disparou o cancelamento. E uma caixa-preta.<br><br><strong>Explicabilidade:</strong> Se fosse um modelo de machine learning, precisariamos do SHAP ou feature importance para saber qual campo (renda per capita? idade do responsavel? endereco?) foi determinante.<br><br><strong>Alerta:</strong> Cruzamentos automatizados entre bases governamentais geram erros em cascata. Um erro no CNIS (ex: registro de emprego fantasme) propaga para o CadUnico e gera exclusao automatica.`,
-      admin: `<strong>Problema de governanca:</strong> Faltou supervisao humana obrigatoria antes do cancelamento (art. 20, §2, LGPD). O algoritmo nao pode ser o ultimo passo sem revisao humana em decisoes com efeitos em direitos sociais.<br><br><strong>Lei 14.129/2021:</strong> Art. 6 exige que decisoes automatizadas sejam explicaveis. A notificacao INCONSISTENCIA DE DADOS viola o principio da transparencia.<br><br><strong>Recomendacao administrativa:</strong> O orgao gestor deve publicar portaria com os criterios de cancelamento e criar canal de contestacao direta, sem necessidade de DPU.`,
-      cidadao: `<strong>Impacto real:</strong> Esta familia depende do Bolsa Familia para comprar alimentos. Cancelamento automatico = fome imediata. A tecnologia nao mede isso.<br><br><strong>Exclusao digital:</strong> A familia nao tem internet em casa. Como vai acessar o gov.br para contestar? Como vai ler o tal criterio se ele for publicado apenas online?<br><br><strong>Questao de classe:</strong> Quem tem renda informal, mora em area rural, ou nao tem CPF regularizado e sempre o primeiro excluido por cruzamentos de dados. O algoritmo reproduz desigualdades.`
+      defensoria: `<strong>Problema jurídico:</strong> Violação do contraditório e da ampla defesa (art. 5, LV, CF). A decisão foi tomada unilateralmente sem dar a família chance de se manifestar previamente.<br><br><strong>Leis aplicáveis:</strong> Art. 20, LGPD (revisão de decisão automatizada). Art. 2, Lei 14.129/2021 (garantir ao usuario compreensão das regras).<br><br><strong>Recomendacao:</strong> Contestação junto ao Ministério da Cidadania + pedido LAI na Dataprev exigindo o critério exato do algoritmo. Se não responder em 20 dias, acionar Defensoria Pública para mandado de segurança.`,
+      cientista: `<strong>Problema técnico:</strong> O sistema cruzou CPF, renda declarada e composição familiar, mas não revelou qual variavel disparou o cancelamento. E uma caixa-preta.<br><br><strong>Explicabilidade:</strong> Se fosse um modelo de machine learning, precisariamos do SHAP ou feature importance para saber qual campo (renda per capita? idade do responsavel? endereco?) foi determinante.<br><br><strong>Alerta:</strong> Cruzamentos automatizados entre bases governamentais geram erros em cascata. Um erro no CNIS (ex: registro de emprego fantasma) propaga para o CadÚnico e gera exclusão automática.`,
+      admin: `<strong>Problema de governança:</strong> Faltou supervisao humana obrigatoria antes do cancelamento (art. 20, §2, LGPD). O algoritmo não pode ser o ultimo passo sem revisão humana em decisões com efeitos em direitos sociais.<br><br><strong>Lei 14.129/2021:</strong> Art. 6 exige que decisões automatizadas sejam explicaveis. A notificação INCONSISTENCIA DE DADOS viola o princípio da transparência.<br><br><strong>Recomendacao administrativa:</strong> O órgão gestor deve publicar portaria com os critérios de cancelamento e criar canal de contestação direta, sem necessidade de DPU.`,
+      cidadao: `<strong>Impacto real:</strong> Esta família depende do Bolsa Família para comprar alimentos. Cancelamento automático = fome imediata. A tecnologia não mede isso.<br><br><strong>Exclusao digital:</strong> A família não tem internet em casa. Como vai acessar o gov.br para contestar? Como vai ler o tal critério se ele for publicado apenas online?<br><br><strong>Questao de classe:</strong> Quem tem renda informal, mora em area rural, ou não tem CPF regularizado e sempre o primeiro excluido por cruzamentos de dados. O algoritmo reproduz desigualdades.`
     },
     rankings: [
-      { pos: 1, name: "Defensoria Publica", score: "1.25", votes: 4 },
+      { pos: 1, name: "Defensoria Pública", score: "1.25", votes: 4 },
       { pos: 2, name: "Cidadao", score: "2.00", votes: 4 },
       { pos: 3, name: "Cientista de Dados", score: "3.00", votes: 4 },
       { pos: 4, name: "Administrador Publico", score: "3.75", votes: 4 }
     ],
     final: {
-      sintese: "Cancelamento automatico do Bolsa Familia sem explicacao do criterio algoritmico, violando o contraditorio, a LGPD art. 20 e a Lei 14.129/2021.",
-      consenso: "Todos os conselheiros concordam: (1) a decisao carece de motivacao; (2) falta canal de contestacao acessivel; (3) a supervisao humana e obrigatoria antes de cancelar beneficios.",
-      dissenso: "O Administrador Publico defende que a ineficiencia do sistema e um problema de infraestrutura, nao de direitos. Os demais rejeitam essa leitura: direitos sociais nao podem ser sacrificados por problemas tecnicos do Estado.",
-      fundamentacao: "Art. 5, LV (contraditorio); Art. 6, CF (direitos sociais); Art. 20, LGPD (revisao de decisoes automatizadas); Art. 6, Lei 14.129/2021 (explicabilidade); Art. 37, CF (principios da administracao publica, incluindo motivacao).",
-      recomendacao: "1) Pedido LAI a Dataprev exigindo criterio do algoritmo; 2) Contestacao no Fala.BR; 3) Se indeferido, mandado de seguranca na Vara Federal com pedido de liminar. 4) Pressionar gestor municipal para atualizar CadUnico.",
-      alerta: "O cruzamento automatizado entre CNIS e CadUnico esta sendo usado como atalho burocratico para reduzir filas de beneficiarios, mascarando uma decisao politica de austeridade como decisao tecnica."
+      síntese: "Cancelamento automático do Bolsa Família sem explicação do critério algoritmico, violando o contraditório, a LGPD art. 20 e a Lei 14.129/2021.",
+      consenso: "Todos os conselheiros concordam: (1) a decisão carece de motivacao; (2) falta canal de contestação acessivel; (3) a supervisao humana e obrigatoria antes de cancelar benefícios.",
+      dissenso: "O Administrador Publico defende que a ineficiencia do sistema e um problema de infraestrutura, não de direitos. Os demais rejeitam essa leitura: direitos sociais não podem ser sacrificados por problemas técnicos do Estado.",
+      fundamentação: "Art. 5, LV (contraditório); Art. 6, CF (direitos sociais); Art. 20, LGPD (revisão de decisões automatizadas); Art. 6, Lei 14.129/2021 (explicabilidade); Art. 37, CF (princípios da administração pública, incluindo motivacao).",
+      recomendação: "1) Pedido LAI a Dataprev exigindo critério do algoritmo; 2) Contestação no Fala.BR; 3) Se indeferido, mandado de segurança na Vara Federal com pedido de liminar. 4) Pressionar gestor municipal para atualizar CadÚnico.",
+      alerta: "O cruzamento automatizado entre CNIS e CadÚnico esta sendo usado como atalho burocratico para reduzir filas de beneficiarios, mascarando uma decisão politica de austeridade como decisão tecnica."
     }
   },
   {
     id: 2,
     title: "IPTU Triplicado Automaticamente",
-    desc: "IPTU subiu 300% apos atualizacao automatizada do cadastro imobiliario. Sem notificacao previa.",
+    desc: "IPTU subiu 300% após atualizacao automatizada do cadastro imobiliario. Sem notificação previa.",
     tag: "Municipio",
-    context: "Um proprietario residencial teve o IPTU triplicado em 2025 apos a Prefeitura atualizar o cadastro imobiliario via algoritmo que cruza dados de IPTU, carteira de trabalho, matricula escolar dos filhos e registro de comercio. O sistema reclassificou automaticamente o imovel de residencial para misto (residencial/comercial) sem inspecao presencial.",
+    context: "Um proprietário residencial teve o IPTU triplicado em 2025 após a Prefeitura atualizar o cadastro imobiliario via algoritmo que cruza dados de IPTU, carteira de trabalho, matrícula escolar dos filhos e registro de comercio. O sistema reclassificou automaticamente o imóvel de residencial para misto (residencial/comercial) sem inspeção presencial.",
     personas: {
-      defensoria: `<strong>Problema juridico:</strong> Ofensa ao principio da legalidade tributaria (art. 150, CF). A nova classificacao nao tem fundamento em lei municipal nem em vistoria tecnica. E um aumento de tributo por algoritmo.<br><br><strong>LGPD art. 20:</strong> A decisao foi tomada unicamente por tratamento automatizado e afeta interesse patrimonial. O contribuinte tem direito a revisao.<br><br><strong>Recomendacao:</strong> Impugnacao ao IPTU + pedido de anulacao do lancamento. Pedir LAI na Secretaria de Fazenda sobre o criterio de reclassificacao.`,
-      cientista: `<strong>Problema tecnico:</strong> O algoritmo usou dados correlacionais como se fossem causais: ter filhos em escola particular e registro de MEI no mesmo endereco nao prova uso comercial do imovel.<br><br><strong>Vies:</strong> O modelo provavelmente foi treinado com dados de bairros comerciais ricos, gerando falso positivo para residencias de classe media em transicao.<br><br><strong>Transparencia:</strong> A prefeitura deve publicar: features usadas, pesos, threshold de reclassificacao, e taxa de erro do modelo. Nada foi publicado.`,
-      admin: `<strong>Problema de governanca:</strong> A Lei Complementar 101/2000 (LRF) exige que aumentos de receita tributaria sejam previamente comunicados. A atualizacao automatizada violou o principio da publicidade.<br><br><strong>Lei 14.129/2021:</strong> Art. 4 exige transparencia em sistemas automatizados. A reclassificacao nao foi explicada.<br><br><strong>Recomendacao:</strong> A prefeitura deve instituir revisao humana obrigatoria antes de qualquer reclassificacao cadastral com efeito tributario.`,
-      cidadao: `<strong>Impacto real:</strong> IPTU triplicado = R$ 3.600/ano em vez de R$ 1.200. Para uma familia com renda de R$ 4.000, isso e 7,5% da renda. O algoritmo nao calcula isso.<br><br><strong>Acesso:</strong> A prefeitura publicou a reclassificacao apenas no site. Quem nao acessa internet nao soube ate receber o carnê.<br><br><strong>Territorio:</strong> Bairros perifericos com moradia mista (lojinha no terreo, casa em cima) sao os mais atingidos. O algoritmo nao distingue loja de sala de estar.`
+      defensoria: `<strong>Problema jurídico:</strong> Ofensa ao princípio da legalidade tributaria (art. 150, CF). A nova classificacao não tem fundamento em lei municipal nem em vistoria tecnica. E um aumento de tributo por algoritmo.<br><br><strong>LGPD art. 20:</strong> A decisão foi tomada unicamente por tratamento automatizado e afeta interesse patrimonial. O contribuinte tem direito a revisão.<br><br><strong>Recomendacao:</strong> Impugnacao ao IPTU + pedido de anulacao do lançamento. Pedir LAI na Secretaria de Fazenda sobre o critério de reclassificacao.`,
+      cientista: `<strong>Problema técnico:</strong> O algoritmo usou dados correlacionais como se fossem causais: ter filhos em escola particular e registro de MEI no mesmo endereco não prova uso comercial do imóvel.<br><br><strong>Vies:</strong> O modelo provavelmente foi treinado com dados de bairros comerciais ricos, gerando falso positivo para residencias de classe media em transicao.<br><br><strong>Transparencia:</strong> A prefeitura deve publicar: features usadas, pesos, threshold de reclassificacao, e taxa de erro do modelo. Nada foi publicado.`,
+      admin: `<strong>Problema de governança:</strong> A Lei Complementar 101/2000 (LRF) exige que aumentos de receita tributaria sejam previamente comunicados. A atualizacao automatizada violou o princípio da publicidade.<br><br><strong>Lei 14.129/2021:</strong> Art. 4 exige transparência em sistemas automatizados. A reclassificacao não foi explicada.<br><br><strong>Recomendacao:</strong> A prefeitura deve instituir revisão humana obrigatoria antes de qualquer reclassificacao cadastral com efeito tributario.`,
+      cidadao: `<strong>Impacto real:</strong> IPTU triplicado = R$ 3.600/ano em vez de R$ 1.200. Para uma família com renda de R$ 4.000, isso e 7,5% da renda. O algoritmo não calcula isso.<br><br><strong>Acesso:</strong> A prefeitura publicou a reclassificacao apenas no site. Quem não acessa internet não soube ate receber o carnê.<br><br><strong>Territorio:</strong> Bairros perifericos com moradia mista (lojinha no terreo, casa em cima) sao os mais atingidos. O algoritmo não distingue loja de sala de estar.`
     },
     rankings: [
-      { pos: 1, name: "Defensoria Publica", score: "1.00", votes: 4 },
+      { pos: 1, name: "Defensoria Pública", score: "1.00", votes: 4 },
       { pos: 2, name: "Cientista de Dados", score: "2.25", votes: 4 },
       { pos: 3, name: "Cidadao", score: "2.75", votes: 4 },
       { pos: 4, name: "Administrador Publico", score: "4.00", votes: 4 }
     ],
     final: {
-      sintese: "Reclassificacao tributaria automatizada de imovel residencial para misto, sem vistoria, sem notificacao e sem fundamento legal claro, caracterizando violacao dos principios da legalidade, anterioridade e da motivacao.",
-      consenso: "Todos concordam que: (1) a reclassificacao carece de vistoria presencial; (2) correlacao entre dados nao e causalidade; (3) o contribuinte deve ser notificado antes do aumento.",
-      dissenso: "O Administrador Publico defende que a atualizacao cadastral automatizada e necessaria para combater sonegacao. Os demais respondem: a eficiencia da arrecadacao nao justifica o sacrificio da legalidade.",
-      fundamentacao: "Art. 150, CF (principios tributarios); Art. 20, LGPD; Art. 4, Lei 14.129/2021; Art. 37, CF (motivacao); LC 101/2000 (LRF, transparencia fiscal).",
-      recomendacao: "1) Impugnacao ao lancamento do IPTU; 2) LAI na Secretaria de Fazenda exigindo o algoritmo; 3) Mandado de seguranca se indeferido; 4) Requerer vistoria tecnica gratuita.",
-      alerta: "A prefeitura esta usando o algoritmo para aumentar a arrecadacao sem aumentar a carga tributaria via lei -- um mecanismo de delegacao indevida do poder de tributar para uma ferramenta tecnica."
+      síntese: "Reclassificacao tributaria automatizada de imóvel residencial para misto, sem vistoria, sem notificação e sem fundamento legal claro, caracterizando violação dos princípios da legalidade, anterioridade e da motivacao.",
+      consenso: "Todos concordam que: (1) a reclassificacao carece de vistoria presencial; (2) correlacao entre dados não e causalidade; (3) o contribuinte deve ser notificado antes do aumento.",
+      dissenso: "O Administrador Publico defende que a atualizacao cadastral automatizada e necessaria para combater sonegação. Os demais respondem: a eficiencia da arrecadação não justifica o sacrificio da legalidade.",
+      fundamentação: "Art. 150, CF (princípios tributarios); Art. 20, LGPD; Art. 4, Lei 14.129/2021; Art. 37, CF (motivacao); LC 101/2000 (LRF, transparência fiscal).",
+      recomendação: "1) Impugnacao ao lançamento do IPTU; 2) LAI na Secretaria de Fazenda exigindo o algoritmo; 3) Mandado de segurança se indeferido; 4) Requerer vistoria tecnica gratuita.",
+      alerta: "A prefeitura esta usando o algoritmo para aumentar a arrecadação sem aumentar a carga tributaria via lei -- um mecanismo de delegacao indevida do poder de tributar para uma ferramenta tecnica."
     }
   },
   {
     id: 3,
     title: "Auxilio Emergencial Negado",
-    desc: "Cidadao considerado inelegivel automaticamente por cruzamento de dados do CNIS, sem chance de corrigir.",
-    tag: "Beneficio",
-    context: "Um trabalhador autonomo teve o pedido do Auxilio Emergencial negado automaticamente apos cruzamento de dados entre PIS/Pasep, CNIS e Receita Federal. O sistema indicou inelegibilidade por vinculo empregaticio ativo. O cidadao nunca teve carteira assinada. O erro veio de um registro fantasme no CNIS.",
+    desc: "Cidadao considerado inelegível automaticamente por cruzamento de dados do CNIS, sem chance de corrigir.",
+    tag: "Benefício",
+    context: "Um trabalhador autônomo teve o pedido do Auxilio Emergencial negado automaticamente após cruzamento de dados entre PIS/Pasep, CNIS e Receita Federal. O sistema indicou inelegibilidade por vínculo empregatício ativo. O cidadao nunca teve carteira assinada. O erro veio de um registro fantasma no CNIS.",
     personas: {
-      defensoria: `<strong>Problema juridico:</strong> Ofensa ao direito ao minimo existencial (art. 6, CF) e ao devido processo legal. A negativa foi automatica, sem contraditorio previo.<br><br><strong>LGPD art. 46:</strong> O controlador (Dataprev) e responsavel pela qualidade dos dados. Um erro no CNIS nao pode ser usado contra o cidadao sem chance de correcao.<br><br><strong>Recomendacao:</strong> Contestacao extrajudicial via Dataprev + pedido de correcao no CNIS via INSS. Se persistir, mandado de seguranca com pedido de liminar.`,
-      cientista: `<strong>Problema tecnico:</strong> O cruzamento de bases (PIS, CNIS, CPF) usa fuzzy matching que gera falsos positivos quando ha homonimos ou digitacao errada.<br><br><strong>Qualidade de dados:</strong> O CNIS tem 2,3 milhoes de registros fantasmas segundo TCU. Usar essa base como ground truth e um erro metodologico grave.<br><br><strong>Recomendacao tecnica:</strong> O sistema deve exigir match exato (CPF + data de nascimento + nome da mae) antes de declarar inelegibilidade. Fuzzy matching so para aprovacao, nunca para negativa.`,
-      admin: `<strong>Problema:</strong> A Portaria 147/2020 autorizou o cruzamento automatizado, mas nao previu um mecanismo de revisao humana para negativas. Isso viola o art. 20, LGPD.<br><br><strong>Governanca:</strong> O Ministerio da Cidadania (orgao gestor) deve validar cada negativa antes de enviar a Caixa. A Portaria delegou essa validacao a um algoritmo.<br><br><strong>Recomendacao:</strong> Revisar a Portaria para incluir revisao humana obrigatoria em todas as negativas automaticas.`,
-      cidadao: `<strong>Impacto:</strong> Trabalhador autonomo sem renda durante pandemia. Negativa automatica = inscricao no Serasa por conta de luz, aluguel e agua atrasados.<br><br><strong>Sem acesso:</strong> A Dataprev so aceita contestacao online. Quem nao tem internet ou nao sabe usar o site fica excluido.<br><br><strong>Raca e classe:</strong> Trabalhadores autonomos negros e perifericos sao os mais atingidos por erros no CNIS, pois tem maior instabilidade de registro e mais homonimos em bases publicas.`
+      defensoria: `<strong>Problema jurídico:</strong> Ofensa ao direito ao minimo existencial (art. 6, CF) e ao devido processo legal. A negativa foi automática, sem contraditório prévio.<br><br><strong>LGPD art. 46:</strong> O controlador (Dataprev) e responsavel pela qualidade dos dados. Um erro no CNIS não pode ser usado contra o cidadao sem chance de correção.<br><br><strong>Recomendacao:</strong> Contestação extrajudicial via Dataprev + pedido de correção no CNIS via INSS. Se persistir, mandado de segurança com pedido de liminar.`,
+      cientista: `<strong>Problema técnico:</strong> O cruzamento de bases (PIS, CNIS, CPF) usa fuzzy matching que gera falsos positivos quando ha homônimos ou digitação errada.<br><br><strong>Qualidade de dados:</strong> O CNIS tem 2,3 milhoes de registros fantasmas segundo TCU. Usar essa base como ground truth e um erro metodológico grave.<br><br><strong>Recomendacao tecnica:</strong> O sistema deve exigir match exato (CPF + data de nascimento + nome da mãe) antes de declarar inelegibilidade. Fuzzy matching so para aprovação, nunca para negativa.`,
+      admin: `<strong>Problema:</strong> A Portaria 147/2020 autorizou o cruzamento automatizado, mas não previu um mecanismo de revisão humana para negativas. Isso viola o art. 20, LGPD.<br><br><strong>Governanca:</strong> O Ministério da Cidadania (órgão gestor) deve validar cada negativa antes de enviar a Caixa. A Portaria delegou essa validacao a um algoritmo.<br><br><strong>Recomendacao:</strong> Revisar a Portaria para incluir revisão humana obrigatoria em todas as negativas automaticas.`,
+      cidadao: `<strong>Impacto:</strong> Trabalhador autônomo sem renda durante pandemia. Negativa automática = inscricao no Serasa por conta de luz, aluguel e agua atrasados.<br><br><strong>Sem acesso:</strong> A Dataprev so aceita contestação online. Quem não tem internet ou não sabe usar o site fica excluido.<br><br><strong>Raca e classe:</strong> Trabalhadores autonomos negros e perifericos sao os mais atingidos por erros no CNIS, pois tem maior instabilidade de registro e mais homônimos em bases publicas.`
     },
     rankings: [
-      { pos: 1, name: "Defensoria Publica", score: "1.50", votes: 4 },
+      { pos: 1, name: "Defensoria Pública", score: "1.50", votes: 4 },
       { pos: 2, name: "Cientista de Dados", score: "2.00", votes: 4 },
       { pos: 3, name: "Cidadao", score: "2.50", votes: 4 },
       { pos: 4, name: "Administrador Publico", score: "4.00", votes: 4 }
     ],
     final: {
-      sintese: "Negativa automatica de beneficio social baseada em dado fantasme do CNIS, sem revisao humana, sem contraditorio e sem canal acessivel de correcao.",
-      consenso: "Todos concordam: (1) a negativa automatica de beneficio requer revisao humana; (2) dados de baixa qualidade nao podem ser base para exclusao; (3) o cidadao precisa de canal fisico e digital de contestacao.",
-      dissenso: "O Administrador Publico argumenta que o volume de 50 milhoes de pedidos inviabiliza revisao humana individual. Os demais respondem: o volume justifica mais investimento em qualidade de dados e supervisao, nao justifica automatizacao sem contrapeso.",
-      fundamentacao: "Art. 6, CF (direitos sociais); Art. 20, LGPD; Art. 46, LGPD (qualidade dos dados); Art. 5, LV, CF (contraditorio); Lei 13.982/2020 (Auxilio Emergencial).",
-      recomendacao: "1) Contestacao via portal Dataprev; 2) Requerimento de correcao no CNIS via INSS; 3) Pedido LAI sobre criterio de cruzamento; 4) Se indeferido, DPU para mandado de seguranca com liminar.",
-      alerta: "O governo esta usando alegacao de escala (50 milhoes de pedidos) para justificar ausencia de direitos fundamentais. Escala nao anula o contraditorio."
+      síntese: "Negativa automática de benefício social baseada em dado fantasma do CNIS, sem revisão humana, sem contraditório e sem canal acessivel de correção.",
+      consenso: "Todos concordam: (1) a negativa automática de benefício requer revisão humana; (2) dados de baixa qualidade não podem ser base para exclusão; (3) o cidadao precisa de canal fisico e digital de contestação.",
+      dissenso: "O Administrador Publico argumenta que o volume de 50 milhoes de pedidos inviabiliza revisão humana individual. Os demais respondem: o volume justifica mais investimento em qualidade de dados e supervisao, não justifica automatizacao sem contrapeso.",
+      fundamentação: "Art. 6, CF (direitos sociais); Art. 20, LGPD; Art. 46, LGPD (qualidade dos dados); Art. 5, LV, CF (contraditório); Lei 13.982/2020 (Auxilio Emergencial).",
+      recomendação: "1) Contestação via portal Dataprev; 2) Requerimento de correção no CNIS via INSS; 3) Pedido LAI sobre critério de cruzamento; 4) Se indeferido, DPU para mandado de segurança com liminar.",
+      alerta: "O governo esta usando alegacao de escala (50 milhoes de pedidos) para justificar ausencia de direitos fundamentais. Escala não anula o contraditório."
     }
   },
   {
     id: 4,
     title: "INSS — Aposentadoria Rural Negada",
-    desc: "Aposentadoria rural por idade indeferida automaticamente, sem contraditorio previo, por inferencia equivocada e em desacordo com a propria IN 128/2022 do INSS.",
-    tag: "Previdencia",
-    context: "Uma trabalhadora rural (segurada especial) teve a aposentadoria por idade rural indeferida automaticamente. O sistema cruzou CNIS, CadUnico, dados do ITR/CAR e geolocalizacao e INFERIU que ela exercia atividade urbana, desconsiderando a autodeclaracao rural. A notificacao do Meu INSS dizia apenas: NAO COMPROVADA A QUALIDADE DE SEGURADO ESPECIAL. Nenhuma explicacao sobre quais dados, qual peso, ou como o sistema concluiu pela atividade urbana. O indeferimento ocorreu SEM a analise e o contraditorio previo que a propria IN INSS 128/2022 exige.",
+    desc: "Aposentadoria rural por idade indeferida automaticamente, sem contraditório prévio, por inferencia equivocada e em desacordo com a propria IN 128/2022 do INSS.",
+    tag: "Previdência",
+    context: "Uma trabalhadora rural (segurada especial) teve a aposentadoria por idade rural indeferida automaticamente. O sistema cruzou CNIS, CadÚnico, dados do ITR/CAR e geolocalizacao e INFERIU que ela exercia atividade urbana, desconsiderando a autodeclaração rural. A notificação do Meu INSS dizia apenas: NAO COMPROVADA A QUALIDADE DE SEGURADO ESPECIAL. Nenhuma explicação sobre quais dados, qual peso, ou como o sistema concluiu pela atividade urbana. O indeferimento ocorreu SEM a analise e o contraditório prévio que a propria IN INSS 128/2022 exige.",
     personas: {
-      defensoria: `<strong>Problema juridico:</strong> Violacao frontal do contraditorio e da ampla defesa (art. 5, LV, CF), que devem ser <em>previos</em> a decisao -- e nao supridos por recurso posterior. A negativa automatica retira da segurada a chance de influenciar o resultado antes que ele produza efeitos.<br><br><strong>Norma descumprida pelo proprio orgao:</strong> A IN INSS 128/2022 preve autodeclaracao do segurado especial e analise antes do indeferimento. O INSS editou a regra e a violou.<br><br><strong>Leis aplicaveis:</strong> Art. 20, LGPD (revisao de decisao automatizada); art. 194 e 201, CF (previdencia como direito).<br><br><strong>Recomendacao:</strong> Recurso ao Conselho de Recursos da Previdencia Social (CRPS) arguindo nulidade por ausencia de contraditorio previo + pedido LAI/Dataprev sobre o criterio de inferencia.`,
-      cientista: `<strong>Problema tecnico:</strong> O sistema inferiu "atividade urbana" a partir de <em>proxies</em> (lacunas no CNIS, endereco geocodificado, registros correlatos) e tratou inferencia como prova. Inferencia nao e fato.<br><br><strong>Vies de proxy:</strong> Trabalho rural informal e sazonal produz CNIS fragmentado por natureza -- exatamente o padrao que o modelo leu como "urbano". O modelo penaliza a informalidade que deveria proteger.<br><br><strong>Explicabilidade:</strong> Sem SHAP/feature importance publicado, ninguem sabe se foi o endereco, a lacuna contributiva ou o cruzamento com o ITR que disparou a negativa. A autodeclaracao -- dado primario -- foi ignorada em favor de inferencia secundaria.`,
-      admin: `<strong>Problema de governanca:</strong> Faltou a supervisao humana obrigatoria antes do indeferimento (art. 20, §2, LGPD). Decisao previdenciaria com efeito em direito social nao pode ter o algoritmo como ultimo passo.<br><br><strong>Regulador que se descumpre:</strong> A IN 128/2022 e norma do proprio INSS; automatizar o indeferimento sem o rito que ela preve e o regulado violando a regra que, como regulador, ele mesmo editou.<br><br><strong>Lei 14.129/2021:</strong> Art. 6 exige decisoes automatizadas explicaveis. "Nao comprovada a qualidade de segurado especial" nao e motivacao -- e formula vazia.<br><br><strong>Recomendacao:</strong> Revisao humana obrigatoria em toda negativa automatica e publicacao do criterio de inferencia rural/urbano.`,
-      cidadao: `<strong>Impacto real:</strong> Trabalhadora rural idosa sem renda. Indeferimento automatico = mais meses sem o beneficio que ja deveria estar recebendo, enquanto recorre.<br><br><strong>Literacia algoritmica:</strong> A pessoa muitas vezes nem sabe que foi uma maquina que decidiu -- nem o que e "inteligencia artificial". Sem compreender que houve uma decisao algoritmica, ela nao tem como contestar. Empoderar nao e so abrir um canal: e traduzir a decisao em linguagem que ela entenda. Transparencia nao basta -- precisa ser inteligivel.<br><br><strong>Noticia humana, nao de maquina:</strong> A negativa de um beneficio a quem esta em situacao de vulnerabilidade deveria, em tese, ser comunicada por um ser humano -- nao por uma notificacao automatica e fria no app. O humano no circuito nao so na decisao, mas no cuidado da comunicacao.<br><br><strong>Exclusao digital, genero e territorio:</strong> A negativa chega pelo Meu INSS. Quem vive no campo, sem internet estavel e sem letramento digital, precisa viajar ate a agencia ou a Defensoria so para entender o que houve. E a segurada especial rural -- muitas vezes mulher, cuja atividade nem sempre gera registro proprio -- e a mais penalizada por sistemas que leem ausencia de registro como ausencia de trabalho. O algoritmo apaga o trabalho invisivel.`
+      defensoria: `<strong>Problema jurídico:</strong> Violação frontal do contraditório e da ampla defesa (art. 5, LV, CF), que devem ser <em>prévios</em> a decisão -- e não supridos por recurso posterior. A negativa automática retira da segurada a chance de influenciar o resultado antes que ele produza efeitos.<br><br><strong>Norma descumprida pelo proprio órgão:</strong> A IN INSS 128/2022 preve autodeclaração do segurado especial e analise antes do indeferimento. O INSS editou a regra e a violou.<br><br><strong>Leis aplicáveis:</strong> Art. 20, LGPD (revisão de decisão automatizada); art. 194 e 201, CF (previdência como direito).<br><br><strong>Recomendacao:</strong> Recurso ao Conselho de Recursos da Previdência Social (CRPS) arguindo nulidade por ausencia de contraditório prévio + pedido LAI/Dataprev sobre o critério de inferencia.`,
+      cientista: `<strong>Problema técnico:</strong> O sistema inferiu "atividade urbana" a partir de <em>proxies</em> (lacunas no CNIS, endereco geocodificado, registros correlatos) e tratou inferencia como prova. Inferencia não e fato.<br><br><strong>Vies de proxy:</strong> Trabalho rural informal e sazonal produz CNIS fragmentado por natureza -- exatamente o padrao que o modelo leu como "urbano". O modelo penaliza a informalidade que deveria proteger.<br><br><strong>Explicabilidade:</strong> Sem SHAP/feature importance publicado, ninguem sabe se foi o endereco, a lacuna contributiva ou o cruzamento com o ITR que disparou a negativa. A autodeclaração -- dado primario -- foi ignorada em favor de inferencia secundaria.`,
+      admin: `<strong>Problema de governança:</strong> Faltou a supervisao humana obrigatoria antes do indeferimento (art. 20, §2, LGPD). Decisao previdenciaria com efeito em direito social não pode ter o algoritmo como ultimo passo.<br><br><strong>Regulador que se descumpre:</strong> A IN 128/2022 e norma do proprio INSS; automatizar o indeferimento sem o rito que ela preve e o regulado violando a regra que, como regulador, ele mesmo editou.<br><br><strong>Lei 14.129/2021:</strong> Art. 6 exige decisões automatizadas explicaveis. "Nao comprovada a qualidade de segurado especial" não e motivacao -- e formula vazia.<br><br><strong>Recomendacao:</strong> Revisao humana obrigatoria em toda negativa automática e publicacao do critério de inferencia rural/urbano.`,
+      cidadao: `<strong>Impacto real:</strong> Trabalhadora rural idosa sem renda. Indeferimento automático = mais meses sem o benefício que ja deveria estar recebendo, enquanto recorre.<br><br><strong>Literacia algoritmica:</strong> A pessoa muitas vezes nem sabe que foi uma maquina que decidiu -- nem o que e "inteligencia artificial". Sem compreender que houve uma decisão algoritmica, ela não tem como contestar. Empoderar não e so abrir um canal: e traduzir a decisão em linguagem que ela entenda. Transparencia não basta -- precisa ser inteligivel.<br><br><strong>Noticia humana, não de maquina:</strong> A negativa de um benefício a quem esta em situacao de vulnerabilidade deveria, em tese, ser comunicada por um ser humano -- não por uma notificação automática e fria no app. O humano no circuito não so na decisão, mas no cuidado da comunicação.<br><br><strong>Exclusao digital, gênero e territorio:</strong> A negativa chega pelo Meu INSS. Quem vive no campo, sem internet estavel e sem letramento digital, precisa viajar ate a agencia ou a Defensoria so para entender o que houve. E a segurada especial rural -- muitas vezes mulher, cuja atividade nem sempre gera registro proprio -- e a mais penalizada por sistemas que leem ausencia de registro como ausencia de trabalho. O algoritmo apaga o trabalho invisivel.`
     },
     rankings: [
-      { pos: 1, name: "Defensoria Publica", score: "1.25", votes: 4 },
+      { pos: 1, name: "Defensoria Pública", score: "1.25", votes: 4 },
       { pos: 2, name: "Cidadao", score: "2.25", votes: 4 },
       { pos: 3, name: "Cientista de Dados", score: "2.50", votes: 4 },
       { pos: 4, name: "Administrador Publico", score: "4.00", votes: 4 }
     ],
     final: {
-      sintese: "Indeferimento automatico de aposentadoria rural por inferencia equivocada de atividade urbana, sem o contraditorio previo exigido pela IN INSS 128/2022, sem motivacao adequada e sem revisao humana -- com a agravante de o orgao violar a propria norma que editou.",
-      consenso: "Todos os conselheiros concordam: (1) o contraditorio deve ser PREVIO a decisao, e recurso posterior nao sana a nulidade; (2) autodeclaracao (dado primario) nao pode ser sobreposta por inferencia (dado secundario) sem analise humana; (3) a motivacao 'nao comprovada a qualidade de segurado especial' e insuficiente; (4) a contestacao pressupoe COMPREENSAO -- a pessoa precisa saber que houve decisao algoritmica e entende-la (inteligibilidade, nao so transparencia); e (5) a comunicacao de negativa a pessoa vulneravel deveria ser feita por um humano, nao por notificacao automatica.",
-      dissenso: "O Administrador Publico pondera que o volume de requerimentos pressiona pela automacao. Os demais respondem: quando o proprio regulador (INSS) descumpre a IN 128/2022 que editou, o problema nao e de escala, mas de subaplicacao deliberada da norma contra o administrado.",
-      fundamentacao: "Art. 5, LV, CF (contraditorio e ampla defesa previos); art. 194 e 201, CF (previdencia social); art. 20 e §2, LGPD (revisao e supervisao humana de decisao automatizada); art. 6, Lei 14.129/2021 (explicabilidade); IN INSS 128/2022 (rito do segurado especial). Cf. Tavares, Bitencourt e Cristovam (2024) sobre explicabilidade e contraditorio algoritmico.",
-      recomendacao: "1) Recurso ao CRPS por nulidade (ausencia de contraditorio previo); 2) Pedido LAI/Dataprev exigindo o criterio de inferencia rural/urbano; 3) Requerimento LGPD art. 20 de revisao da decisao automatizada; 4) Se mantido, acionar a Defensoria/DPU para mandado de seguranca com pedido de liminar.",
-      alerta: "Este e o caso-sintese do seminario: o mesmo Estado que, como REGULADOR, edita a IN 128/2022 e a explicabilidade da Lei 14.129/2021 e, como REGULADO, o operador que automatiza o indeferimento e suprime o contraditorio que ele proprio exige. Do poder-dever ao dever-poder: quem faz a regra e quem mais a descumpre."
+      síntese: "Indeferimento automático de aposentadoria rural por inferencia equivocada de atividade urbana, sem o contraditório prévio exigido pela IN INSS 128/2022, sem motivacao adequada e sem revisão humana -- com a agravante de o órgão violar a propria norma que editou.",
+      consenso: "Todos os conselheiros concordam: (1) o contraditório deve ser PREVIO a decisão, e recurso posterior não sana a nulidade; (2) autodeclaração (dado primario) não pode ser sobreposta por inferencia (dado secundario) sem analise humana; (3) a motivacao 'não comprovada a qualidade de segurado especial' e insuficiente; (4) a contestação pressupoe COMPREENSAO -- a pessoa precisa saber que houve decisão algoritmica e entende-la (inteligibilidade, não so transparência); e (5) a comunicação de negativa a pessoa vulneravel deveria ser feita por um humano, não por notificação automática.",
+      dissenso: "O Administrador Publico pondera que o volume de requerimentos pressiona pela automacao. Os demais respondem: quando o proprio regulador (INSS) descumpre a IN 128/2022 que editou, o problema não e de escala, mas de subaplicacao deliberada da norma contra o administrado.",
+      fundamentação: "Art. 5, LV, CF (contraditório e ampla defesa prévios); art. 194 e 201, CF (previdência social); art. 20 e §2, LGPD (revisão e supervisao humana de decisão automatizada); art. 6, Lei 14.129/2021 (explicabilidade); IN INSS 128/2022 (rito do segurado especial). Cf. Tavares, Bitencourt e Cristovam (2024) sobre explicabilidade e contraditório algoritmico.",
+      recomendação: "1) Recurso ao CRPS por nulidade (ausencia de contraditório prévio); 2) Pedido LAI/Dataprev exigindo o critério de inferencia rural/urbano; 3) Requerimento LGPD art. 20 de revisão da decisão automatizada; 4) Se mantido, acionar a Defensoria/DPU para mandado de segurança com pedido de liminar.",
+      alerta: "Este e o caso-síntese do seminario: o mesmo Estado que, como REGULADOR, edita a IN 128/2022 e a explicabilidade da Lei 14.129/2021 e, como REGULADO, o operador que automatiza o indeferimento e suprime o contraditório que ele proprio exige. Do poder-dever ao dever-poder: quem faz a regra e quem mais a descumpre."
     }
   }
 ];
@@ -461,7 +461,7 @@ function renderPhaseContent(c) {
           <div class="card-header">
             <div class="card-icon defensoria">&#9878;</div>
             <div>
-              <div class="card-title">Defensoria Publica</div>
+              <div class="card-title">Defensoria Pública</div>
               <div class="card-subtitle">Tutela de Direitos</div>
             </div>
           </div>
@@ -504,7 +504,7 @@ function renderPhaseContent(c) {
       <div class="ranking-item">
         <span class="ranking-pos">#${r.pos}</span>
         <span class="ranking-name">${r.name}</span>
-        <span class="ranking-score">Media: ${r.score} (${r.votes} avaliacoes)</span>
+        <span class="ranking-score">Media: ${r.score} (${r.votes} avaliações)</span>
       </div>
     `).join('');
 
@@ -524,7 +524,7 @@ function renderPhaseContent(c) {
             <div><div class="card-title">Defensoria avalia os outros</div><div class="card-subtitle">Revisao</div></div>
           </div>
           <div class="card-body">
-            <em>"Parecer Cientista e tecnicamente solido, mas foca excessivamente nos detalhes do modelo e esquece o impacto humano. Parecer Admin e preocupante: aceita eficiencia como desculpa para violar direitos. Parecer Cidadao e o mais honesto em relacao ao sofrimento real."</em>
+            <em>"Parecer Cientista e tecnicamente solido, mas foca excessivamente nos detalhes do modelo e esquece o impacto humano. Parecer Admin e preocupante: aceita eficiencia como desculpa para violar direitos. Parecer Cidadao e o mais honesto em relação ao sofrimento real."</em>
           </div>
         </div>
         <div class="card">
@@ -542,7 +542,7 @@ function renderPhaseContent(c) {
             <div><div class="card-title">Admin avalia os outros</div><div class="card-subtitle">Revisao</div></div>
           </div>
           <div class="card-body">
-            <em>"Parecer Defensoria e juridicamente impecavel, mas pouco realista em termos de gestao. Parecer Cientista e valioso para melhorar o sistema. Parecer Cidadao e emotivo demais -- nao oferece solucoes institucionais."</em>
+            <em>"Parecer Defensoria e juridicamente impecavel, mas pouco realista em termos de gestao. Parecer Cientista e valioso para melhorar o sistema. Parecer Cidadao e emotivo demais -- não oferece solucoes institucionais."</em>
           </div>
         </div>
         <div class="card">
@@ -551,7 +551,7 @@ function renderPhaseContent(c) {
             <div><div class="card-title">Cidadao avalia os outros</div><div class="card-subtitle">Revisao</div></div>
           </div>
           <div class="card-body">
-            <em>"Parecer Defensoria e o unico que realmente defende a pessoa. Parecer Cientista ajuda a entender, mas nao resolve. Parecer Admin e assustador: parece que o Estado se importa mais com o algoritmo do que com a gente."</em>
+            <em>"Parecer Defensoria e o unico que realmente defende a pessoa. Parecer Cientista ajuda a entender, mas não resolve. Parecer Admin e assustador: parece que o Estado se importa mais com o algoritmo do que com a gente."</em>
           </div>
         </div>
       </div>
@@ -562,7 +562,7 @@ function renderPhaseContent(c) {
         <h3>Parecer Final do Relator do Conselho</h3>
         <div class="section">
           <h4>1. Sintese do Caso</h4>
-          <p>${c.final.sintese}</p>
+          <p>${c.final.síntese}</p>
         </div>
         <div class="section">
           <h4>2. Consenso dos Conselheiros</h4>
@@ -574,11 +574,11 @@ function renderPhaseContent(c) {
         </div>
         <div class="section">
           <h4>4. Fundamentacao Juridica</h4>
-          <p>${c.final.fundamentacao}</p>
+          <p>${c.final.fundamentação}</p>
         </div>
         <div class="section">
           <h4>5. Recomendacao Final</h4>
-          <ul>${c.final.recomendacao.split(';').map(x => `<li>${x.trim()}</li>`).join('')}</ul>
+          <ul>${c.final.recomendação.split(';').map(x => `<li>${x.trim()}</li>`).join('')}</ul>
         </div>
         <div class="alert-box">
           <p><strong>ALERTA:</strong> ${c.final.alerta}</p>
