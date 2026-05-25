@@ -75,6 +75,7 @@ Apresentação interdisciplinar que lê quatro artigos do IJDL como um único ar
 | iii | `Conselho.html` | Protótipo do Conselho (offline) | Abrir no navegador |
 | iv | `Wireframes.html` | Bastidor: 3 direções visuais | Para o debate |
 | v | `Seminario8-Video.html` | **Vídeo de abertura** (56s, 6 cenas, 4 paletas) | ▶ autoplay |
+| vi | `PLANO-ENTREGA.md` | Plano detalhado de execução e divisão de falas | Checklist de condução |
 | index-improved.html | **Landing page v2.0** | Novo índice com design system Vercel | Acesso principal |
 
 > ✅ **No slide 31:** clique "Iniciar a Deliberação" → o Conselho abre em tela cheia (overlay) com a mesma paleta acadêmica do deck. 3 fases: Pareceres → Avaliações Cruzadas → Parecer Final. Ao final, "Voltar à Tese" retorna ao slide final.
