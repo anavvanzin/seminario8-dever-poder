@@ -1,604 +1,501 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8">
-<title>Seminário 8 — Índice · Vanzin & Oliveira</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&family=Spectral:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
-<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');</script>
-</head>
-
-<style>
-  :root{
-    --paper:#fbfaf5;
-    --paper-warm:#f5f1e6;
-    --paper-dark:#ebe6d8;
-    --ink:#16140f;
-    --ink-2:#3a3733;
-    --ink-3:#6a665e;
-    --ink-4:#9a958b;
-    --rule:rgba(22,20,15,.18);
-    --rule-strong:rgba(22,20,15,.4);
-    --accent:#8b1a1a;
-    --accent-2:#6a1212;
-    --gold:#a67a2c;
-
-    --serif-display:"EB Garamond",Georgia,serif;
-    --serif-body:"Spectral",Georgia,serif;
-    --mono:"JetBrains Mono",ui-monospace,monospace;
-  }
-
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{background:#e6e2d6;min-height:100vh}
-  body{
-    font-family:var(--serif-body);
-    color:var(--ink);
-    padding:0 0 80px;
-    -webkit-font-smoothing:antialiased;
-  }
-
-  /* page = paper sheet */
-  .sheet{
-    background:var(--paper);
-    max-width:1180px;
-    margin:48px auto;
-    padding:88px 96px 96px;
-    position:relative;
-    box-shadow:
-      0 1px 0 rgba(0,0,0,.04),
-      0 20px 50px -25px rgba(22,20,15,.35),
-      0 60px 120px -40px rgba(22,20,15,.18);
-  }
-  /* paper grain */
-  .sheet::before{
-    content:"";position:absolute;inset:0;pointer-events:none;
-    background:
-      radial-gradient(900px 600px at 8% -10%,rgba(166,122,44,.06),transparent 60%),
-      radial-gradient(700px 500px at 110% 110%,rgba(139,26,26,.05),transparent 60%);
-  }
-
-  /* deckle edges feel */
-  .sheet::after{
-    content:"";position:absolute;left:0;right:0;top:0;height:6px;
-    background:repeating-linear-gradient(90deg,var(--paper) 0 12px,transparent 12px 14px);
-    pointer-events:none;
-  }
-
-  /* ─── HEAD ─── */
-  .top-rule{
-    display:flex;justify-content:space-between;align-items:baseline;
-    border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:36px;
-    font-family:var(--serif-display);font-style:italic;
-    color:var(--ink-2);font-size:18px;
-  }
-  .top-rule .vol{letter-spacing:.02em}
-  .top-rule .date{
-    font-style:normal;font-family:var(--mono);
-    font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);
-  }
-
-  .eyebrow{
-    font-family:var(--serif-display);font-style:italic;
-    font-size:24px;color:var(--accent);
-    margin-bottom:22px;
-  }
-  h1.title{
-    font-family:var(--serif-display);font-weight:500;
-    font-size:88px;line-height:1.0;letter-spacing:-.012em;
-    color:var(--ink);
-    margin-bottom:28px;
-    max-width:920px;
-    text-wrap:balance;
-  }
-  h1.title em{font-style:italic;color:var(--accent)}
-  h1.title .ampersand{font-style:italic;color:var(--ink-3);font-weight:400;padding:0 4px}
-
-  .deck-meta{
-    display:grid;grid-template-columns:auto 1fr auto;gap:32px;align-items:start;
-    padding:18px 0 24px;
-    border-top:1px solid var(--rule);
-    border-bottom:1px solid var(--rule);
-    margin-bottom:48px;
-  }
-  .deck-meta .who{
-    font-family:var(--serif-display);
-    font-size:22px;color:var(--ink-2);line-height:1.3;
-  }
-  .deck-meta .who strong{font-weight:500;color:var(--ink)}
-  .deck-meta .who em{font-style:italic;color:var(--ink-3);font-size:18px;display:block;margin-top:2px}
-  .deck-meta .inst{
-    font-family:var(--mono);font-size:12px;letter-spacing:.18em;
-    text-transform:uppercase;color:var(--ink-3);text-align:right;line-height:1.6;
-  }
-  .deck-meta .abstract{
-    font-family:var(--serif-body);font-style:italic;
-    font-size:19px;line-height:1.5;color:var(--ink-2);
-    max-width:520px;
-    padding:0 28px;
-    border-left:1px solid var(--rule);border-right:1px solid var(--rule);
-  }
-
-  /* ─── THESIS BAND ─── */
-  .thesis{
-    margin:0 -8px 60px;
-    padding:34px 40px 36px;
-    background:var(--paper-warm);
-    border-top:1px solid var(--ink);
-    border-bottom:1px solid var(--ink);
-    position:relative;
-  }
-  .thesis::before{
-    content:"§";position:absolute;
-    left:-18px;top:50%;transform:translateY(-50%);
-    background:var(--paper-warm);
-    width:36px;height:36px;display:grid;place-items:center;
-    font-family:var(--serif-display);font-style:italic;font-size:28px;color:var(--accent);
-    border:1px solid var(--ink);
-  }
-  .thesis .label{
-    font-family:var(--mono);font-size:11px;letter-spacing:.24em;
-    text-transform:uppercase;color:var(--ink-3);margin-bottom:14px;
-  }
-  .thesis p{
-    font-family:var(--serif-display);font-weight:500;
-    font-size:36px;line-height:1.18;letter-spacing:-.005em;
-    color:var(--ink);
-    text-wrap:balance;
-  }
-  .thesis p em{font-style:italic;color:var(--accent)}
-  .thesis .src{
-    display:block;margin-top:18px;
-    font-family:var(--serif-display);font-style:italic;
-    font-size:19px;color:var(--ink-3);
-  }
-
-  /* ─── SUMMARY HEADING ─── */
-  .sum-head{
-    display:flex;justify-content:space-between;align-items:baseline;
-    margin-bottom:8px;
-  }
-  .sum-head h2{
-    font-family:var(--serif-display);font-weight:500;font-style:italic;
-    font-size:42px;color:var(--ink);
-  }
-  .sum-head .ct{
-    font-family:var(--mono);font-size:12px;letter-spacing:.22em;
-    text-transform:uppercase;color:var(--ink-3);
-  }
-  .sum-rule{
-    border-bottom:1px solid var(--ink);margin-bottom:8px;
-  }
-  .sum-rule-2{
-    border-bottom:1px solid var(--ink);margin-bottom:36px;height:4px;
-  }
-
-  /* ─── ENTRIES (table of contents, hierarchical) ─── */
-  .toc{
-    display:flex;flex-direction:column;
-  }
-  .entry{
-    display:grid;grid-template-columns:78px 1fr 220px;
-    gap:36px;align-items:start;
-    padding:32px 0 34px;
-    border-bottom:1px solid var(--rule);
-    text-decoration:none;color:inherit;
-    position:relative;
-    transition:background .18s ease,padding-left .18s ease;
-  }
-  .entry:hover{
-    background:linear-gradient(90deg,rgba(139,26,26,.04),transparent 70%);
-    padding-left:14px;
-  }
-  .entry:hover .num{color:var(--accent)}
-  .entry:hover .e-title em{color:var(--accent)}
-  .entry:hover .arrow{transform:translateX(6px);color:var(--accent)}
-
-  .entry .num{
-    font-family:var(--serif-display);font-style:italic;font-weight:500;
-    font-size:72px;line-height:.85;color:var(--ink);
-    letter-spacing:-.02em;
-    transition:color .18s;
-  }
-  .entry .num .roman{display:block;font-size:18px;font-style:normal;color:var(--ink-3);letter-spacing:.18em;margin-top:6px;font-family:var(--mono);font-weight:400}
-
-  .entry .body{}
-  .entry .kicker{
-    font-family:var(--mono);font-size:11px;letter-spacing:.22em;
-    text-transform:uppercase;color:var(--accent);margin-bottom:8px;
-  }
-  .entry .e-title{
-    font-family:var(--serif-display);font-weight:500;
-    font-size:38px;line-height:1.08;color:var(--ink);
-    margin-bottom:10px;letter-spacing:-.005em;
-  }
-  .entry .e-title em{font-style:italic;transition:color .18s}
-  .entry .desc{
-    font-size:17px;line-height:1.48;color:var(--ink-2);max-width:560px;
-  }
-  .entry .desc em{font-style:italic;color:var(--ink)}
-  .entry .tags{
-    display:flex;flex-wrap:wrap;gap:6px 10px;margin-top:14px;
-    font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--ink-3);
-  }
-  .entry .tags span{
-    border:1px solid var(--rule-strong);
-    padding:3px 8px;
-  }
-  .entry .tags span.hot{color:var(--accent);border-color:var(--accent)}
-
-  .entry .meta{
-    display:flex;flex-direction:column;align-items:flex-end;gap:6px;
-    padding-top:4px;
-    text-align:right;
-  }
-  .entry .meta .stat{
-    font-family:var(--mono);font-size:11px;letter-spacing:.18em;
-    text-transform:uppercase;color:var(--ink-3);
-  }
-  .entry .meta .stat b{color:var(--ink);font-weight:500}
-  .entry .meta .arrow{
-    margin-top:14px;
-    font-family:var(--serif-display);font-size:36px;color:var(--ink);
-    transition:transform .2s,color .18s;
-  }
-  .entry .meta .ftype{
-    font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;
-    text-transform:uppercase;color:var(--ink-3);
-    border:1px solid var(--ink-3);padding:3px 8px;
-    margin-top:2px;
-  }
-
-  /* primary entry — slightly heavier */
-  .entry.primary{
-    background:linear-gradient(90deg,rgba(166,122,44,.05),transparent 65%);
-  }
-  .entry.primary .num{color:var(--accent)}
-  .entry.primary::before{
-    content:"";position:absolute;left:0;top:32px;bottom:34px;width:3px;
-    background:var(--accent);
-  }
-
-  /* ─── STRUCTURE PREVIEW (deck arc) ─── */
-  .arc{
-    margin:50px 0 0;
-    padding:30px 0 0;
-    border-top:1px solid var(--ink);
-  }
-  .arc-head{
-    display:flex;justify-content:space-between;align-items:baseline;
-    margin-bottom:24px;
-  }
-  .arc-head h3{
-    font-family:var(--serif-display);font-style:italic;font-weight:500;font-size:30px;color:var(--ink);
-  }
-  .arc-head .by{
-    font-family:var(--mono);font-size:11px;letter-spacing:.2em;
-    text-transform:uppercase;color:var(--ink-3);
-  }
-  .arc-grid{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:0;
-    border:1px solid var(--ink);
-  }
-  .arc-cell{
-    padding:22px 22px 24px;
-    border-right:1px solid var(--ink);
-    position:relative;
-    background:var(--paper);
-  }
-  .arc-cell:last-child{border-right:none}
-  .arc-cell .act{
-    font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;
-    text-transform:uppercase;color:var(--accent);margin-bottom:8px;
-  }
-  .arc-cell .arc-t{
-    font-family:var(--serif-display);font-style:italic;font-weight:500;
-    font-size:24px;line-height:1.1;color:var(--ink);margin-bottom:10px;
-  }
-  .arc-cell .arc-d{
-    font-size:13.5px;line-height:1.42;color:var(--ink-2);
-  }
-  .arc-cell .slidenum{
-    position:absolute;top:14px;right:14px;
-    font-family:var(--mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.18em;
-  }
-  .arc-cell.peak{background:var(--paper-warm)}
-  .arc-cell.peak::after{
-    content:"★";position:absolute;left:22px;bottom:14px;color:var(--accent);font-size:14px;
-  }
-
-  /* ─── BOTTOM RULES + COLOPHON ─── */
-  .colophon{
-    margin-top:64px;padding-top:28px;
-    border-top:2px solid var(--ink);
-    display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;
-  }
-  .colophon h4{
-    font-family:var(--mono);font-size:11px;letter-spacing:.24em;
-    text-transform:uppercase;color:var(--ink-3);margin-bottom:12px;font-weight:500;
-  }
-  .colophon p{
-    font-family:var(--serif-display);font-size:17px;line-height:1.45;color:var(--ink-2);
-  }
-  .colophon p em{font-style:italic;color:var(--accent)}
-  .colophon .glyph{
-    font-family:var(--serif-display);font-style:italic;font-size:28px;color:var(--accent);
-  }
-
-  /* ─── FOLIO ─── */
-  .folio{
-    margin-top:36px;
-    display:flex;justify-content:space-between;
-    font-family:var(--serif-display);font-style:italic;font-size:16px;color:var(--ink-3);
-  }
-  .folio .pageno{
-    font-family:var(--mono);font-style:normal;font-size:11px;letter-spacing:.24em;text-transform:uppercase;
-  }
-
-  /* ─── ornaments ─── */
-  .orn{
-    display:flex;align-items:center;justify-content:center;gap:12px;
-    color:var(--accent);font-family:var(--serif-display);font-style:italic;font-size:24px;
-    margin:8px 0 30px;
-  }
-  .orn::before,.orn::after{
-    content:"";flex:1;border-top:1px solid var(--rule-strong);max-width:120px;
-  }
-
-  /* responsive trim */
-  @media (max-width:900px){
-    .sheet{padding:48px 32px 64px;margin:16px}
-    h1.title{font-size:54px}
-    .deck-meta{grid-template-columns:1fr;gap:18px}
-    .deck-meta .abstract{padding:0;border:none}
-    .deck-meta .inst{text-align:left}
-    .entry{grid-template-columns:54px 1fr;gap:18px}
-    .entry .meta{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:flex-start;text-align:left;flex-wrap:wrap;gap:8px 14px}
-    .entry .num{font-size:48px}
-    .entry .e-title{font-size:28px}
-    .thesis p{font-size:24px}
-    .arc-grid{grid-template-columns:1fr 1fr}
-    .arc-cell:nth-child(2){border-right:none}
-    .arc-cell:nth-child(1),.arc-cell:nth-child(2){border-bottom:1px solid var(--ink)}
-    .colophon{grid-template-columns:1fr}
-  }
-</style>
-<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');</script>
-</head>
-<body>
-
-<article class="sheet" data-screen-label="00 Índice">
-
-  <!-- ──────────── HEAD ──────────── -->
-  <div class="top-rule">
-    <span class="vol">Volume único · dossiê de entrega</span>
-    <span class="date">PPGD / UFSC · 2026</span>
-  </div>
-
-  <div class="eyebrow">Seminário VIII — administração pública orientada por dados</div>
-
-  <h1 class="title">
-    Do <em>poder-dever</em> <span class="ampersand">ao</span> <em>dever-poder</em>
-  </h1>
-
-  <div class="deck-meta">
-    <div class="who">
-      <strong>Ana Vitória Vanzin</strong> <span class="ampersand" style="color:var(--ink-3)">&amp;</span> <strong>Vinícius Oliveira</strong>
-      <em>autores · expositores</em>
-    </div>
-    <div class="abstract">
-      Quatro artigos lidos como um único arco: a privacidade que não cabe na regra, o governo aberto que falta cumprir, o big data que escapa do consentimento e a decisão algorítmica que precisa de contraditório.
-    </div>
-    <div class="inst">
-      Direito da<br>Administração Pública<br>
-      <span style="color:var(--ink)">Prof. Cristóvam</span><br>
-      25 · v · 2026
-    </div>
-  </div>
-
-  <!-- ──────────── THESIS ──────────── -->
-  <div class="thesis">
-    <div class="label">— tese · núcleo crítico —</div>
-    <p>O Estado opera como <em>regulador ⇄ regulado</em>: quem edita a regra é, com frequência, quem mais a descumpre <em>contra o cidadão</em>.</p>
-    <span class="src">Caso-âncora: aposentadoria rural negada pelo INSS sem contraditório · espelho internacional: SyRI, Haia, 2020.</span>
-  </div>
-
-  <!-- ──────────── SUMÁRIO HEADER ──────────── -->
-  <div class="sum-head">
-    <h2>Sumário da entrega</h2>
-    <span class="ct">05 · peças</span>
-  </div>
-  <div class="sum-rule"></div>
-  <div class="sum-rule-2"></div>
-
-  <!-- ──────────── ENTRIES ──────────── -->
-  <nav class="toc">
-
-    <a class="entry primary" href="Seminario8.html">
-      <div class="num">i<span class="roman">caput</span></div>
-      <div class="body">
-        <div class="kicker">peça principal · apresentação ao vivo</div>
-        <div class="e-title">A <em>apresentação</em> — 33 lâminas em arco</div>
-        <div class="desc">
-          O deck completo, arco de tensão em quatro atos: <em>promessa</em> (LGPD e governo aberto) → <em>choque</em> (big data e IA) → <em>conflito</em> (tese Regulador⇄Regulado, INSS, SyRI) → <em>resolução</em> (proposta e protótipo). Sistema visual editorial — papel envelhecido, EB Garamond, marginália itálica, terminais neon para os ganchos contemporâneos.
-        </div>
-        <div class="tags">
-          <span class="hot">★ canônico</span>
-          <span>33 slides</span>
-          <span>1920 × 1080</span>
-          <span>navegação ← →</span>
-          <span>quatro artigos</span>
-        </div>
-      </div>
-      <div class="meta">
-        <span class="stat"><b>33</b> · slides</span>
-        <span class="stat"><b>~45</b> · min</span>
-        <span class="ftype">HTML · deck</span>
-        <span class="arrow">→</span>
-      </div>
-    </a>
-
-    <a class="entry" href="Seminario8-print.html">
-      <div class="num">ii<span class="roman">impressa</span></div>
-      <div class="body">
-        <div class="kicker">para distribuição · pdf-ready</div>
-        <div class="e-title">Versão para <em>impressão</em></div>
-        <div class="desc">
-          Mesmo conteúdo do deck, reflowed para folhas: sem chrome de slide, sem animação, sem fundos escuros que consomem toner. Para revisar página a página, anotar ou imprimir para o orientador. Use <em>Ctrl/Cmd + P</em> e salve como PDF.
-        </div>
-        <div class="tags">
-          <span>fluxo de papel</span>
-          <span>print-friendly</span>
-          <span>sem animação</span>
-        </div>
-      </div>
-      <div class="meta">
-        <span class="stat"><b>A4</b> · papel</span>
-        <span class="stat">imprimir → pdf</span>
-        <span class="ftype">HTML · print</span>
-        <span class="arrow">→</span>
-      </div>
-    </a>
-
-    <a class="entry" href="Conselho.html">
-      <div class="num">iii<span class="roman">protótipo</span></div>
-      <div class="body">
-        <div class="kicker">demo ao vivo · ato seguinte ao slide 32</div>
-        <div class="e-title">O <em>Conselho</em> de Contestação Algorítmica</div>
-        <div class="desc">
-          Demo enlatada (offline) do GovLens: quatro vozes — administrativista, processualista, técnica e cidadã — deliberam sobre o caso INSS. Mostra como o contraditório algorítmico do art. IV (Tavares et al.) pode ser <em>encarnado em interface</em>, não só discutido em doutrina. Abre direto no navegador.
-        </div>
-        <div class="tags">
-          <span class="hot">★ autoral</span>
-          <span>caso INSS</span>
-          <span>4 personas</span>
-          <span>offline-ready</span>
-        </div>
-      </div>
-      <div class="meta">
-        <span class="stat"><b>1</b> · caso-âncora</span>
-        <span class="stat"><b>4</b> · vozes</span>
-        <span class="ftype">HTML · app</span>
-        <span class="arrow">→</span>
-      </div>
-    </a>
-
-    <a class="entry" href="Wireframes.html">
-      <div class="num">iv<span class="roman">bastidor</span></div>
-      <div class="body">
-        <div class="kicker">processo · exploração inicial</div>
-        <div class="e-title">Os <em>wireframes</em> — direções descartadas e mantidas</div>
-        <div class="desc">
-          A pasta de ateliê: três direções visuais lado a lado antes de comprometer o deck final com uma. Útil para defender escolhas no debate (“por que <em>essa</em> linguagem e não outra?”) e para futuras versões do material.
-        </div>
-        <div class="tags">
-          <span>3 direções</span>
-          <span>baixa fidelidade</span>
-          <span>referência</span>
-        </div>
-      </div>
-      <div class="meta">
-        <span class="stat">exploração</span>
-        <span class="stat">b&amp;w + sangue</span>
-        <span class="ftype">HTML · sketch</span>
-        <span class="arrow">→</span>
-      </div>
-    </a>
-
-    <a class="entry" href="Seminario8-Video.html">
-      <div class="num">v<span class="roman">vídeo</span></div>
-      <div class="body">
-        <div class="kicker">multimídia · animação profissional</div>
-        <div class="e-title">O <em>vídeo</em> — 56 segundos, 6 cenas</div>
-        <div class="desc">
-          Animação completa em 56 segundos, 1920×1080, com cenas profissionais: <em>frontispício → Janus → 4 colunas → caso INSS → Conselho → manifesto final</em>. Sistema visual editorial (papel + Garamond + sangue) com 4 paletas selecionáveis (Pergaminho, Sépia, Toga, Verdigris), playback controls e loop automático. Ideal para abertura da apresentação.
-        </div>
-        <div class="tags">
-          <span class="hot">★ novo</span>
-          <span>56 segundos</span>
-          <span>6 cenas</span>
-          <span>4 paletas</span>
-        </div>
-      </div>
-      <div class="meta">
-        <span class="stat"><b>56</b> · seg</span>
-        <span class="stat"><b>6</b> · cenas</span>
-        <span class="ftype">HTML · vídeo</span>
-        <span class="arrow">→</span>
-      </div>
-    </a>
-
-  </nav>
-
-  <!-- ──────────── DECK ARC PREVIEW ──────────── -->
-  <section class="arc">
-    <div class="arc-head">
-      <h3>Como o deck se desdobra — quatro atos</h3>
-      <span class="by">arco de tensão · 33 slides</span>
-    </div>
-    <div class="arc-grid">
-      <div class="arc-cell">
-        <span class="slidenum">01–09</span>
-        <div class="act">ato i · promessa</div>
-        <div class="arc-t">A LGPD <em>quase</em> dá conta</div>
-        <div class="arc-d">Salgado &amp; Saito leem privacidade como direito complexo e situam a ANPD no limite da prestação normativa.</div>
-      </div>
-      <div class="arc-cell">
-        <span class="slidenum">10–15</span>
-        <div class="act">ato ii · promessa²</div>
-        <div class="arc-t">Governo aberto, <em>se</em> fizermos</div>
-        <div class="arc-d">Cristóvam &amp; Hahn: dado aberto como valor público; INDA, marco normativo e boas práticas pendentes.</div>
-      </div>
-      <div class="arc-cell peak">
-        <span class="slidenum">16–24</span>
-        <div class="act">ato iii · choque</div>
-        <div class="arc-t">O big data <em>já</em> chegou</div>
-        <div class="arc-d">Sarlet &amp; Molinaro e Tavares et al.: cinco campos, soberania de dados, IA &amp; contraditório algorítmico em três tempos.</div>
-      </div>
-      <div class="arc-cell peak">
-        <span class="slidenum">25–33</span>
-        <div class="act">ato iv · ato autoral</div>
-        <div class="arc-t">Regulador <em>contra</em> regulado</div>
-        <div class="arc-d">A tese, o caso INSS, o espelho SyRI, a tabela 2020–26 e a passagem para o protótipo.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ──────────── COLOPHON ──────────── -->
-  <section class="colophon">
-    <div>
-      <h4>Contribuição autoral</h4>
-      <p>
-        <span class="glyph">¶</span> Antes de cada contestação, um <em>pressuposto</em>: que se possa compreender o que se contesta. O contraditório algorítmico, sem isso, vira ornamento de manual.
-      </p>
-    </div>
-    <div>
-      <h4>Método</h4>
-      <p>
-        <span class="glyph">§</span> Quatro artigos, uma única tese, dois casos espelhados. Cada artigo gera duas leituras canônicas e uma <em>nossa leitura</em>, em itálico, marginada, antes de avançar.
-      </p>
-    </div>
-    <div>
-      <h4>Como navegar</h4>
-      <p>
-        <span class="glyph">→</span> Comece em <em>i. apresentação</em>. Imprima <em>ii.</em> para anotar. Mostre <em>iii.</em> ao vivo no slide 32. <em>iv.</em> fica de reserva para o debate.
-      </p>
-      <div style="text-align:center;margin-top:20px">
-        <img src="https://chart.googleapis.com/chart?cht=qr&chs=120x120&chl=http://anavanzin.com/seminario8-dever-poder/&choe=UTF-8" alt="QR Code" style="display:block;margin:0 auto 6px;border:1px solid var(--rule);border-radius:4px" width="120" height="120">
-        <span style="font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--ink-3);text-transform:uppercase">QR · acesse o dossiê</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ──────────── FOLIO ──────────── -->
-  <div class="folio">
-    <span>Vanzin &amp; Oliveira · PPGD / UFSC</span>
-    <span class="pageno">— ÍNDICE · I —</span>
-    <span>Seminário VIII · 2026</span>
-  </div>
-
-</article>
-
-</body>
-</html>
+     1|<!doctype html>
+     2|<html lang="pt-BR">
+     3|<head>
+     4|<meta charset="utf-8">
+     5|<title>Seminário 8 — Índice · Vanzin & Oliveira</title>
+     6|<link rel="preconnect" href="https://fonts.googleapis.com">
+     7|<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     8|<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+     9|<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');</script>
+    10|</head>
+    11|
+    12|<style>
+    13|:root{
+    14|  /* Vercel palette — achromatic precision */
+    15|  --vc-black:#171717;
+    16|  --vc-white:#ffffff;
+    17|  --vc-gray900:#171717;
+    18|  --vc-gray600:#4d4d4d;
+    19|  --vc-gray500:#666666;
+    20|  --vc-gray400:#808080;
+    21|  --vc-gray100:#ebebeb;
+    22|  --vc-gray50:#fafafa;
+    23|  
+    24|  /* Workflow accents */
+    25|  --vc-develop-blue:#0a72ef;
+    26|  --vc-preview-pink:#de1d8d;
+    27|  --vc-ship-red:#ff5b4f;
+    28|  
+    29|  /* Shadow-as-border philosophy */
+    30|  --vc-border-shadow:rgba(0,0,0,0.08) 0px 0px 0px 1px;
+    31|  --vc-card-shadow:rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px, #fafafa 0px 0px 0px 1px;
+    32|  --vc-focus-ring:2px solid hsla(212, 100%, 48%, 1);
+    33|  
+    34|  /* Typography — Geist with aggressive negative tracking */
+    35|  --vc-font-primary:'Geist', Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    36|  --vc-font-mono:'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    37|  
+    38|  /* Spacing system (base unit: 8px) */
+    39|  --vc-space-1:1px;
+    40|  --vc-space-2:2px;
+    41|  --vc-space-3:3px;
+    42|  --vc-space-4:4px;
+    43|  --vc-space-5:5px;
+    44|  --vc-space-6:6px;
+    45|  --vc-space-8:8px;
+    46|  --vc-space-10:10px;
+    47|  --vc-space-12:12px;
+    48|  --vc-space-16:16px;
+    49|  --vc-space-24:24px;
+    50|  --vc-space-32:32px;
+    51|  --vc-space-40:40px;
+    52|  --vc-space-48:48px;
+    53|  --vc-space-80:80px;
+    54|  --vc-space-120:120px;
+    55|}
+    56|
+    57|*{box-sizing:border-box;margin:0;padding:0}
+    58|
+    59|html,body{
+    60|  background:var(--vc-white);
+    61|  font-family:var(--vc-font-primary);
+    62|  color:var(--vc-gray600);
+    63|  line-height:1.56;
+    64|  -webkit-font-smoothing:antialiased;
+    65|  -moz-osx-font-smoothing:grayscale;
+    66|}
+    67|
+    68|/* ─── SHEET: gallery emptiness, max-width 1200px ─── */
+    69|.sheet{
+    70|  max-width:1200px;
+    71|  margin:0 auto;
+    72|  padding:var(--vc-space-80) var(--vc-space-24);
+    73|  position:relative;
+    74|}
+    75|
+    76|@media(max-width:900px){
+    77|  .sheet{padding:var(--vc-space-48) var(--vc-space-16)}
+    78|}
+    79|
+    80|/* ─── TOP BAR: sticky shadow-border ─── */
+    81|.top-bar{
+    82|  display:flex;
+    83|  justify-content:space-between;
+    84|  align-items:center;
+    85|  padding:var(--vc-space-12) 0;
+    86|  border-bottom:var(--vc-border-shadow);
+    87|  margin-bottom:var(--vc-space-48);
+    88|  position:sticky;
+    89|  top:0;
+    90|  background:var(--vc-white);
+    91|  z-index:100;
+    92|}
+    93|
+    94|.top-bar .brand{
+    95|  font-family:var(--vc-font-mono);
+    96|  font-size:11px;
+    97|  letter-spacing:0.24em;
+    98|  text-transform:uppercase;
+    99|  color:var(--vc-gray500);
+   100|}
+   101|
+   102|.top-bar .meta{
+   103|  font-family:var(--vc-font-primary);
+   104|  font-size:14px;
+   105|  font-weight:500;
+   106|  color:var(--vc-gray900);
+   107|}
+   108|
+   109|/* ─── HERO SECTION: compressed text, vast whitespace ─── */
+   110|.hero{
+   111|  margin-bottom:var(--vc-space-80);
+   112|  text-align:left;
+   113|}
+   114|
+   115|.hero-label{
+   116|  font-family:var(--vc-font-mono);
+   117|  font-size:11px;
+   118|  letter-spacing:0.22em;
+   119|  text-transform:uppercase;
+   120|  color:var(--vc-gray500);
+   121|  margin-bottom:var(--vc-space-12);
+   122|}
+   123|
+   124|.hero-title{
+   125|  font-size:48px;
+   126|  font-weight:600;
+   127|  line-height:1.00;
+   128|  letter-spacing:-2.4px;
+   129|  color:var(--vc-gray900);
+   130|  max-width:920px;
+   131|  text-wrap:balance;
+   132|  margin-bottom:var(--vc-space-24);
+   133|}
+   134|
+   135|@media(max-width:768px){
+   136|  .hero-title{font-size:36px;letter-spacing:-1.2px}
+   137|}
+   138|
+   139|.hero-subtitle{
+   140|  font-size:20px;
+   141|  font-weight:400;
+   142|  line-height:1.80;
+   143|  color:var(--vc-gray600);
+   144|  max-width:640px;
+   145|}
+   146|
+   147|/* ─── THESIS BAND: accent workflow blue ─── */
+   148|.thesis-band{
+   149|  background:linear-gradient(90deg,#ebf5ff 0%,#fafafa 100%);
+   150|  border-top:var(--vc-border-shadow);
+   151|  border-bottom:var(--vc-border-shadow);
+   152|  padding:var(--vc-space-32);
+   153|  margin:var(--vc-space-48) calc(var(--vc-space-24)*-1);
+   154|  position:relative;
+   155|}
+   156|
+   157|.thesis-band::before{
+   158|  content:"§";
+   159|  position:absolute;
+   160|  left:calc(var(--vc-space-24)*-24);
+   161|  top:50%;
+   162|  transform:translateY(-50%);
+   163|  background:linear-gradient(90deg,#ebf5ff 0%,#fafafa 100%);
+   164|  width:36px;
+   165|  height:36px;
+   166|  display:grid;
+   167|  place-items:center;
+   168|  font-family:var(--vc-font-primary);
+   169|  font-size:24px;
+   170|  color:var(--vc-develop-blue);
+   171|  border:var(--vc-border-shadow);
+   172|  border-radius:50%;
+   173|}
+   174|
+   175|.thesis-label{
+   176|  font-family:var(--vc-font-mono);
+   177|  font-size:11px;
+   178|  letter-spacing:0.24em;
+   179|  text-transform:uppercase;
+   180|  color:var(--vc-develop-blue);
+   181|  margin-bottom:var(--vc-space-12);
+   182|}
+   183|
+   184|.thesis-text{
+   185|  font-size:24px;
+   186|  font-weight:500;
+   187|  line-height:1.25;
+   188|  color:var(--vc-gray900);
+   189|  text-wrap:balance;
+   190|  max-width:960px;
+   191|}
+   192|
+   193|.thesis-text .emphasis{
+   194|  color:var(--vc-develop-blue);
+   195|  font-style:italic;
+   196|}
+   197|
+   198|.thesis-source{
+   199|  display:block;
+   200|  margin-top:var(--vc-space-16);
+   201|  font-size:14px;
+   202|  font-weight:400;
+   203|  color:var(--vc-gray500);
+   204|  font-style:italic;
+   205|}
+   206|
+   207|/* ─── TABLE OF CONTENTS HEADER ─── */
+   208|.toc-header{
+   209|  display:flex;
+   210|  justify-content:space-between;
+   211|  align-items:flex-start;
+   212|  margin-bottom:var(--vc-space-24);
+   213|}
+   214|
+   215|.toc-header h2{
+   216|  font-size:32px;
+   217|  font-weight:500;
+   218|  color:var(--vc-gray900);
+   219|  letter-spacing:-1.28px;
+   220|}
+   221|
+   222|.toc-count{
+   223|  font-family:var(--vc-font-mono);
+   224|  font-size:12px;
+   225|  letter-spacing:0.22em;
+   226|  text-transform:uppercase;
+   227|  color:var(--vc-gray500);
+   228|}
+   229|
+   230|/* ─── ENTRY CARDS: multi-layer shadows ─── */
+   231|.toc-list{
+   232|  display:flex;
+   233|  flex-direction:column;
+   234|  gap:var(--vc-space-16);
+   235|  margin-bottom:var(--vc-space-80);
+   236|}
+   237|
+   238|.entry-card{
+   239|  background:var(--vc-white);
+   240|  border:var(--vc-card-shadow);
+   241|  border-radius:8px;
+   242|  padding:var(--vc-space-24);
+   243|  text-decoration:none;
+   244|  color:inherit;
+   245|  transition:transform 0.18s ease, box-shadow 0.18s ease;
+   246|  position:relative;
+   247|  display:grid;
+   248|  grid-template-columns:72px 1fr auto;
+   249|  gap:var(--vc-space-24);
+   250|  align-items:start;
+   251|}
+   252|
+   253|@media(max-width:900px){
+   254|  .entry-card{grid-template-columns:1fr}
+   255|}
+   256|
+   257|.entry-card:hover{
+   258|  transform:translateY(-2px);
+   259|  box-shadow:rgba(0,0,0,0.12) 0px 0px 0px 1px, rgba(0,0,0,0.08) 0px 4px 4px, rgba(0,0,0,0.04) 0px 12px 12px -6px;
+   260|}
+   261|
+   262|.entry-card.primary{
+   263|  background:linear-gradient(90deg,#fff7f2 0%,transparent 70%);
+   264|}
+   265|
+   266|.entry-card.primary::before{
+   267|  content:"";
+   268|  position:absolute;
+   269|  left:var(--vc-space-24);
+   270|  top:var(--vc-space-20);
+   271|  bottom:var(--vc-space-22);
+   272|  width:3px;
+   273|  background:var(--vc-ship-red);
+   274|  border-radius:3px;
+   275|}
+   276|
+   277|.entry-num{
+   278|  font-family:var(--vc-font-mono);
+   279|  font-size:36px;
+   280|  font-weight:400;
+   281|  color:var(--vc-gray900);
+   282|  letter-spacing:0.18em;
+   283|  text-transform:uppercase;
+   284|  line-height:1.0;
+   285|  display:flex;
+   286|  flex-direction:column;
+   287|  align-items:center;
+   288|}
+   289|
+   290|.entry-num span{
+   291|  font-size:11px;
+   292|  color:var(--vc-gray500);
+   293|  margin-top:6px;
+   294|}
+   295|
+   296|.entry-content{
+   297|  display:flex;
+   298|  flex-direction:column;
+   299|  gap:var(--vc-space-12);
+   300|}
+   301|
+   302|.entry-kicker{
+   303|  font-family:var(--vc-font-mono);
+   304|  font-size:10.5px;
+   305|  letter-spacing:0.22em;
+   306|  text-transform:uppercase;
+   307|  color:var(--vc-develop-blue);
+   308|}
+   309|
+   310|@media(max-width:900px){
+   311|  .entry-kicker{font-size:9.5px;letter-spacing:0.20em}
+   312|}
+   313|
+   314|.entry-title{
+   315|  font-size:24px;
+   316|  font-weight:500;
+   317|  color:var(--vc-gray900);
+   318|  letter-spacing:-0.96px;
+   319|  line-height:1.25;
+   320|}
+   321|
+   322|.entry-desc{
+   323|  font-size:16px;
+   324|  font-weight:400;
+   325|  line-height:1.625;
+   326|  color:var(--vc-gray600);
+   327|  max-width:720px;
+   328|}
+   329|
+   330|.entry-tags{
+   331|  display:flex;
+   332|  flex-wrap:wrap;
+   333|  gap:6px;
+   334|}
+   335|
+   336|.tag-pill{
+   337|  font-family:var(--vc-font-mono);
+   338|  font-size:10.5px;
+   339|  letter-spacing:0.16em;
+   340|  text-transform:uppercase;
+   341|  padding:3px 10px;
+   342|  border-radius:9999px;
+   343|  color:var(--vc-gray500);
+   344|  background:var(--vc-gray50);
+   345|  border:var(--vc-border-shadow);
+   346|}
+   347|
+   348|.tag-pill.hot{
+   349|  color:var(--vc-ship-red);
+   350|  background:#fef2f2;
+   351|}
+   352|
+   353|.tag-pill.new{
+   354|  color:var(--vc-preview-pink);
+   355|  background:#fdf4fb;
+   356|}
+   357|
+   358|.tag-pill.author{
+   359|  color:var(--vc-develop-blue);
+   360|  background:#ebf5ff;
+   361|}
+   362|
+   363|.entry-meta{
+   364|  display:flex;
+   365|  flex-direction:column;
+   366|  align-items:flex-end;
+   367|  gap:var(--vc-space-8);
+   368|}
+   369|
+   370|@media(max-width:900px){
+   371|  .entry-meta{flex-direction=row;align-items:center;gap:var(--vc-space-12)}
+   372|}
+   373|
+   374|.entry-stats{
+   375|  font-family:var(--vc-font-mono);
+   376|  font-size:11px;
+   377|  letter-spacing:0.18em;
+   378|  text-transform:uppercase;
+   379|  color:var(--vc-gray500);
+   380|  text-align:right;
+   381|}
+   382|
+   383|.entry-stats b{
+   384|  color:var(--vc-gray900);
+   385|}
+   386|
+   387|.entry-arrow{
+   388|  font-family:var(--vc-font-primary);
+   389|  font-size:24px;
+   390|  color:var(--vc-gray400);
+   391|  transition:transform 0.18s ease, color 0.18s ease;
+   392|}
+   393|
+   394|.entry-card:hover .entry-arrow{
+   395|  transform:translateX(4px);
+   396|  color:var(--vc-gray900);
+   397|}
+   398|
+   399|/* ─── ARC PREVIEW GRID ─── */
+   400|.arc-section{
+   401|  margin-bottom:var(--vc-space-80);
+   402|}
+   403|
+   404|.arc-header{
+   405|  display:flex;
+   406|  justify-content:space-between;
+   407|  align-items:center;
+   408|  margin-bottom:var(--vc-space-24);
+   409|}
+   410|
+   411|.arc-header h3{
+   412|  font-size:24px;
+   413|  font-weight:500;
+   414|  color:var(--vc-gray900);
+   415|}
+   416|
+   417|.arc-byline{
+   418|  font-family:var(--vc-font-mono);
+   419|  font-size:11px;
+   420|  letter-spacing:0.20em;
+   421|  text-transform:uppercase;
+   422|  color:var(--vc-gray500);
+   423|}
+   424|
+   425|.arc-grid{
+   426|  display:grid;
+   427|  grid-template-columns:repeat(4,1fr);
+   428|  gap:var(--vc-space-2);
+   429|  border:var(--vc-border-shadow);
+   430|  border-radius:8px;
+   431|  overflow:hidden;
+   432|}
+   433|
+   434|@media(max-width:768px){
+   435|  .arc-grid{grid-template-columns:repeat(2,1fr)}
+   436|}
+   437|
+   438|.arc-cell{
+   439|  background:var(--vc-white);
+   440|  padding:var(--vc-space-24);
+   441|  border-right:var(--vc-border-shadow);
+   442|  position:relative;
+   443|  transition:background 0.18s ease;
+   444|}
+   445|
+   446|.arc-cell:last-child{border-right:none}
+   447|.arc-cell:hover{background:var(--vc-gray50)}
+   448|
+   449|@media(max-width:768px){
+   450|  .arc-cell:nth-child(2){border-right:none;border-bottom:var(--vc-border-shadow)}
+   451|  .arc-cell:nth-child(1),.arc-cell:nth-child(2){border-right:none}
+   452|}
+   453|
+   454|.arc-slidenumber{
+   455|  font-family:var(--vc-font-mono);
+   456|  font-size:10.5px;
+   457|  letter-spacing:0.18em;
+   458|  text-transform:uppercase;
+   459|  color:var(--vc-gray400);
+   460|  margin-bottom:var(--vc-space-8);
+   461|}
+   462|
+   463|.arc-act{
+   464|  font-family:var(--vc-font-mono);
+   465|  font-size:10px;
+   466|  letter-spacing:0.22em;
+   467|  text-transform:uppercase;
+   468|  color:var(--vc-develop-blue);
+   469|  margin-bottom:var(--vc-space-8);
+   470|}
+   471|
+   472|.arc-title{
+   473|  font-size:18px;
+   474|  font-weight:500;
+   475|  color:var(--vc-gray900);
+   476|  letter-spacing:-0.48px;
+   477|  line-height:1.33;
+   478|  margin-bottom:var(--vc-space-8);
+   479|  text-wrap:balance;
+   480|}
+   481|
+   482|.arc-description{
+   483|  font-size:14px;
+   484|  font-weight:400;
+   485|  line-height:1.57;
+   486|  color:var(--vc-gray600);
+   487|  text-wrap:balance;
+   488|}
+   489|
+   490|.arc-cell.peak{
+   491|  background:linear-gradient(180deg,#fdf4ff 0%,#ffffff 100%);
+   492|}
+   493|
+   494|.arc-cell.peak::after{
+   495|  content:"★";
+   496|  position:absolute;
+   497|  right:var(--vc-space-16);
+   498|  top:var(--vc-space-12);
+   499|  color:var(--vc-preview-pink);
+   500|  font-size:14px;
+   501|
