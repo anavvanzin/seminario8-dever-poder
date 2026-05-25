@@ -236,6 +236,8 @@ As falas são intercaladas. O Vinícius entrega a **dogmática** (conceito, arti
 
 "No plano internacional, o espelho é o **SyRI** — o sistema holandês de detecção de fraude em benefícios sociais. Foi usado para cruzar dados e identificar 'risco de fraude' em bairros pobres, com alta concentração de imigrantes turcos e marroquinos. O Tribunal de Haia, em 2020, proibiu: violava o art. 8º da Convenção Europeia de Direitos Humanos — privacidade, finalidade, minimização, devido processo. Lá, um tribunal conteve a opacidade algorítmica do Estado. Aqui, a gente ainda está no estágio da denúncia."
 
+"E não é hipótese de laboratório. Em 2025, o próprio INSS notificou, pelo Meu INSS, mais de **1,6 milhão de aposentados** sobre descontos que 97% nunca autorizaram — **R$ 6,3 bilhões**. Não foi viés algorítmico, foi fraude de governança — mas é o **mesmo app, o mesmo ator e a mesma lógica**: o Estado lesa o segurado e devolve a ele, *depois*, o ônus de contestar."
+
 "E em vez de só *falar* disso, a gente vai *mostrar*. Mas antes, deixa eu acrescentar duas camadas que considero decisivas."
 
 ---
@@ -255,6 +257,8 @@ As falas são intercaladas. O Vinícius entrega a **dogmática** (conceito, arti
 "O segundo degrau é uma tese normativa que proponho. Certas decisões podem até ser automatizadas — eu não sou contra a tecnologia. Mas a **comunicação** de uma decisão adversa a alguém em situação de vulnerabilidade — a negativa de um benefício, o corte de um auxílio, o indeferimento de uma aposentadoria — deveria, em tese, ser feita por **uma pessoa, não por uma máquina**. O humano no circuito não apenas na *decisão*, mas no **cuidado da comunicação**."
 
 "Notificar um indeferimento por um app frio — 'NÃO COMPROVADA A QUALIDADE DE SEGURADO ESPECIAL' — a quem depende daquele benefício para comer é uma violência burocrática silenciosa. A dignidade do administrado também está em *como* ele é avisado. O Estado que se diz eficiente é o mesmo que comunica de forma desumana a quem mais precisa de cuidado. Isso é Regulador ⇄ Regulado no nível mais íntimo."
+
+"E isso está deixando de ser proposta acadêmica e virando direito positivo: o **PL 2338/2023**, aprovado no Senado em dezembro de 2024 e em votação final na Câmara, garante a quem sofre uma decisão automatizada o direito à **informação, à explicação e à contestação** — os três pilares da nossa tese. A gente está propondo, em boa parte, o que o legislador está prestes a positivar."
 
 "E agora a gente mostra como isso vira ferramenta."
 
@@ -337,6 +341,12 @@ As falas são intercaladas. O Vinícius entrega a **dogmática** (conceito, arti
 **Palantir / Enter (unicórnio jurídico de IA):** O mercado de IA jurídica no Brasil cresce mais rápido que a regulação. O Estado contrata plataformas cujo código-fonte é segredo industrial. Isso é terceirização da discricionariedade administrativa. 'O protagonismo privado não exime o Estado' — mas o Estado está cada vez mais confortável sendo coadjuvante.
 
 **SyRI (Holanda, Haia 2020):** O precedente internacional. O tribunal holandês proibiu o sistema de detecção de fraude que focava em bairros pobres e imigrantes. Violava privacidade, finalidade, minimização e devido processo. A sentença é um modelo de como o Judiciário pode conter a opacidade algorítmica do Executivo. **Lá, um tribunal conteve o Estado. Aqui, ainda estamos no estágio da denúncia.**
+
+**EU AI Act (Europa, 2024–2026):** O espelho internacional atualizado. O regulamento europeu classifica como **alto risco** justamente os algoritmos que decidem elegibilidade a benefícios sociais (Anexo III). Na taxonomia europeia, o caso INSS exigiria auditoria, explicabilidade e supervisão humana obrigatórias. As regras de alto risco passam a valer a partir de agosto de 2026.
+
+**Descontos do INSS (2025):** Desde 2019, associações descontaram mensalidades de benefícios — 97% não autorizadas, R$ 6,3 bilhões, mais de 1,6 milhão de aposentados, CPMI no Congresso. Os lesados foram avisados pelo Meu INSS só depois. Mesmo ator, mesmo app: o Estado lesa e terceiriza ao cidadão o ônus de contestar. Não é caso de viés algorítmico, mas de falha de governança — espelho complementar da tese.
+
+**Marco Legal da IA (PL 2338/2023):** Aprovado no Senado em dez/2024, em votação final na Câmara (aprovação esperada em 2026). Modelo europeu por risco; garante ao afetado por decisão automatizada o direito à informação, explicação e contestação. Apontado vício de iniciativa no trecho sobre competências da ANPD — até a lei da IA esbarra na tensão de quem regula quem.
 
 ---
 

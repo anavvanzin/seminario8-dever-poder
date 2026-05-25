@@ -159,6 +159,10 @@ O que a segurada recebe é uma caixa-preta. Dados entram, uma negativa sai. Sem 
 
 “No plano internacional, o espelho é o SyRI, na Holanda. Também era um sistema estatal de detecção de fraude em benefícios sociais. O Tribunal de Haia proibiu o modelo em 2020 porque ele violava privacidade, finalidade, minimização e devido processo. Lá, um tribunal conteve a opacidade algorítmica do Estado. Aqui, a gente ainda está no estágio da denúncia.”
 
+### INSS 2025 — não é hipótese (caso atual, forte)
+
+“E não é hipótese de laboratório. Em 2025, o próprio INSS notificou, pelo Meu INSS, mais de 1,6 milhão de aposentados sobre descontos que 97% nunca autorizaram — R$ 6,3 bilhões. Não foi viés algorítmico, foi fraude de governança — mas é o mesmo app, o mesmo ator e a mesma lógica: o Estado lesa o segurado e devolve a ele, depois, o ônus de contestar.”
+
 ### Transição
 
 “E em vez de só falar disso, a gente vai mostrar. Mas antes eu queria acrescentar duas camadas que, para mim, vêm antes do contraditório.”
@@ -196,6 +200,8 @@ A dignidade do administrado também está em como ele é avisado.
 Então, para mim, o contraditório algorítmico tem dois pressupostos: primeiro, a pessoa precisa compreender; segundo, ela precisa ser tratada como pessoa.”
 
 ### Transição para demo
+
+“E isso está deixando de ser proposta acadêmica e virando direito positivo: o PL 2338, aprovado no Senado em dezembro de 2024 e em votação final na Câmara, garante a quem sofre uma decisão automatizada o direito à explicação e à contestação. A nossa tese é, em boa parte, o que o legislador está prestes a positivar.”
 
 “E agora a gente mostra como isso poderia virar uma ferramenta.”
 
@@ -308,6 +314,18 @@ A pergunta que fica é: a Administração Pública digital está decidindo melho
 ### SyRI — Holanda
 
 “O SyRI é importante porque mostra que esse debate não é abstrato. O Estado holandês cruzava bases para detectar fraude social, concentrando impacto em bairros pobres e de imigrantes. O Tribunal de Haia proibiu. É o exemplo de um Judiciário contendo a opacidade algorítmica do Executivo.”
+
+### EU AI Act — espelho atualizado
+
+“O regulamento europeu de IA classifica como alto risco justamente os algoritmos que decidem elegibilidade a benefícios sociais. Na taxonomia europeia, o caso INSS exigiria auditoria, explicabilidade e supervisão humana obrigatórias. As regras de alto risco passam a valer a partir de agosto de 2026.”
+
+### Descontos do INSS — 2025
+
+“Desde 2019, associações descontaram mensalidades de benefícios — 97% não autorizadas, R$ 6,3 bilhões, mais de 1,6 milhão de aposentados, com CPMI no Congresso. Os lesados foram avisados pelo Meu INSS só depois. Mesmo ator, mesmo app: o Estado lesa e terceiriza ao cidadão o ônus de contestar. Atenção: é falha de governança, não viés algorítmico — uso como espelho complementar.”
+
+### Marco Legal da IA — PL 2338/2023
+
+“Aprovado no Senado em dezembro de 2024, em votação final na Câmara. Garante ao afetado por decisão automatizada o direito à informação, à explicação e à contestação. Detalhe: apontaram vício de iniciativa no trecho sobre competências da ANPD — até a lei da IA esbarra na tensão de quem regula quem.”
 
 ### Se perguntarem se o protótipo é ‘solução’
 
