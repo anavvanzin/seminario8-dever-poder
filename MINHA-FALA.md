@@ -16,7 +16,7 @@ Tom: curto, seguro, crítico, sem pressa.
 | 09 | Salgado & Saito: Estado como risco à privacidade |
 | 14 | Cristóvam & Hahn: governo aberto e opacidade seletiva |
 | 20 | Sarlet & Molinaro: big data e quem controla o controlador |
-| 24–27 | Tavares et al.: INSS, contraditório prévio, black box |
+| 25–28 | Tavares et al.: INSS, contraditório prévio, black box |
 | 30 | Minha contribuição: literacia algorítmica + notícia humana |
 | 31–33 | Demo: Conselho de Contestação Algorítmica |
 | 33/34 | Fecho: compreendida, explicada e contestada |
@@ -129,7 +129,7 @@ Se o Estado concentra os dados, regula a proteção e, ao mesmo tempo, é o maio
 
 ---
 
-## Slides 24–27 — Tavares et al. · INSS, contraditório e black box
+## Slides 25–28 — Tavares et al. · INSS, contraditório e black box
 
 ### Versão para falar
 

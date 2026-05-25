@@ -36,7 +36,8 @@
 | 16–19 | **Você** | Sarlet & Molinaro — 5 campos big data, LGPD pré-big data |
 | 20 | **Ana** | Nossa leitura III — 251M CPFs |
 | 21–24 | **Você** | Tavares et al. — IA × algoritmo, 3 tipologias, explicabilidade |
-| 24–25 | **Ana** | Nossa leitura IV — INSS, Black Box, SyRI |
+| 25–28 | **Ana** | Nossa leitura IV — INSS (slide 26), Black Box (27), SyRI (28) |
+| 29 | — | *visual* · Tabela Estado contra si |
 | 30 | **Ana** | Propedêutica — literacia + notícia humana |
 | 31–33 | **Ana** | Demo — Conselho de Contestação |
 | 33 | **Ana + Você** | Fecho + pergunta pro debate |

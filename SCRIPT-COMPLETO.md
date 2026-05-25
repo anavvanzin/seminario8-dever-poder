@@ -220,7 +220,7 @@ As falas são intercaladas. O Vinícius entrega a **dogmática** (conceito, arti
 
 "E aqui é onde o artigo encontra a realidade. Ana?"
 
-### SLIDES 24–25 · ★ Nossa leitura IV + Transição para o Conflito
+### SLIDES 25–28 · ★ Nossa leitura IV + Transição para o Conflito
 
 **Ana:**
 
@@ -266,7 +266,7 @@ As falas são intercaladas. O Vinícius entrega a **dogmática** (conceito, arti
 
 **Ana:**
 
-"Nós construímos um protótipo. Ele se chama **Conselho de Contestação Algorítmica** e é um fork do llm-council, do Andrej Karpathy, adaptado para o contexto jurídico brasileiro."
+"Nós construímos um protótipo. Ele se chama **Conselho de Contestação Algorítmica** e é um fork do llm-council, adaptado para o contexto jurídico brasileiro."
 
 "A ideia é simples. Imaginem a trabalhadora rural que teve a aposentadoria negada. Em vez de um parecer só — o parecer do INSS que diz 'indeferido' — quatro perspectivas jurídicas analisam o caso."
 
@@ -357,7 +357,7 @@ As falas são intercaladas. O Vinícius entrega a **dogmática** (conceito, arti
 | 17–19 | Vinícius | Sarlet & Molinaro: 5 campos, LGPD pré-big data |
 | 20 | Ana | ★ Nossa leitura III: 251M CPFs, persona Cidadão |
 | 21–24 | Vinícius | Tavares et al.: IA×algoritmo, 3 tipologias, explicabilidade |
-| 24–25 | Ana | ★ Nossa leitura IV: INSS, Black Box, SyRI, anuncia Bloco 5 |
+| 25–28 | Ana | ★ Nossa leitura IV: INSS, Black Box, SyRI, anuncia Bloco 5 |
 | 30 | Ana | Propedêutica: literacia algorítmica + notícia humana |
 | 31–33 | Ana | Demo: 4 personas × 4 artigos, Fase 1→2→3 |
 | 33/34 | Ana | Fecho: compreendida, explicada, contestada |

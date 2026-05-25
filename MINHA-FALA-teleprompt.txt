@@ -1,0 +1,257 @@
+SEMINÁRIO 8 · MINHA FALA · 25/05/2026
+
+Tom: curto, seguro, crítico, sem pressa.
+Fio: Estado Regulador ⇄ Regulado.
+
+
+══════════════════════════════
+SLIDE 03 · CHAVE DE LEITURA
+══════════════════════════════
+
+Antes de entrar nos artigos, eu queria deixar a chave de leitura que costura tudo.
+
+Nestes quatro textos, o Poder Público aparece em duas posições ao mesmo tempo.
+
+Ele é o Regulador: edita a LAI, a LGPD, cria a ANPD, publica resoluções, instruções normativas, regras de governança.
+
+Mas ele é também o Regulado: é o maior controlador de dados pessoais do país, o maior usuário de sistemas automatizados e, muitas vezes, o próprio agente que decide sobre acesso a direitos.
+
+Então a nossa pergunta é: o que acontece quando quem faz a regra é também quem tem mais poder — e mais incentivo — para relativizá-la contra o cidadão?
+
+É essa tensão que chamamos de passagem do poder-dever ao dever-poder. O Estado tem poder-dever de regular, mas, quando ele mesmo vira destinatário da norma, esse dever vira uma obrigação que ele administra em benefício próprio.
+
+Essa é a chave do seminário: o Estado como Regulador e Regulado ao mesmo tempo.
+
+[ PASSA → Vinícius, volta pra ti. ]
+
+
+
+
+══════════════════════════════
+SLIDE 09 · SALGADO & SAITO · ADI 6.387
+══════════════════════════════
+
+Obrigada. O ponto que eu puxaria de Salgado e Saito é este: mesmo quando o Estado cria a LGPD, a dimensão de defesa não desaparece.
+
+Por quê? Porque o Estado continua sendo um dos maiores agentes de tratamento de dados do país.
+
+E os próprios autores lembram situações concretas: o caso Snowden, de vigilância estatal em massa, e, no Brasil, a MP 954 de 2020. Nela, o Executivo tentou compartilhar dados de telecomunicações de milhões de brasileiros sem finalidade suficientemente clara.
+
+O STF teve que conter isso na ADI 6.387.
+
+Então a autotutela administrativa não bastou. Foi preciso outro Poder segurar o regulador.
+
+Esse é o primeiro aparecimento da nossa tese: o Estado que edita a regra de proteção de dados é também o Estado contra o qual o cidadão precisa ser protegido.
+
+[ PASSA → Vinícius. ]
+
+
+
+
+══════════════════════════════
+SLIDE 14 · CRISTÓVAM & HAHN · OPACIDADE SELETIVA
+══════════════════════════════
+
+O que eu acho mais importante neste segundo artigo é a assimetria.
+
+Governo aberto aparece como um dever jurídico: transparência, participação, accountability, dados em formato aberto.
+
+Mas quem decide o que aparece, em que formato aparece, e o que continua sigiloso, é o próprio Estado.
+
+A LAI obriga transparência, mas também permite classificar informações como reservadas, secretas e ultrassecretas. Então a mesma estrutura que promete abertura também guarda as chaves da opacidade.
+
+Recife, São Paulo e Florianópolis mostram boas práticas. Mas elas não eliminam o problema central. Um portal pode ser transparente em termos fiscais e ainda ser completamente opaco na decisão algorítmica.
+
+Então aqui a tensão é: o Estado promete governo aberto, mas continua controlando os pontos de fechamento.
+
+[ PASSA → Vinícius, fecha essa primeira parte. ]
+
+
+
+
+══════════════════════════════
+SLIDE 20 · SARLET & MOLINARO · QUEM CONTROLA O CONTROLADOR
+══════════════════════════════
+
+Em Sarlet e Molinaro, o choque aparece na escala.
+
+A LGPD trabalha com ideias como finalidade, minimização, consentimento, anonimização. Só que o big data pressiona todas essas categorias.
+
+E isso fica ainda mais delicado quando o grande coletor é o próprio Estado.
+
+Porque o Estado não coleta pouco: ele coleta saúde, educação, assistência social, previdência, tributação, segurança pública. Ele tem uma visão quase total da vida administrativa do cidadão.
+
+Então a pergunta deixa de ser apenas "há base legal para tratar esse dado?" e passa a ser: quem controla o controlador?
+
+Se o Estado concentra os dados, regula a proteção e, ao mesmo tempo, é o maior usuário dessas bases, a minimização corre o risco de virar promessa retórica.
+
+[ PASSA → Vinícius, vamos para o quarto artigo. ]
+
+
+
+
+══════════════════════════════
+SLIDES 25–28 · INSS · BLACK BOX · SyRI
+══════════════════════════════
+
+Esse é o artigo que encontra a realidade mais diretamente.
+
+Tavares e os coautores defendem que o contraditório algorítmico precisa ser prévio. Recurso depois pode até remediar parte do dano, mas não substitui a chance de participar antes da decisão.
+
+E o caso brasileiro que usamos como âncora é o INSS.
+
+A trabalhadora rural pede aposentadoria por idade como segurada especial. O sistema cruza bases: CNIS, CadÚnico, dados fiscais, talvez localização, vínculos, lacunas contributivas. A partir disso, infere que ela não comprova atividade rural.
+
+Mas inferência não é prova.
+
+E o problema é que a negativa chega como fórmula: "não comprovada a qualidade de segurado especial". Sem dizer quais dados pesaram, qual critério foi usado, qual contradição ela deveria corrigir.
+
+Isso toca exatamente a nossa tese. O próprio INSS tem uma instrução normativa — a IN 128 de 2022 — que exige análise e contraditório nessas situações. Mas o órgão que edita a regra é também o órgão que automatiza a negativa.
+
+Aqui, o Regulador vira Regulado — e falha.
+
+O que a segurada recebe é uma caixa-preta. Dados entram, uma negativa sai. Sem rosto. Sem porquê. Sem pessoa. A opacidade algorítmica serve à eficiência administrativa contra um direito fundamental.
+
+[ SE APARECER O DIAGRAMA BLACK BOX ]
+É isso que o diagrama mostra: a pessoa não consegue contestar porque ela não sabe o que, exatamente, foi decidido contra ela.
+
+[ SLIDE 28 · ESPELHO INTERNACIONAL ]
+No plano internacional, o espelho é o SyRI, na Holanda. Também era um sistema estatal de detecção de fraude em benefícios sociais. O Tribunal de Haia proibiu o modelo em 2020 porque ele violava privacidade, finalidade, minimização e devido processo. Lá, um tribunal conteve a opacidade algorítmica do Estado. Aqui, a gente ainda está no estágio da denúncia.
+
+[ TRANSIÇÃO · slide 29 aparece como visual ]
+E em vez de só falar disso, a gente vai mostrar. Mas antes eu queria acrescentar duas camadas que, para mim, vêm antes do contraditório.
+
+
+
+
+══════════════════════════════
+SLIDE 30 · LITERACIA + NOTÍCIA HUMANA
+══════════════════════════════
+
+Eu queria acrescentar dois degraus que vêm antes do contraditório.
+
+O primeiro é a literacia algorítmica.
+
+A pessoa muitas vezes nem sabe que foi uma máquina que decidiu. Ela não sabe o que é inferência, viés de proxy, cruzamento de bases, modelo preditivo. Então como ela vai contestar?
+
+Não se contesta o que não se compreende.
+
+Por isso, empoderar não é só abrir um canal de recurso. É traduzir a decisão em linguagem que a pessoa entenda.
+
+Transparência não basta. Um portal pode publicar dados, critérios e documentos, e ainda assim ser incompreensível para quem precisa se defender. O que falta é inteligibilidade.
+
+O segundo degrau é uma tese normativa que eu proponho: certas decisões podem até ser automatizadas, mas a comunicação de uma decisão adversa a alguém em situação de vulnerabilidade deveria ser feita por uma pessoa, não por uma máquina.
+
+Não estou dizendo que toda etapa precisa ser manual. Estou dizendo que o humano precisa aparecer no cuidado da comunicação.
+
+A negativa de uma aposentadoria, o corte de um auxílio, o indeferimento de um benefício: isso não deveria chegar como uma frase fria em um aplicativo.
+
+A dignidade do administrado também está em como ele é avisado.
+
+Então, para mim, o contraditório algorítmico tem dois pressupostos: primeiro, a pessoa precisa compreender; segundo, ela precisa ser tratada como pessoa.
+
+[ TRANSIÇÃO → E agora a gente mostra como isso poderia virar uma ferramenta. ]
+
+
+
+
+══════════════════════════════
+SLIDES 31–33 · DEMO · CONSELHO DE CONTESTAÇÃO
+══════════════════════════════
+
+Nós construímos um protótipo chamado Conselho de Contestação Algorítmica.
+
+A ideia é simples: imaginar a trabalhadora rural que teve a aposentadoria negada automaticamente. Em vez de receber só uma negativa padronizada, o caso passa por quatro perspectivas.
+
+Cada uma dessas perspectivas traduz uma tensão dos artigos que o Vinícius apresentou.
+
+[ AS 4 PERSONAS ]
+Tem a Defensoria Pública, que olha para contraditório prévio e ampla defesa.
+Tem o Cientista de Dados, que olha para explicabilidade, viés de proxy e qualidade da inferência.
+Tem o Administrador Público, que olha para governança, motivação e dever de justificar.
+E tem o Cidadão, que olha para exclusão digital, linguagem compreensível e notícia humana.
+
+[ AS 3 FASES ]
+O conselho funciona em três fases.
+Na Fase 1, cada conselheiro dá um parecer independente.
+Na Fase 2, eles avaliam os argumentos uns dos outros. Isso torna visível a tensão entre eficiência administrativa e proteção de direitos.
+Na Fase 3, um relator sintetiza tudo num parecer final.
+
+O ponto central é este: o sistema não decide pela pessoa. Ele organiza razões, expõe conflitos e devolve à pessoa o contraditório que o Estado suprimiu.
+
+[ OPERANDO ]
+Vou mostrar.
+
+[ CLICAR: INSS — Aposentadoria Rural Negada ]
+Esse é o caso-âncora. Mas vale registrar que, no menu superior, nós também incluímos o caso do Bolsa Família, do IPTU suplementar de São Paulo ou do Auxílio Emergencial. Se a banca ou os colegas quiserem debater qualquer outro desses ramos ao final, o Conselho está pronto para simular todos eles.
+
+[ CLICAR FASE 1 ]
+Aqui aparecem as quatro leituras.
+
+[ CLICAR FASE 2 ]
+Aqui eles se confrontam.
+
+[ CLICAR FASE 3 ]
+E aqui o relator organiza a fundamentação.
+
+[ SE TRAVAR ]
+Como toda demo ao vivo, ela tem temperamento. Se a rede não colaborar, eu vou direto para a versão offline, que tem o mesmo fluxo curado.
+
+[ FECHO DA DEMO ]
+Este protótipo é conceitual. Não é produto comercial, nem promessa de solução mágica. É uma maquete acadêmica para mostrar o que falta quando a Administração decide por algoritmo: explicação, contestação, linguagem compreensível e cuidado humano.
+
+[ PASSA → Vinícius, fecha contigo. ]
+
+
+
+
+══════════════════════════════
+SLIDE 33/34 · FECHO
+══════════════════════════════
+
+O protótipo é a resposta prática à pergunta do início.
+
+A Administração 4.0 não fica democrática só por ser digital.
+
+Ela só é legítima quando a decisão pode ser compreendida, explicada e contestada — e isso vale com mais força justamente porque o Estado é, ao mesmo tempo, quem faz a regra e quem mais tende a relativizá-la.
+
+Se o Estado quer decidir por dados, ele precisa aceitar também ser controlado por direitos.
+
+A pergunta que fica é: a Administração Pública digital está decidindo melhor — ou apenas decidindo mais rápido, com menos chance de compreensão, contestação e participação?
+
+
+
+
+══════════════════════════════
+MUNIÇÃO · SÓ SE VIER PERGUNTA
+══════════════════════════════
+
+ROBODEBT — AUSTRÁLIA
+É o caso de cobrança automatizada de dívidas sociais na Austrália. O sistema gerou cobranças indevidas em massa, com dano social gravíssimo. Serve como exemplo de eficiência algorítmica sem governança humana.
+
+TJ/MA — IA JUDICIAL
+O ponto não é demonizar IA no Judiciário. O ponto é que, se decisões são aceleradas por IA, a fundamentação precisa ficar mais controlável, não menos. Quando aparecem precedentes inexistentes ou fundamentação padronizada, o problema é o mesmo: a autoridade pública usa tecnologia sem se submeter ao dever de motivar.
+
+SyRI — HOLANDA
+O SyRI mostra que esse debate não é abstrato. O Estado holandês cruzava bases para detectar fraude social, concentrando impacto em bairros pobres e de imigrantes. O Tribunal de Haia proibiu. É o exemplo de um Judiciário contendo a opacidade algorítmica do Executivo.
+
+SE PERGUNTAREM SE O PROTÓTIPO É "SOLUÇÃO"
+Não. Ele é uma maquete crítica. Não resolve a política pública. Ele mostra uma lacuna: hoje a pessoa recebe uma decisão automatizada sem compreender, sem participar e sem conseguir contestar tecnicamente. A maquete torna essa ausência visível.
+
+SE PERGUNTAREM SE ISSO NÃO DEIXARIA A ADMINISTRAÇÃO LENTA
+A pergunta não é velocidade contra direitos. A pergunta é qual velocidade é constitucionalmente aceitável. Decidir rápido uma negativa ilegítima não é eficiência; é dano administrativamente acelerado.
+
+
+
+
+══════════════════════════════
+ANTES DE FALAR · 30 SEGUNDOS
+══════════════════════════════
+
+1. Não correr.
+2. Eu não preciso explicar tudo.
+3. Minha função é mostrar a tensão.
+4. Frase central: quem faz a regra é também quem mais precisa ser controlado por ela.
+5. Se travar: o Estado regulador vira regulado — e falha contra o cidadão.
+
+LINHA ÚNICA: o Estado digital só é legítimo se a pessoa entende, contesta e é tratada como pessoa.

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teleprompter · Ana · Seminário 8</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #111;
+      --text: #f0ede8;
+      --amber: #f5b942;
+      --green: #5bbf8a;
+      --blue: #6688cc;
+      --muted: #555;
+      --border: #252525;
+    }
+
+    html, body { height: 100%; background: var(--bg); color: var(--text); font-family: Georgia, 'Times New Roman', serif; font-size: 18px; line-height: 1.7; }
+
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px; background: var(--amber);
+      transition: width 0.3s ease; z-index: 100;
+    }
+
+    #wrap {
+      max-width: 820px; margin: 0 auto;
+      padding: 64px 48px 120px;
+    }
+
+    .badge {
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--amber);
+      background: rgba(245,185,66,0.09);
+      border: 1px solid rgba(245,185,66,0.22);
+      display: inline-block; padding: 4px 14px; border-radius: 3px;
+      margin-bottom: 24px;
+    }
+
+    .title {
+      font-size: 0.95rem; font-style: italic; color: var(--muted);
+      margin-bottom: 40px; letter-spacing: 0.02em;
+    }
+
+    .speech { font-size: 1.55rem; line-height: 1.78; }
+    .speech p { margin-bottom: 1.15em; }
+    .speech strong { color: #fff; font-weight: 600; }
+    .speech em { color: #bbb; }
+
+    .click {
+      font-family: 'Courier New', monospace; font-size: 0.88rem;
+      color: var(--blue); background: rgba(100,130,200,0.07);
+      border-left: 3px solid var(--blue);
+      padding: 8px 16px; margin: 1.2em 0;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .passback {
+      font-family: 'Courier New', monospace; font-size: 1rem;
+      color: var(--green);
+      border-top: 1px solid var(--border);
+      margin-top: 44px; padding-top: 20px;
+      letter-spacing: 0.04em;
+    }
+    .passback::before { content: "↩  "; }
+
+    .emerg {
+      display: none;
+      border: 1px solid #2a3544;
+      border-radius: 6px; padding: 20px 24px; margin-top: 32px;
+      background: rgba(80,110,160,0.05);
+    }
+    .emerg.on { display: block; }
+    .emerg-label {
+      font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: #7a9ab5; margin-bottom: 14px;
+    }
+    .emerg p { font-size: 1.1rem; color: #8aadca; line-height: 1.65; font-style: italic; }
+
+    #nav {
+      position: fixed; bottom: 26px; right: 36px;
+      display: flex; gap: 8px; align-items: center;
+    }
+    .nbtn {
+      background: #1e1e1e; border: 1px solid #2e2e2e; color: #777;
+      width: 44px; height: 44px; border-radius: 8px;
+      font-size: 1.1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.12s;
+    }
+    .nbtn:hover { background: #282828; color: #ccc; border-color: #555; }
+    .nbtn:disabled { opacity: 0.2; cursor: default; }
+    .nbtn.text { width: auto; padding: 0 14px; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+    #counter { font-family: 'Courier New', monospace; font-size: 0.78rem; color: #444; letter-spacing: 0.06em; min-width: 48px; text-align: center; }
+
+    #hint { position: fixed; bottom: 30px; left: 36px; font-size: 0.68rem; color: #333; font-family: 'Courier New', monospace; letter-spacing: 0.06em; }
+
+    @media print {
+      #progress, #nav, #hint { display: none; }
+      #wrap { padding: 20px; }
+      body { background: white; color: #111; font-size: 13px; }
+      .badge { color: #444; background: none; border-color: #888; }
+      .passback { color: #555; }
+      .emerg { display: block !important; border-color: #ccc; }
+      .emerg p { color: #555; }
+      .emerg-label { color: #888; }
+      .speech { font-size: 1.15rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="wrap"></div>
+
+<div id="nav">
+  <div id="counter"></div>
+  <button class="nbtn" id="bp" title="Anterior (←)">←</button>
+  <button class="nbtn text" id="be" title="Emergência (E)">emerg</button>
+  <button class="nbtn" id="bn" title="Próximo (→ / Espaço)">→</button>
+</div>
+
+<div id="hint">← → espaço · E emergência · P imprimir</div>
+
+<script>
+const CARDS = [
+  {
+    slide: "03",
+    title: "Chave de leitura",
+    speech: `
+      <p>"Antes de entrar nos artigos — a chave que costura tudo."</p>
+      <p>Nestes quatro textos, o Poder Público aparece em <strong>duas posições ao mesmo tempo.</strong></p>
+      <p><strong>Regulador:</strong> edita a LAI, a LGPD, cria a ANPD, publica instruções normativas, edita resoluções.</p>
+      <p><strong>Regulado:</strong> maior controlador de dados do país. Maior usuário de sistemas automatizados. O próprio agente que decide sobre acesso a direitos.</p>
+      <p>Pergunta: <strong>o que acontece quando quem faz a regra é também quem tem mais poder — e mais incentivo — para relativizá-la contra o cidadão?</strong></p>
+      <p>Chamamos esse movimento: <strong>do poder-dever ao dever-poder.</strong><br>
+      O dever de cumprir a regra que o Estado mesmo editou vira obrigação que ele administra em benefício próprio.</p>
+      <p>"Essa é a chave do seminário: o Estado como Regulador e Regulado ao mesmo tempo."</p>
+    `,
+    passBack: "Vinícius, volta pra ti.",
+    emerg: "O Estado faz a regra, mas é também o maior submetido a ela. Regula dados e transparência, mas é quem mais coleta, opaciza e automatiza contra o cidadão. É daí que vem a nossa tese: do poder-dever ao dever-poder."
+  },
+  {
+    slide: "09",
+    title: "Nossa leitura I · Salgado & Saito · privacidade e ADI 6.387",
+    speech: `
+      <p>Salgado e Saito: mesmo com todo esse aparato — LGPD, ANPD — <strong>a dimensão de defesa não desaparece.</strong></p>
+      <p>Por quê? <strong>O Estado continua sendo um dos maiores agentes de tratamento de dados do país.</strong></p>
+      <p>Os próprios autores lembram de forma concreta: <strong>caso Snowden</strong> — vigilância estatal em massa.<br>
+      No Brasil: <strong>MP 954 de 2020</strong> — Executivo quis compartilhar dados de telecomunicações de ~200 milhões de brasileiros sem finalidade suficientemente clara.</p>
+      <p>O STF teve que conter na <strong>ADI 6.387.</strong><br>
+      <strong>A autotutela administrativa não bastou.</strong> Foi preciso outro Poder segurar o regulador.</p>
+      <p>Esse é o primeiro aparecimento da tese: <strong>o Estado que edita a regra de proteção de dados é também aquele contra o qual o cidadão precisa ser protegido.</strong></p>
+    `,
+    passBack: "Vinícius.",
+    emerg: "Mesmo com LGPD, dimensão de defesa não some — o Estado é dos maiores tratadores. MP 954: Executivo tentou ampliar compartilhamento sem finalidade clara. STF teve que conter na ADI 6.387. O Estado que regula é também aquele contra o qual o cidadão precisa ser defendido."
+  },
+  {
+    slide: "14",
+    title: "Nossa leitura II · Cristóvam & Hahn · opacidade seletiva",
+    speech: `
+      <p>O que é mais importante aqui: <strong>a assimetria.</strong></p>
+      <p>Governo aberto aparece como um <strong>dever jurídico:</strong> transparência, participação, accountability, dados em formato aberto.</p>
+      <p>Mas quem decide o que aparece, em que formato, o que continua sigiloso? <strong>O próprio Estado.</strong></p>
+      <p>A LAI obriga transparência — e no art. 23 <em>também</em> permite classificar como reservada, secreta, ultrassecreta. <strong>A mesma estrutura que promete abertura guarda as chaves da opacidade.</strong></p>
+      <p>Recife, SP e Florianópolis são boas práticas — celebramos. Mas são 3 em 5.570.<br>
+      E <strong>nenhum deles exibe instrumentos de explicabilidade algorítmica.</strong> O PNTP mede publicidade fiscal, não se o algoritmo que negou um benefício é compreensível.</p>
+      <p><strong>Portais transparentes. Algoritmo opaco.</strong> O Estado promete governo aberto e conserva o poder de opacizar a si mesmo.</p>
+    `,
+    passBack: "Vinícius, fecha essa primeira parte.",
+    emerg: "Governo aberto é dever jurídico, mas quem controla o que abre e o que fecha é o próprio Estado. LAI obriga publicidade e permite sigilo. Mesmo bons portais não dizem como um algoritmo decide. O Estado promete abertura, mas conserva o poder de opacizar a si mesmo."
+  },
+  {
+    slide: "20",
+    title: "Nossa leitura III · Sarlet & Molinaro · big data e grande coletor",
+    speech: `
+      <p>Em Sarlet e Molinaro, o choque aparece na <strong>escala.</strong></p>
+      <p>A LGPD trabalha com finalidade, minimização, consentimento, anonimização. O big data pressiona todas essas categorias.</p>
+      <p>E fica ainda mais delicado <strong>quando o grande coletor é o próprio Estado.</strong></p>
+      <p>O SUS é o maior sistema público de saúde do mundo. Bilhões de registros: atendimentos, internações, medicamentos, vacinas. O suposto vazamento de <strong>251 milhões de CPFs do Gov.br</strong> — mais CPFs do que brasileiros vivos — mostra a dimensão do risco.</p>
+      <p>A pergunta deixa de ser <em>"qual é a base legal para tratar esse dado?"</em> e passa a ser: <strong>quem controla o controlador?</strong></p>
+      <p>Minimização vira letra morta. Consentimento vira ficção jurídica. <strong>Quando quem coleta é quem regula, os freios da LGPD viram sugestões.</strong></p>
+    `,
+    passBack: "Vinícius, o quarto artigo.",
+    emerg: "Sarlet e Molinaro: big data tensiona finalidade, minimização, anonimização. O Estado reúne saúde, educação, previdência, tributos. A pergunta não é 'qual é a base legal?' — é: quem controla o controlador?"
+  },
+  {
+    slide: "25–28",
+    title: "Nossa leitura IV · INSS · Black Box · SyRI",
+    speech: `
+      <p>Tavares et al. defendem que o <strong>contraditório algorítmico precisa ser prévio.</strong> Recurso depois pode remediar parte do dano — mas não substitui a chance de participar antes da decisão.</p>
+      <p>Caso brasileiro: <strong>INSS.</strong> Trabalhadora rural pede aposentadoria por idade como segurada especial. O sistema cruza CNIS, CadÚnico, ITR, geolocalização. <em>Infere</em> que ela não comprova atividade rural.</p>
+      <p>Inferência — não prova. E a notificação no Meu INSS diz apenas:<br>
+      <strong>"NÃO COMPROVADA A QUALIDADE DE SEGURADO ESPECIAL"</strong><br>
+      Sem dizer quais dados pesaram. Qual critério foi usado. Qual contradição ela deveria corrigir.</p>
+      <p>Isso viola a <strong>IN 128/2022 do próprio INSS</strong> — que exige análise e contraditório prévio.<br>
+      <strong>O órgão que edita a norma é o primeiro a descumpri-la. Regulador vira Regulado — e falha.</strong></p>
+      <p>O que a segurada recebe: <strong>caixa-preta.</strong> Dados entram. Negativa sai. Sem rosto. Sem porquê. Sem pessoa.</p>
+      <p>Espelho internacional: <strong>SyRI, Holanda — Tribunal de Haia, 2020.</strong> Sistema estatal cruzava bases para detectar "risco de fraude" em bairros pobres, concentração de imigrantes. Proibido: violava privacidade, finalidade, minimização, devido processo.<br>
+      <strong>Lá, um tribunal conteve a opacidade algorítmica do Estado. Aqui, ainda estamos no estágio da denúncia.</strong></p>
+    `,
+    passBack: "E em vez de só falar disso, a gente vai mostrar. Mas antes — duas camadas que vêm antes do contraditório.",
+    emerg: "Contraditório deve ser prévio. INSS: segurada rural recebe negativa automática sem saber quais dados pesaram, que critério foi usado. O órgão que editou a regra é o mesmo que automatiza a violação. SyRI: tribunal holandês conteve. Aqui, ainda na denúncia."
+  },
+  {
+    slide: "30",
+    title: "Propedêutica · literacia algorítmica + notícia humana",
+    speech: `
+      <p>"Quero acrescentar <strong>dois degraus que vêm antes do contraditório.</strong>"</p>
+      <p><strong>1. Literacia algorítmica.</strong><br>
+      A trabalhadora muitas vezes nem sabe que foi uma <em>máquina</em> que decidiu. Ela não sabe o que é inferência, viés de proxy, cruzamento de bases, modelo preditivo.<br>
+      <strong>Não se contesta o que não se compreende.</strong></p>
+      <p>Empoderar não é só abrir canal de recurso — é <strong>traduzir a decisão em linguagem que a pessoa entenda.</strong><br>
+      Transparência não basta. O que falta é <strong>inteligibilidade.</strong></p>
+      <p><strong>2. Notícia humana.</strong><br>
+      Certas decisões podem ser automatizadas. Mas a <em>comunicação</em> de uma decisão adversa a alguém em situação de vulnerabilidade deveria ser feita por <strong>uma pessoa, não por uma máquina.</strong></p>
+      <p>A negativa de uma aposentadoria, o corte de um auxílio, o indeferimento de um benefício — isso não deveria chegar como frase fria num aplicativo.<br>
+      <strong>A dignidade do administrado também está em como ele é avisado.</strong></p>
+      <p>"Dois pressupostos do contraditório algorítmico: a pessoa precisa compreender — e precisa ser tratada como pessoa."</p>
+    `,
+    passBack: "E agora a gente mostra como isso vira ferramenta.",
+    emerg: "Dois pressupostos antes do contraditório. Literacia: não se contesta o que não se compreende. Notícia humana: decisão adversa a pessoa vulnerável não deveria chegar como frase fria — a pessoa precisa entender e ser tratada como pessoa."
+  },
+  {
+    slide: "31–33",
+    title: "Demo · Conselho de Contestação Algorítmica",
+    speech: `
+      <p>"Construímos um protótipo: <strong>Conselho de Contestação Algorítmica.</strong>"</p>
+      <p>A trabalhadora rural com aposentadoria negada. Em vez de uma negativa padronizada — <strong>quatro perspectivas:</strong></p>
+      <p>→ <strong>Defensoria Pública:</strong> contraditório prévio, art. 5º LV, IN 128/2022 descumprida.<br>
+      → <strong>Cientista de Dados:</strong> viés de proxy — lacuna contributiva em CNIS de trabalhador rural é a norma, não exceção.<br>
+      → <strong>Administrador Público:</strong> Lei 14.129 art. 6º, falta supervisão humana, art. 20 §2º LGPD.<br>
+      → <strong>Cidadão:</strong> exclusão digital, literacia, notícia humana — ninguém ligou, chegou por app.</p>
+      <p><strong>Fase 1:</strong> pareceres independentes.<br>
+      <strong>Fase 2:</strong> se avaliam anonimamente — tensões ficam visíveis.<br>
+      <strong>Fase 3:</strong> relator sintetiza com fundamentação jurídica.</p>
+      <p><strong>O sistema não decide pela pessoa. Ele devolve a ela o contraditório que o Estado suprimiu.</strong></p>
+    `,
+    clicks: [
+      "→ Clique: INSS — Aposentadoria Rural Negada",
+      "→ Navegue: Fase 1 → Fase 2 → Fase 3"
+    ],
+    passBack: "Vinícius, o fecho.",
+    emerg: "O Conselho não substitui a Administração. Organiza quatro perspectivas: defesa, dados, governança, cidadão. A função é devolver contraditório onde havia só negativa automática."
+  },
+  {
+    slide: "33–34",
+    title: "Fecho",
+    speech: `
+      <p>O protótipo é a resposta prática à pergunta do início.</p>
+      <p><strong>A Administração 4.0 não fica democrática só por ser digital.</strong></p>
+      <p>Ela só é legítima quando a decisão pode ser <strong>compreendida, explicada e contestada</strong> — e isso vale com mais força justamente porque o Estado é, ao mesmo tempo, quem faz a regra e quem mais tende a relativizá-la.</p>
+      <p><strong>Se o Estado quer decidir por dados, ele precisa aceitar também ser controlado por direitos.</strong></p>
+      <p>"A pergunta que fica: a Administração Pública digital está decidindo <strong>melhor</strong> — ou apenas decidindo <strong>mais rápido</strong>, com menos chance de compreensão, contestação e participação?"</p>
+    `,
+    passBack: "Vinícius, o fecho constitucional.",
+    emerg: "Administração 4.0 não é democrática por ser digital. Só é legítima quando a decisão pode ser compreendida, explicada e contestada. Se o Estado quer decidir por dados, precisa aceitar ser controlado por direitos."
+  },
+  {
+    slide: "DEBATE",
+    title: "Caixa de munição",
+    speech: `
+      <p><strong>Robodebt (Austrália):</strong> cobranças automáticas de dívidas sociais sem checagem humana. Centenas de milhares de cobranças indevidas. Suicídios. Estudo de caso global de falha de governança algorítmica.</p>
+      <p><strong>TJ/MA:</strong> de 80 para 969 sentenças com IA. Precedentes inexistentes (alucinação). Fundamentação genérica. CNJ edita Resolução 615/2025 — e o Judiciário a viola. Regulador ⇄ Regulado no Judiciário.</p>
+      <p><strong>SyRI — Haia 2020:</strong> bairros pobres, imigrantes. Cruzamento de bases para "risco de fraude". Tribunal proibiu: art. 8º CEDH — privacidade, finalidade, minimização, due process.</p>
+      <hr style="border-color:#2a2a2a;margin:1.5em 0">
+      <p><em>"Não é produto — é maquete crítica. Mostra o que falta: explicação, contestação, linguagem compreensível, cuidado humano."</em></p>
+      <p><em>"Velocidade não é eficiência quando a negativa é ilegítima. Decidir rápido um indeferimento indevido não é eficiência — é dano administrativamente acelerado."</em></p>
+    `,
+    passBack: null,
+    emerg: null
+  }
+];
+
+let cur = 0, emergOn = false;
+const wrap = document.getElementById('wrap');
+const bp = document.getElementById('bp');
+const bn = document.getElementById('bn');
+const be = document.getElementById('be');
+
+function render() {
+  const c = CARDS[cur];
+  document.getElementById('progress').style.width = (cur / (CARDS.length - 1) * 100) + '%';
+  document.getElementById('counter').textContent = `${cur + 1} / ${CARDS.length}`;
+
+  let h = `<div class="badge">SLIDE ${c.slide}</div><div class="title">${c.title}</div><div class="speech">${c.speech}`;
+  if (c.clicks) c.clicks.forEach(cl => h += `<div class="click">${cl}</div>`);
+  h += '</div>';
+  if (c.passBack) h += `<div class="passback">${c.passBack}</div>`;
+  if (c.emerg) h += `<div class="emerg${emergOn ? ' on' : ''}"><div class="emerg-label">▼ versão de emergência</div><p>${c.emerg}</p></div>`;
+
+  wrap.innerHTML = h;
+  bp.disabled = cur === 0;
+  bn.disabled = cur === CARDS.length - 1;
+  window.scrollTo(0, 0);
+}
+
+function next() { if (cur < CARDS.length - 1) { cur++; render(); } }
+function prev() { if (cur > 0) { cur--; render(); } }
+function toggleE() { emergOn = !emergOn; render(); }
+
+bn.onclick = next; bp.onclick = prev; be.onclick = toggleE;
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+  else if (e.key === 'e' || e.key === 'E') toggleE();
+  else if (e.key === 'p' || e.key === 'P') window.print();
+});
+
+let tx = 0;
+document.addEventListener('touchstart', e => tx = e.changedTouches[0].clientX, {passive: true});
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 60) dx < 0 ? next() : prev();
+}, {passive: true});
+
+render();
+</script>
+</body>
+</html>
