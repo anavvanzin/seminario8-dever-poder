@@ -60,8 +60,9 @@ Apresentação interdisciplinar que lê quatro artigos do IJDL como um único ar
 
 | Arquivo | Descrição |
 |---------|-----------|
-| `index-improved.html` | Nova landing page com design Vercel-style (versão atualizada) |
-| `index.html` | Versão anterior mantida para comparação histórica |
+| `index.html` | **Entrada principal** (servida na raiz do deploy) — design Vercel-style v2.0, idêntica a `index-improved.html` |
+| `index-improved.html` | Mesma landing v2.0 (mantida como cópia de trabalho; sincronizada com `index.html`) |
+| `Índice.html` | Landing histórica v1 "Pergaminho" (EB Garamond) — não está mais ligada ao fluxo principal |
 | `assets/` | SVGs ornamentais originais (escapular, espadas, etc.) mantidos para compatibilidade |
 
 ---
@@ -70,7 +71,7 @@ Apresentação interdisciplinar que lê quatro artigos do IJDL como um único ar
 
 | # | Arquivo | O que é | Como usar |
 |---|---------|---------|-----------|
-| i | `Seminario8.html` | **Deck principal** — 33 slides, sistema editorial | ← → para navegar |
+| i | `Seminario8.html` | **Deck principal** — 35 slides, sistema editorial | ← → para navegar |
 | ii | `Seminario8-print.html` | Versão A4 para impressão | Ctrl+P → PDF |
 | iii | `Conselho.html` | Protótipo do Conselho (offline) | Abrir no navegador |
 | iv | `Wireframes.html` | Bastidor: 3 direções visuais | Para o debate |
@@ -82,7 +83,7 @@ Apresentação interdisciplinar que lê quatro artigos do IJDL como um único ar
 
 ---
 
-## 🗂️ Estrutura (33 slides)
+## 🗂️ Estrutura (35 slides)
 
 **Slide 00** — Abertura com link para vídeo animado (56s)  
 **Slides 01–03** — Capa, pergunta, chave de leitura (Janus)  
@@ -114,7 +115,7 @@ Apresentação interdisciplinar que lê quatro artigos do IJDL como um único ar
 
 ## 📴 Offline
 
-O Service Worker cacheia fontes Google e assets na primeira visita. Depois de carregar uma vez, o deck funciona mesmo sem internet.
+O Service Worker faz cache **apenas das fontes Google e do `chart.googleapis.com`** na primeira visita (precache no `install` + cache-on-fetch). Os arquivos locais (HTML/JS/imagens) **não** são cacheados, então o deck **não** funciona totalmente offline — ele apenas evita re-baixar as fontes. Para offline real, seria preciso precachear os assets locais no `install`.
 
 ---
 

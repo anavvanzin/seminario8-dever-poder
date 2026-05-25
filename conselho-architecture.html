@@ -3,9 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#020617">
   <title>Conselho de Contestação Algorítmica — Arquitetura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    html { color-scheme: dark; }
+    @media (prefers-reduced-motion: reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'JetBrains Mono', monospace;
@@ -91,7 +98,9 @@
     </div>
 
     <div class="diagram-container">
-      <svg viewBox="0 0 1200 1020">
+      <svg viewBox="0 0 1200 1020" role="img" aria-labelledby="arch-svg-title arch-svg-desc">
+        <title id="arch-svg-title">Arquitetura do Conselho de Contestação Algorítmica</title>
+        <desc id="arch-svg-desc">Diagrama da arquitetura: navegador do cliente, backend em Google Cloud Run (us-west1) e o modelo Gemini, com o fluxo de requisições entre as camadas para gerar os pareceres das quatro personas.</desc>
         <defs>
           <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
             <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
@@ -175,7 +184,7 @@
         <text x="330" y="79" fill="white" font-size="12" font-weight="600" text-anchor="middle">Frontend SPA</text>
         <text x="330" y="97" fill="#94a3b8" font-size="9" text-anchor="middle">React + Vite</text>
         <text x="330" y="113" fill="#94a3b8" font-size="9" text-anchor="middle">Cloud Run (serverless)</text>
-        <text x="330" y="133" fill="#22d3ee" font-size="7" text-anchor="middle">conselho-de-contesta-o-...run.app</text>
+        <text x="330" y="133" fill="#22d3ee" font-size="7" text-anchor="middle">conselho-de-contesta-o-…run.app</text>
 
         <!-- BACKEND (Emerald) -->
         <rect x="490" y="55" width="210" height="100" rx="6" fill="#0f172a" stroke="none"/>
@@ -184,7 +193,7 @@
         <text x="595" y="97" fill="#94a3b8" font-size="9" text-anchor="middle">Express (server.ts)</text>
         <text x="595" y="113" fill="#94a3b8" font-size="9" text-anchor="middle">Cloud Run :3000</text>
         <text x="595" y="129" fill="#94a3b8" font-size="9" text-anchor="middle">Node.js / TypeScript</text>
-        <text x="595" y="145" fill="#34d399" font-size="7" text-anchor="middle">...1066380962084.us-west1.run.app</text>
+        <text x="595" y="145" fill="#34d399" font-size="7" text-anchor="middle">…1066380962084.us-west1.run.app</text>
 
         <!-- GEMINI AI (External/Purple) -->
         <rect x="750" y="70" width="180" height="60" rx="6" fill="#0f172a" stroke="none"/>

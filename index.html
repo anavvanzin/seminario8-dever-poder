@@ -2,6 +2,8 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ffffff">
 <title>Seminário 8 — Índice · Vanzin & Oliveira</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,6 +12,10 @@
 </head>
 
 <style>
+html{color-scheme:light}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
 :root{
   /* Vercel palette — achromatic precision */
   --vc-black:#171717;
@@ -262,6 +268,10 @@ html,body{
 
 .entry-card.primary{
   background:linear-gradient(90deg,#fff7f2 0%,transparent 70%);
+}
+
+.entry-card.featured{
+  background:linear-gradient(90deg,#fdf2f8 0%,transparent 70%);
 }
 
 .entry-card.primary::before{
@@ -621,7 +631,7 @@ a:focus-visible{
   <section class="toc-section">
     <div class="toc-header">
       <h2>Sumário da entrega</h2>
-      <span class="toc-count">06 · peças</span>
+      <span class="toc-count">07 · peças</span>
     </div>
 
     <nav class="toc-list">
@@ -630,13 +640,13 @@ a:focus-visible{
         <div class="entry-num">I<span>caput</span></div>
         <div class="entry-content">
           <div class="entry-kicker">peça principal · apresentação ao vivo</div>
-          <h3 class="entry-title">A <em>apresentação</em> — 33 lâminas em arco</h3>
+          <h3 class="entry-title">A <em>apresentação</em> — 35 lâminas em arco</h3>
           <p class="entry-desc">
             O deck completo, arco de tensão em quatro atos: <em>promessa</em> (LGPD e governo aberto) → <em>choque</em> (big data e IA) → <em>conflito</em> (tese Regulador⇄Regulado, INSS, SyRI) → <em>resolução</em> (proposta e protótipo). Sistema visual editorial — papel envelhecido, EB Garamond, marginália itálica, terminais neon para os ganchos contemporâneos.
           </p>
           <div class="entry-tags">
             <span class="tag-pill hot">★ canônico</span>
-            <span class="tag-pill">33 slides</span>
+            <span class="tag-pill">35 slides</span>
             <span class="tag-pill">1920 × 1080</span>
             <span class="tag-pill">navegação ← →</span>
             <span class="tag-pill">quatro artigos</span>
@@ -751,6 +761,26 @@ a:focus-visible{
         </div>
       </a>
 
+      <a class="entry-card featured" href="colegas.html">
+        <div class="entry-num">VII<span>kit</span></div>
+        <div class="entry-content">
+          <div class="entry-kicker">para os colegas · tudo em um lugar</div>
+          <h3 class="entry-title">Kit <em>Digital</em> completo</h3>
+          <p class="entry-desc">
+            Página de entrega para os colegas: slides, app do Conselho (Cloud Run + Gemini), artigos de referência, sugestões de leitura complementar, as 4 colunas da Administração 4.0 democrática e QR Code para compartilhamento. Tudo que o seminário produziu, num só lugar.
+          </p>
+          <div class="entry-tags">
+            <span class="tag-pill hot">★ novo</span>
+            <span class="tag-pill">slides + app</span>
+            <span class="tag-pill">artigos</span>
+            <span class="tag-pill">QR code</span>
+          </div>
+        </div>
+        <div class="entry-meta">
+          <span class="entry-arrow">→</span>
+        </div>
+      </a>
+
     </nav>
   </section>
 
@@ -758,7 +788,7 @@ a:focus-visible{
   <section class="arc-section">
     <div class="arc-header">
       <h3>Como o deck se desdobra — quatro atos</h3>
-      <span class="arc-byline">arco de tensão · 33 slides</span>
+      <span class="arc-byline">arco de tensão · 35 slides</span>
     </div>
     
     <div class="arc-grid">

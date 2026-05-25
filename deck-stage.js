@@ -204,7 +204,7 @@
     .btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
     .btn:active { background: rgba(255,255,255,0.18); }
     .btn:focus { outline: none; }
-    .btn:focus-visible { outline: none; }
+    .btn:focus-visible { outline: 2px solid rgba(255,255,255,.9); outline-offset: 2px; }
     .btn::-moz-focus-inner { border: 0; }
     .btn svg { width: 14px; height: 14px; display: block; }
     .btn.reset {
@@ -536,6 +536,9 @@
       ::slotted([data-deck-skip]) { display: none !important; }
       .overlay, .rail, .rail-resize, .ctxmenu, .confirm-backdrop { display: none !important; }
     }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
   `;
 
   class DeckStage extends HTMLElement {
@@ -785,6 +788,9 @@
       if (this._liveObserver) this._liveObserver.disconnect();
       if (this._railObserver) this._railObserver.disconnect();
       if (this._onTweakChange) window.removeEventListener('tweakchange', this._onTweakChange);
+      // Remove the document-level @page rule injected by _syncPrintPageRule so
+      // a destroyed component doesn't leave a stale print rule behind.
+      document.getElementById('deck-stage-print-page')?.remove();
     }
 
     attributeChangedCallback() {
@@ -1084,7 +1090,7 @@
 
       if (broadcast) {
         // (1) Legacy: host-window postMessage for speaker-notes renderers.
-        try { window.postMessage({ slideIndexChanged: curr, deckTotal: this._slides.length, deckSkipped: this._skippedIndices() }, '*'); } catch (e) {}
+        try { window.postMessage({ slideIndexChanged: curr, deckTotal: this._slides.length, deckSkipped: this._skippedIndices() }, location.origin); } catch (e) {}
 
         // (2) In-page CustomEvent on the <deck-stage> element itself.
         //     Bubbles and composes out of shadow DOM so slide code can listen:
@@ -1175,6 +1181,9 @@
     }
 
     _onMessage(e) {
+      // Origin guard: only act on same-origin messages. The empty-string
+      // allowance covers same-document / sandboxed (origin 'null') posts.
+      if (e.origin !== '' && e.origin !== location.origin) return;
       const d = e.data;
       if (d && typeof d.__omelette_presenting === 'boolean') {
         this._presenting = d.__omelette_presenting;
@@ -1699,7 +1708,7 @@
       this._emitDeckChange({ action: on ? 'skip' : 'unskip', from: i, slide });
       // Re-broadcast so the presenter popup's prev/next thumbnails re-pick
       // the nearest non-skipped slide without waiting for a nav event.
-      try { window.postMessage({ slideIndexChanged: this._index, deckTotal: this._slides.length, deckSkipped: this._skippedIndices() }, '*'); } catch (e) {}
+      try { window.postMessage({ slideIndexChanged: this._index, deckTotal: this._slides.length, deckSkipped: this._skippedIndices() }, location.origin); } catch (e) {}
     }
 
     _skippedIndices() {
