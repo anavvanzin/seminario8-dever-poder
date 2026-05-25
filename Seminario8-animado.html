@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seminário 8 · Animação · Do Poder-Dever ao Dever-Poder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body, #root { width: 100%; height: 100%; overflow: hidden; background: #0a0a0a; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<!-- React + ReactDOM -->
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<!-- Babel standalone for JSX -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     Animation engine: Stage, Sprite, Easing, interpolate, useTime, useSprite
+     ══════════════════════════════════════════════════════════════════════ -->
+<script type="text/babel">
+// ── Easing functions ───────────────────────────────────────────────────────
+const Easing = {
+  linear: (t) => t,
+  easeInQuad:    (t) => t * t,
+  easeOutQuad:   (t) => t * (2 - t),
+  easeInOutQuad: (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
+  easeInCubic:    (t) => t * t * t,
+  easeOutCubic:   (t) => (--t) * t * t + 1,
+  easeInOutCubic: (t) => (t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1),
+  easeInQuart:    (t) => t * t * t * t,
+  easeOutQuart:   (t) => 1 - (--t) * t * t * t,
+  easeInOutQuart: (t) => (t < 0.5 ? 8 * t * t * t * t : 1 - 8 * (--t) * t * t * t),
+  easeInExpo:  (t) => (t === 0 ? 0 : Math.pow(2, 10 * (t - 1))),
+  easeOutExpo: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
+  easeInOutExpo: (t) => {
+    if (t === 0) return 0; if (t === 1) return 1;
+    if (t < 0.5) return 0.5 * Math.pow(2, 20 * t - 10);
+    return 1 - 0.5 * Math.pow(2, -20 * t + 10);
+  },
+  easeInSine:    (t) => 1 - Math.cos((t * Math.PI) / 2),
+  easeOutSine:   (t) => Math.sin((t * Math.PI) / 2),
+  easeInOutSine: (t) => -(Math.cos(Math.PI * t) - 1) / 2,
+  easeOutBack: (t) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); },
+  easeInBack: (t) => { const c1 = 1.70158, c3 = c1 + 1; return c3 * t * t * t - c1 * t * t; },
+  easeInOutBack: (t) => {
+    const c1 = 1.70158, c2 = c1 * 1.525;
+    return t < 0.5 ? (Math.pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2 : (Math.pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2;
+  },
+  easeOutElastic: (t) => {
+    const c4 = (2 * Math.PI) / 3;
+    if (t === 0) return 0; if (t === 1) return 1;
+    return Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
+  },
+};
+
+const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+function interpolate(input, output, ease = Easing.linear) {
+  return (t) => {
+    if (t <= input[0]) return output[0];
+    if (t >= input[input.length - 1]) return output[output.length - 1];
+    for (let i = 0; i < input.length - 1; i++) {
+      if (t >= input[i] && t <= input[i + 1]) {
+        const span = input[i + 1] - input[i];
+        const local = span === 0 ? 0 : (t - input[i]) / span;
+        const easeFn = Array.isArray(ease) ? (ease[i] || Easing.linear) : ease;
+        return output[i] + (output[i + 1] - output[i]) * easeFn(local);
+      }
+    }
+    return output[output.length - 1];
+  };
+}
+
+function animate({ from = 0, to = 1, start = 0, end = 1, ease = Easing.easeInOutCubic }) {
+  return (t) => {
+    if (t <= start) return from; if (t >= end) return to;
+    return from + (to - from) * ease((t - start) / (end - start));
+  };
+}
+
+// ── Timeline context ────────────────────────────────────────────────────────
+const TimelineContext = React.createContext({ time: 0, duration: 10, playing: false });
+const useTime = () => React.useContext(TimelineContext).time;
+const useTimeline = () => React.useContext(TimelineContext);
+
+// ── Sprite ──────────────────────────────────────────────────────────────────
+const SpriteContext = React.createContext({ localTime: 0, progress: 0, duration: 0, visible: true });
+const useSprite = () => React.useContext(SpriteContext);
+
+function Sprite({ start = 0, end = Infinity, children, keepMounted = false }) {
+  const { time } = useTimeline();
+  const visible = time >= start && time <= end;
+  if (!visible && !keepMounted) return null;
+  const duration = end - start;
+  const localTime = Math.max(0, time - start);
+  const progress = duration > 0 && isFinite(duration) ? clamp(localTime / duration, 0, 1) : 0;
+  const value = { localTime, progress, duration, visible };
+  return (
+    <SpriteContext.Provider value={value}>
+      {typeof children === 'function' ? children(value) : children}
+    </SpriteContext.Provider>
+  );
+}
+
+// ── Stage ───────────────────────────────────────────────────────────────────
+function Stage({ width = 1920, height = 1080, duration = 30, background = '#fbfaf5', fps = 60, loop = true, autoplay = true, persistKey = 'animstage', children }) {
+  const [time, setTime] = React.useState(() => { try { const v = parseFloat(localStorage.getItem(persistKey + ':t') || '0'); return isFinite(v) ? clamp(v, 0, duration) : 0; } catch { return 0; } });
+  const [playing, setPlaying] = React.useState(autoplay);
+  const [hoverTime, setHoverTime] = React.useState(null);
+  const [scale, setScale] = React.useState(1);
+  const stageRef = React.useRef(null);
+  const rafRef = React.useRef(null);
+  const lastTsRef = React.useRef(null);
+
+  React.useEffect(() => { try { localStorage.setItem(persistKey + ':t', String(time)); } catch {} }, [time]);
+
+  React.useEffect(() => {
+    if (!stageRef.current) return;
+    const el = stageRef.current;
+    const measure = () => { const barH = 44; const s = Math.min(el.clientWidth / width, (el.clientHeight - barH) / height); setScale(Math.max(0.05, s)); };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    window.addEventListener('resize', measure);
+    return () => { ro.disconnect(); window.removeEventListener('resize', measure); };
+  }, [width, height]);
+
+  React.useEffect(() => {
+    if (!playing) { lastTsRef.current = null; return; }
+    const step = (ts) => {
+      if (lastTsRef.current == null) lastTsRef.current = ts;
+      const dt = (ts - lastTsRef.current) / 1000;
+      lastTsRef.current = ts;
+      setTime((t) => { let next = t + dt; if (next >= duration) { if (loop) next = next % duration; else { next = duration; setPlaying(false); } } return next; });
+      rafRef.current = requestAnimationFrame(step);
+    };
+    rafRef.current = requestAnimationFrame(step);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); lastTsRef.current = null; };
+  }, [playing, duration, loop]);
+
+  React.useEffect(() => {
+    const onKey = (e) => {
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+      if (e.code === 'Space') { e.preventDefault(); setPlaying(p => !p); }
+      else if (e.code === 'ArrowLeft') setTime(t => clamp(t - (e.shiftKey ? 1 : 0.1), 0, duration));
+      else if (e.code === 'ArrowRight') setTime(t => clamp(t + (e.shiftKey ? 1 : 0.1), 0, duration));
+      else if (e.key === '0' || e.code === 'Home') setTime(0);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [duration]);
+
+  const displayTime = hoverTime != null ? hoverTime : time;
+  const ctxValue = React.useMemo(() => ({ time: displayTime, duration, playing, setTime, setPlaying }), [displayTime, duration, playing]);
+
+  const fmt = (s) => { const m = Math.floor(s / 60), sec = Math.floor(s % 60); return m + ':' + String(sec).padStart(2, '0'); };
+
+  const trackRef = React.useRef(null);
+  const timeFromEvent = React.useCallback((e) => { const rect = trackRef.current.getBoundingClientRect(); return clamp((e.clientX - rect.left) / rect.width, 0, 1) * duration; }, [duration]);
+
+  return (
+    <div ref={stageRef} style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', alignItems:'center', background:'#0a0a0a', fontFamily:'Inter,system-ui,sans-serif' }}>
+      <div style={{ flex:1, width:'100%', display:'flex', alignItems:'center', justifyContent:'center', overflow:'hidden', minHeight:0 }}>
+        <div style={{ width, height, background, position:'relative', transform:`scale(${scale})`, transformOrigin:'center', flexShrink:0, boxShadow:'0 20px 60px rgba(0,0,0,0.4)', overflow:'hidden' }}>
+          <TimelineContext.Provider value={ctxValue}>{children}</TimelineContext.Provider>
+        </div>
+      </div>
+      <div style={{ width:'100%', height:44, background:'#1a1a1a', display:'flex', alignItems:'center', gap:12, padding:'0 16px', color:'#aaa', fontSize:12, fontFamily:'JetBrains Mono,monospace', flexShrink:0 }}>
+        <button onClick={() => setPlaying(p => !p)} style={{ background:'none',border:'none',color:'#ccc',cursor:'pointer',fontSize:14,width:28,height:28,display:'flex',alignItems:'center',justifyContent:'center'}}>{playing ? '⏸' : '▶'}</button>
+        <span style={{ minWidth:42, textAlign:'right' }}>{fmt(time)}</span>
+        <div ref={trackRef} style={{ flex:1, height:4, background:'#333', borderRadius:2, cursor:'pointer', position:'relative' }}
+          onClick={(e) => setTime(timeFromEvent(e))}
+          onMouseMove={(e) => { if (e.buttons === 1 || e.buttons === 0) setHoverTime(timeFromEvent(e)); }}>
+          <div style={{ height:'100%', width:`${(time/duration)*100}%`, background:'#8b1a1a', borderRadius:2 }} />
+        </div>
+        <span style={{ minWidth:42 }}>{fmt(duration)}</span>
+        <button onClick={() => setTime(0)} style={{ background:'none',border:'none',color:'#888',cursor:'pointer',fontSize:14 }}>↺</button>
+      </div>
+    </div>
+  );
+}
+</script>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     Video Atoms: TK, PaperBg, JanusHead, PhoneFrame, BlackBox, etc.
+     ══════════════════════════════════════════════════════════════════════ -->
+<script type="text/babel">
+const TK = {
+  paper:'#fbfaf5', paperWarm:'#f5f1e6', paperDark:'#ebe6d8',
+  ink:'#16140f', ink2:'#3a3733', ink3:'#6a665e',
+  rule:'rgba(22,20,15,.18)', ruleStrong:'rgba(22,20,15,.4)',
+  accent:'#8b1a1a', accent2:'#6a1212', gold:'#a67a2c',
+  termBg:'#0c1318', termLine:'#173029', termNeon:'#3fe0a0',
+  termNeon2:'#9af5cf', termDim:'#6a8a80', termText:'#cfe9dd',
+  termCit:'#9ad5f5', termErr:'#f08070',
+  serifDisplay:'"EB Garamond",Georgia,serif',
+  serifBody:'"Spectral",Georgia,serif',
+  mono:'"JetBrains Mono",ui-monospace,monospace',
+};
+
+function PaperBg({ tone = TK.paper, dark, children }) {
+  return (
+    <div style={{ position:'absolute',inset:0,background:dark?TK.termBg:tone,overflow:'hidden' }}>
+      {!dark && <div style={{ position:'absolute',inset:0,background:'radial-gradient(ellipse at 50% 45%,rgba(255,250,235,0) 0%,rgba(22,20,15,.04) 60%,rgba(22,20,15,.12) 100%)',pointerEvents:'none' }}/>}
+      {!dark && (
+        <svg style={{position:'absolute',inset:0,width:'100%',height:'100%',opacity:.4,mixBlendMode:'multiply'}}>
+          <filter id="grainf2"><feTurbulence baseFrequency="0.85" numOctaves="2" seed="3"/><feColorMatrix values="0 0 0 0 0.09  0 0 0 0 0.08  0 0 0 0 0.06  0 0 0 0.05 0"/></filter>
+          <rect width="100%" height="100%" filter="url(#grainf2)"/>
+        </svg>
+      )}
+      {children}
+    </div>
+  );
+}
+
+function Fleur({ x, y, size = 60, color = TK.accent, rotation = 0, opacity = 1 }) {
+  return (
+    <svg style={{position:'absolute',left:x,top:y,width:size,height:size,transform:`translate(-50%,-50%) rotate(${rotation}deg)`,opacity}} viewBox="0 0 40 40">
+      <path d="M20 4 C 22 12, 28 14, 36 16 C 28 18, 22 20, 20 28 C 18 20, 12 18, 4 16 C 12 14, 18 12, 20 4 Z" fill={color}/>
+      <circle cx="20" cy="36" r="1.5" fill={color}/>
+    </svg>
+  );
+}
+
+function Rule({ x, y, width, color = TK.ink, opacity = 1, withFleur = false }) {
+  return (
+    <div style={{position:'absolute',left:x,top:y,transform:'translate(-50%,-50%)',width,height:20,display:'flex',alignItems:'center',justifyContent:'center',opacity}}>
+      <div style={{flex:1,height:1,background:color}}/>
+      {withFleur && <svg width="22" height="22" viewBox="0 0 40 40" style={{margin:'0 14px'}}><path d="M20 4 C 22 12, 28 14, 36 16 C 28 18, 22 20, 20 28 C 18 20, 12 18, 4 16 C 12 14, 18 12, 20 4 Z" fill={color}/></svg>}
+      <div style={{flex:1,height:1,background:color}}/>
+    </div>
+  );
+}
+
+function RevealText({ text, x, y, size = 72, weight = 500, italic = false, color = TK.ink, font = TK.serifDisplay, startAt = 0, duration = 1.2, align = 'center', tracking = '-0.01em', showCaret = false }) {
+  const { localTime } = useSprite();
+  const t = clamp((localTime - startAt) / duration, 0, 1);
+  const eased = Easing.easeOutCubic(t);
+  const pct = eased * 100;
+  const translateX = align === 'center' ? '-50%' : align === 'right' ? '-100%' : '0';
+  return (
+    <div style={{ position:'absolute',left:x,top:y,transform:`translate(${translateX}, -50%)`,fontFamily:font,fontSize:size,fontWeight:weight,fontStyle:italic?'italic':'normal',color,letterSpacing:tracking,lineHeight:1.05,whiteSpace:'nowrap' }}>
+      <span style={{ clipPath:`inset(0 ${100-pct}% 0 0)`,WebkitClipPath:`inset(0 ${100-pct}% 0 0)`,display:'inline-block' }}>{text}</span>
+      {showCaret && t < 1 && <span style={{ display:'inline-block',width:2,height:'.85em',background:color,marginLeft:4,verticalAlign:'-12%',opacity:Math.floor(localTime*4)%2?1:.2 }}/>}
+    </div>
+  );
+}
+
+function Stamp({ text, x, y, size = 80, color = TK.accent, rotation = -2.5, weight = 700, italic = true, startAt = 0, duration = 0.6 }) {
+  const { localTime } = useSprite();
+  const t = clamp((localTime - startAt) / duration, 0, 1);
+  const eased = Easing.easeOutBack(t);
+  const opacity = clamp((localTime - startAt) / 0.15, 0, 1);
+  const scale = 0.6 + eased * 0.4;
+  return (
+    <div style={{ position:'absolute',left:x,top:y,transform:`translate(-50%,-50%) rotate(${rotation}deg) scale(${scale})`,transformOrigin:'center',fontFamily:TK.serifDisplay,fontSize:size,fontWeight:weight,fontStyle:italic?'italic':'normal',color,opacity,letterSpacing:'0.02em',textShadow:`0 0 1px ${color}66`,filter:t<0.5?'blur(.3px)':'none',whiteSpace:'nowrap',lineHeight:1 }}>{text}</div>
+  );
+}
+
+function Folio({ x, y, text, color = TK.ink3, size = 18, align = 'center' }) {
+  const { localTime, duration: dur } = useSprite();
+  const opacity = clamp(localTime / 0.5, 0, 1) * clamp((dur - localTime) / 0.4, 0, 1);
+  return (
+    <div style={{ position:'absolute',left:x,top:y,transform:`translate(${align==='center'?'-50%':align==='right'?'-100%':'0'}, -50%)`,fontFamily:TK.mono,fontSize:size,color,letterSpacing:'0.32em',textTransform:'uppercase',opacity }}>{text}</div>
+  );
+}
+
+function DropCap({ x, y, letter, size = 220, color = TK.accent, startAt = 0 }) {
+  const { localTime } = useSprite();
+  const t = clamp((localTime - startAt) / 0.8, 0, 1);
+  const eased = Easing.easeOutBack(t);
+  return (
+    <div style={{ position:'absolute',left:x,top:y,transform:`translate(-50%,-50%) scale(${0.7+eased*0.3})`,fontFamily:TK.serifDisplay,fontSize:size,fontWeight:700,color,opacity:t,lineHeight:.9,filter:`drop-shadow(0 0 1px ${color}66)` }}>{letter}</div>
+  );
+}
+
+function JanusHead({ x, y, size = 280, startAt = 0 }) {
+  const { localTime } = useSprite();
+  const t = clamp((localTime - startAt) / 1.0, 0, 1);
+  const eased = Easing.easeOutCubic(t);
+  const leftPulse = 1 + Math.sin(localTime * 4) * .03;
+  const rightPulse = 1 + Math.sin(localTime * 4 + Math.PI) * .03;
+  return (
+    <svg style={{position:'absolute',left:x,top:y,transform:`translate(-50%,-50%) scale(${.6+eased*.4})`,opacity:t}} width={size} height={size*1.2} viewBox="0 0 300 360">
+      <rect x="60" y="320" width="180" height="20" fill={TK.ink}/>
+      <rect x="50" y="332" width="200" height="14" fill={TK.ink}/>
+      <g transform={`translate(150,180) scale(${leftPulse})`} transformOrigin="0 0">
+        <path d="M 0 -140 C -50 -140, -90 -100, -90 -50 C -90 0, -80 40, -70 80 C -60 110, -50 130, -30 140 L 0 140 L 0 -140 Z" fill={TK.ink}/>
+        <circle cx="-50" cy="-30" r="3" fill={TK.paper}/>
+      </g>
+      <g transform={`translate(150,180) scale(${rightPulse})`} transformOrigin="0 0">
+        <path d="M 0 -140 C 50 -140, 90 -100, 90 -50 C 90 0, 80 40, 70 80 C 60 110, 50 130, 30 140 L 0 140 L 0 -140 Z" fill={TK.accent}/>
+        <circle cx="50" cy="-30" r="3" fill={TK.paper}/>
+      </g>
+      <line x1="150" y1="40" x2="150" y2="320" stroke={TK.paper} strokeWidth="1.5" opacity=".5"/>
+      <text x="150" y="16" textAnchor="middle" fontFamily={TK.mono} fontSize="11" fill={TK.ink3} letterSpacing=".3em">JANUS</text>
+    </svg>
+  );
+}
+
+function PhoneFrame({ x, y, scale = 1, startAt = 0 }) {
+  const { localTime } = useSprite();
+  const t = clamp((localTime - startAt) / 0.8, 0, 1);
+  const eased = Easing.easeOutCubic(t);
+  const phoneScale = scale * (0.85 + eased * 0.15);
+  return (
+    <div style={{ position:'absolute',left:x,top:y,transform:`translate(-50%,-50%) scale(${phoneScale})`,transformOrigin:'center',opacity:t }}>
+      <div style={{ width:380,height:760,background:'#1a1a1a',borderRadius:56,padding:12,boxShadow:'0 30px 80px rgba(0,0,0,.45),0 0 0 2px #2a2a2a inset' }}>
+        <div style={{ width:'100%',height:'100%',background:'#f0ece4',borderRadius:44,overflow:'hidden',position:'relative',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:16 }}>
+          <div style={{position:'absolute',top:16,left:'50%',transform:'translateX(-50%)',width:110,height:28,background:'#1a1a1a',borderRadius:14,zIndex:2}}/>
+          <div style={{fontFamily:TK.mono,fontSize:11,color:'#999',letterSpacing:'.2em',textTransform:'uppercase',marginTop:40}}>Meu INSS</div>
+          <div style={{fontFamily:TK.serifDisplay,fontSize:22,color:TK.ink,fontWeight:500}}>Aposentadoria Rural</div>
+          <div style={{width:80,height:2,background:TK.accent}}/>
+          <div style={{fontFamily:TK.mono,fontSize:13,color:TK.accent,fontWeight:600,letterSpacing:'.15em',textTransform:'uppercase',padding:'6px 20px',border:`1.5px solid ${TK.accent}`}}>INDEFERIDO</div>
+          <div style={{fontSize:13,color:TK.ink3,textAlign:'center',padding:'0 40px',lineHeight:1.4}}>Não comprovada a qualidade de segurado especial</div>
+          <div style={{fontFamily:TK.serifBody,fontStyle:'italic',fontSize:14,color:TK.accent,marginTop:12}}>sem contraditório prévio</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BlackBoxGfx({ x, y, width = 1100, height = 300, startAt = 0 }) {
+  const { localTime } = useSprite();
+  const t = clamp((localTime - startAt) / 0.8, 0, 1);
+  const scrambleT = Math.max(0, localTime - startAt - 0.6);
+  const chars = '?▓░▒█▞▚▓░▒#@%&01';
+  const lines = [];
+  for (let i = 0; i < 5; i++) {
+    let line = '';
+    for (let j = 0; j < 22; j++) {
+      const idx = Math.floor((scrambleT * 14 + i*3.7 + j*1.1)) % chars.length;
+      line += chars[Math.abs(idx) % chars.length];
+    }
+    lines.push(line);
+  }
+  return (
+    <div style={{ position:'absolute',left:x,top:y,transform:'translate(-50%,-50%)',opacity:t,display:'flex',alignItems:'center',gap:14 }}>
+      <div style={{textAlign:'right',width:160}}>
+        <div style={{fontFamily:TK.mono,fontSize:13,color:TK.ink3,letterSpacing:'.3em',textTransform:'uppercase',marginBottom:6}}>entrada</div>
+        <div style={{fontFamily:TK.serifDisplay,fontStyle:'italic',fontSize:26,color:TK.ink}}>dados pessoais</div>
+        <div style={{fontFamily:TK.serifBody,fontSize:14,color:TK.ink3,marginTop:4}}>CPF · CNIS · CadÚnico</div>
+      </div>
+      <svg width="36" height="40"><path d="M0 20 L 28 20 M20 12 L 28 20 L 20 28" stroke={TK.ink} strokeWidth="2" fill="none"/></svg>
+      <div style={{ width: width - 380, height, background: TK.ink, position:'relative', boxShadow:'inset 0 0 0 1px #000,0 10px 30px rgba(0,0,0,.3)' }}>
+        <svg style={{position:'absolute',inset:0,width:'100%',height:'100%'}}>
+          <defs><pattern id="bbhatch2" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke={TK.accent} strokeWidth=".5" opacity=".5"/></pattern></defs>
+          <rect width="100%" height="100%" fill="url(#bbhatch2)" opacity=".3"/>
+        </svg>
+        <div style={{position:'absolute',top:12,left:16,fontFamily:TK.mono,fontSize:12,color:'#5a5046',letterSpacing:'.3em',textTransform:'uppercase'}}>caixa-preta</div>
+        <div style={{ position:'absolute',inset:0,display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',gap:6 }}>
+          {lines.map((l,i) => (
+            <div key={i} style={{ fontFamily:TK.mono,fontSize:24,color:TK.termErr,letterSpacing:'.06em',opacity:.85,filter:'blur(.3px)' }}>{l}</div>
+          ))}
+        </div>
+        <div style={{ position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontFamily:TK.serifDisplay,fontSize:180,fontWeight:700,color:TK.accent,opacity:.5,mixBlendMode:'screen' }}>?</div>
+      </div>
+      <svg width="36" height="40"><path d="M0 20 L 28 20 M20 12 L 28 20 L 20 28" stroke={TK.ink} strokeWidth="2" fill="none"/></svg>
+      <div style={{textAlign:'left',width:160}}>
+        <div style={{fontFamily:TK.mono,fontSize:13,color:TK.ink3,letterSpacing:'.3em',textTransform:'uppercase',marginBottom:6}}>saída</div>
+        <div style={{fontFamily:TK.serifDisplay,fontStyle:'italic',fontSize:26,color:TK.accent}}>indeferido</div>
+        <div style={{fontFamily:TK.serifBody,fontSize:14,color:TK.ink3,marginTop:4}}>sem motivação</div>
+      </div>
+    </div>
+  );
+}
+
+function ColumnGfx({ x, y, height = 280, width = 60, label, sublabel, color = TK.ink, accent = TK.accent, startAt = 0, fall = true }) {
+  const { localTime } = useSprite();
+  const t = clamp((localTime - startAt) / 1.0, 0, 1);
+  const eased = Easing.easeOutCubic(t);
+  const ty = fall ? (1 - eased) * -60 : (1 - eased) * 30;
+  const opacity = t;
+  const lt = clamp((localTime - startAt - 0.7) / 0.6, 0, 1);
+  return (
+    <div style={{position:'absolute',left:x,top:y,transform:`translate(-50%,0) translateY(${ty}px)`,opacity}}>
+      <svg width={width+50} height={height+80} viewBox={`0 0 ${width+50} ${height+80}`}>
+        <g transform={`translate(${(width+50)/2}, 0)`}>
+          <rect x={-width*.65 - 4} y={6} width={width*1.3 + 8} height={8} fill={color}/>
+          <rect x={-width*.65} y={14} width={width*1.3} height={10} fill={color}/>
+          <circle cx={-width*.65 + 8} cy={20} r={5} fill="none" stroke={color} strokeWidth="1.5"/>
+          <circle cx={width*.65 - 8} cy={20} r={5} fill="none" stroke={color} strokeWidth="1.5"/>
+          <rect x={-width/2} y={28} width={width} height={height - 48} fill={color} opacity={.92}/>
+          <rect x={-width*.75 + 6} y={height - 18} width={width*1.5 - 12} height={4} fill={color}/>
+          <rect x={-width*.75} y={height - 14} width={width*1.5} height={8} fill={color}/>
+          <g transform="translate(0, -6) scale(.5)" opacity={lt}>
+            <path d="M0 -16 C 4 -8, 14 -4, 24 0 C 14 4, 4 8, 0 16 C -4 8, -14 4, -24 0 C -14 -4, -4 -8, 0 -16 Z" fill={accent}/>
+          </g>
+        </g>
+      </svg>
+      {sublabel && <div style={{ marginTop:12,textAlign:'center',opacity:lt,transform:`translateY(${(1-lt)*8}px)` }}>
+        <div style={{ fontFamily:TK.mono,fontSize:11,color:TK.ink3,letterSpacing:'.28em',textTransform:'uppercase',marginBottom:6 }}>{sublabel}</div>
+        <div style={{ fontFamily:TK.serifDisplay,fontSize:26,fontWeight:600,fontStyle:'italic',color:accent,lineHeight:1.05 }}>{label}</div>
+      </div>}
+    </div>
+  );
+}
+
+Object.assign(window, { TK, PaperBg, Fleur, Rule, RevealText, Stamp, Folio, DropCap, JanusHead, PhoneFrame, BlackBoxGfx, ColumnGfx });
+</script>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     MAIN ANIMATION: Scenes
+     ══════════════════════════════════════════════════════════════════════ -->
+<script type="text/babel">
+// ── Wrapper atom for scene backgrounds ───────────────────────────────────
+function ScenePaper({ children }) {
+  return <PaperBg>{children}</PaperBg>;
+}
+
+// ── Particle/dust effect for editorial atmosphere ────────────────────────
+function Dust() {
+  const { localTime } = useSprite();
+  const particles = React.useMemo(() =>
+    Array.from({length: 18}, (_, i) => ({
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      delay: Math.random() * 5,
+      size: 0.5 + Math.random() * 0.8,
+      speed: 0.2 + Math.random() * 0.3,
+    })), []);
+  return (
+    <div style={{position:'absolute',inset:0,pointerEvents:'none',overflow:'hidden'}}>
+      {particles.map((p, i) => {
+        const phase = (localTime * p.speed + p.delay) % 10;
+        const opacity = phase < 1 ? phase : phase > 9 ? 10 - phase : 1;
+        return (
+          <div key={i} style={{
+            position:'absolute',left:`${p.x}%`,top:`${(p.y + phase*2)%100}%`,
+            width:p.size,height:p.size,background:TK.ink,
+            borderRadius:'50%',opacity:opacity * 0.3,
+          }}/>
+        );
+      })}
+    </div>
+  );
+}
+
+// ── Terminal-style slide accent ──────────────────────────────────────────
+function TerminalStrip() {
+  const { localTime } = useSprite();
+  const scrambleT = Math.max(0, localTime);
+  const chars = '01010111010100';
+  let strip = '';
+  for (let j = 0; j < 48; j++) {
+    strip += chars[Math.floor((scrambleT * 8 + j * 0.7)) % chars.length];
+  }
+  return (
+    <div style={{
+      position:'absolute',bottom:0,left:0,right:0,height:4,
+      background:TK.termBg,
+      display:'flex',alignItems:'center',justifyContent:'flex-end',
+      padding:'0 20px',gap:8,
+    }}>
+      <span style={{fontFamily:TK.mono,fontSize:8,color:TK.termNeon,letterSpacing:'.5em',opacity:.8}}>{strip}</span>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// MAIN APP
+// ═══════════════════════════════════════════════════════════════════════
+function App() {
+  const DURATION = 32;
+
+  return (
+    <Stage width={1920} height={1080} duration={DURATION} background={TK.paper}
+           persistKey="seminario8-anim" loop={true} autoplay={true}>
+
+      {/* ════════ SCENE 1 (0–7s): TÍTULO — Capa ════════ */}
+      <Sprite start={0} end={7}>
+        <ScenePaper>
+          <Dust/>
+          {/* Ornamentos */}
+          <Fleur x={960} y={180} size={64} color={TK.accent}/>
+          <Rule x={960} y={240} width={640} withFleur={true}/>
+          <Folio x={960} y={130} text="PPGD / UFSC · 2026" size={16}/>
+
+          {/* Título principal — revela letra por letra */}
+          <RevealText text="Do Poder-Dever" x={960} y={320} size={108} weight={600} italic={false} color={TK.ink} startAt={0.3} duration={1.8}/>
+          <RevealText text="ao Dever-Poder" x={960} y={440} size={108} weight={600} italic={true} color={TK.accent} startAt={1.0} duration={1.8}/>
+
+          {/* Subtítulo */}
+          <Stamp text="Seminário 8" x={960} y={560} size={52} color={TK.ink} rotation={-1.5} startAt={2.8} duration={0.7} italic={false}/>
+          <Folio x={960} y={620} text="Administração Pública orientada por dados" size={22} color={TK.ink2}/>
+
+          {/* Autores */}
+          <div style={{position:'absolute',left:'50%',top:700,transform:'translateX(-50%)',textAlign:'center'}}>
+            <div style={{fontFamily:TK.serifDisplay,fontSize:28,color:TK.ink2}}>
+              <span style={{fontWeight:600}}>Ana Vitória Vanzin</span>
+              <span style={{color:TK.ink3,margin:'0 10px',fontStyle:'italic'}}>&amp;</span>
+              <span style={{fontWeight:600}}>Vinícius Oliveira</span>
+            </div>
+          </div>
+
+          <Folio x={960} y={780} text="25 · V · 2026" size={22} color={TK.ink3}/>
+          <Rule x={960} y={830} width={360} color={TK.ruleStrong}/>
+          <Folio x={960} y={870} text="slide 01" size={14} color={TK.ink3}/>
+        </ScenePaper>
+      </Sprite>
+
+      {/* ════════ SCENE 2 (7–12s): JANUS — Tese ════════ */}
+      <Sprite start={6.5} end={13}>
+        <ScenePaper>
+          <Dust/>
+          <Fleur x={960} y={200} size={56} color={TK.accent}/>
+          <Rule x={960} y={260} width={520} withFleur={true}/>
+
+          <Folio x={960} y={150} text="— chave de leitura —" size={18} color={TK.accent}/>
+          <RevealText text="Quem edita a regra" x={270} y={380} size={62} weight={500} italic={false} color={TK.ink} startAt={0.5} duration={1.4} align="left"/>
+          <RevealText text="é quem mais a descumpre" x={270} y={470} size={62} weight={500} italic={true} color={TK.accent} startAt={1.0} duration={1.4} align="left"/>
+          <RevealText text="contra o cidadão" x={270} y={560} size={62} weight={500} italic={false} color={TK.ink} startAt={1.5} duration={1.4} align="left"/>
+
+          {/* Janus visual — right side */}
+          <JanusHead x={1480} y={520} size={320} startAt={2.0}/>
+
+          {/* Labels */}
+          <Stamp text="REGULADOR" x={300} y={680} size={38} color={TK.ink} rotation={-1} startAt={3.5}/>
+          <Stamp text="⇄" x={600} y={680} size={50} color={TK.accent} rotation={0} startAt={3.8}/>
+          <Stamp text="REGULADO" x={900} y={680} size={38} color={TK.accent} rotation={1} startAt={4.1}/>
+
+          <Folio x={960} y={780} text="Do poder-dever ao dever-poder" size={18} color={TK.ink2}/>
+          <Rule x={960} y={830} width={360} color={TK.ruleStrong}/>
+          <Folio x={960} y={870} text="slide 03" size={14} color={TK.ink3}/>
+        </ScenePaper>
+      </Sprite>
+
+      {/* ════════ SCENE 3 (12–18s): 4 ARTIGOS ════════ */}
+      <Sprite start={12} end={18.5}>
+        <ScenePaper>
+          <Dust/>
+          <Fleur x={960} y={160} size={50} color={TK.gold}/>
+          <Rule x={960} y={210} width={480} withFleur={true} color={TK.gold}/>
+          <Folio x={960} y={120} text="— quatro artigos · IJDL —" size={18} color={TK.ink3}/>
+
+          {/* 4 artigos em grid */}
+          <div style={{position:'absolute',left:120,top:270,width:330}}>
+            <div style={{fontFamily:TK.mono,fontSize:12,color:TK.accent,letterSpacing:'.2em',textTransform:'uppercase',marginBottom:10}}>artigo i</div>
+            <div style={{fontFamily:TK.serifDisplay,fontSize:32,fontWeight:500,fontStyle:'italic',color:TK.ink,lineHeight:1.1}}>Privacidade</div>
+            <div style={{fontFamily:TK.serifBody,fontSize:16,color:TK.ink2,marginTop:6}}>Salgado &amp; Saito</div>
+          </div>
+          <div style={{position:'absolute',left:540,top:270,width:330}}>
+            <div style={{fontFamily:TK.mono,fontSize:12,color:TK.accent,letterSpacing:'.2em',textTransform:'uppercase',marginBottom:10}}>artigo ii</div>
+            <div style={{fontFamily:TK.serifDisplay,fontSize:32,fontWeight:500,fontStyle:'italic',color:TK.ink,lineHeight:1.1}}>Governo Aberto</div>
+            <div style={{fontFamily:TK.serifBody,fontSize:16,color:TK.ink2,marginTop:6}}>Cristóvam &amp; Hahn</div>
+          </div>
+          <div style={{position:'absolute',left:960,top:270,width:330}}>
+            <div style={{fontFamily:TK.mono,fontSize:12,color:TK.accent,letterSpacing:'.2em',textTransform:'uppercase',marginBottom:10}}>artigo iii</div>
+            <div style={{fontFamily:TK.serifDisplay,fontSize:32,fontWeight:500,fontStyle:'italic',color:TK.ink,lineHeight:1.1}}>Big Data</div>
+            <div style={{fontFamily:TK.serifBody,fontSize:16,color:TK.ink2,marginTop:6}}>Sarlet &amp; Molinaro</div>
+          </div>
+          <div style={{position:'absolute',left:1380,top:270,width:330}}>
+            <div style={{fontFamily:TK.mono,fontSize:12,color:TK.accent,letterSpacing:'.2em',textTransform:'uppercase',marginBottom:10}}>artigo iv</div>
+            <div style={{fontFamily:TK.serifDisplay,fontSize:32,fontWeight:500,fontStyle:'italic',color:TK.ink,lineHeight:1.1}}>Algoritmo</div>
+            <div style={{fontFamily:TK.serifBody,fontSize:16,color:TK.ink2,marginTop:6}}>Tavares et al.</div>
+          </div>
+
+          {/* Arco dramático */}
+          <div style={{position:'absolute',left:120,top:525,right:120,display:'flex',alignItems:'center',gap:0}}>
+            <div style={{flex:1,textAlign:'center'}}>
+              <div style={{fontFamily:TK.mono,fontSize:11,color:TK.accent,letterSpacing:'.22em',textTransform:'uppercase',marginBottom:4}}>promessa</div>
+              <div style={{fontFamily:TK.serifDisplay,fontStyle:'italic',fontSize:20,color:TK.ink}}>LGPD &amp; governo aberto</div>
+            </div>
+            <div style={{fontFamily:TK.serifDisplay,fontSize:28,color:TK.ink3}}>→</div>
+            <div style={{flex:1,textAlign:'center'}}>
+              <div style={{fontFamily:TK.mono,fontSize:11,color:TK.accent,letterSpacing:'.22em',textTransform:'uppercase',marginBottom:4}}>choque</div>
+              <div style={{fontFamily:TK.serifDisplay,fontStyle:'italic',fontSize:20,color:TK.ink}}>big data &amp; IA</div>
+            </div>
+            <div style={{fontFamily:TK.serifDisplay,fontSize:28,color:TK.ink3}}>→</div>
+            <div style={{flex:1,textAlign:'center'}}>
+              <div style={{fontFamily:TK.mono,fontSize:11,color:TK.accent,letterSpacing:'.22em',textTransform:'uppercase',marginBottom:4}}>conflito</div>
+              <div style={{fontFamily:TK.serifDisplay,fontStyle:'italic',fontSize:20,color:TK.ink}}>regulador ⇄ regulado</div>
+            </div>
+            <div style={{fontFamily:TK.serifDisplay,fontSize:28,color:TK.ink3}}>→</div>
+            <div style={{flex:1,textAlign:'center'}}>
+              <div style={{fontFamily:TK.mono,fontSize:11,color:TK.accent,letterSpacing:'.22em',textTransform:'uppercase',marginBottom:4}}>resolução</div>
+              <div style={{fontFamily:TK.serifDisplay,fontStyle:'italic',fontSize:20,color:TK.ink}}>protótipo GovLens</div>
+            </div>
+          </div>
+
+          <Rule x={960} y={650} width={360}/>
+          <Folio x={960} y={690} text="33 slides · arco dramático em 4 atos" size={16} color={TK.ink2}/>
+          <Rule x={960} y={740} width={200} color={TK.ruleStrong}/>
+          <Folio x={960} y={780} text="slides 04–28" size={14} color={TK.ink3}/>
+        </ScenePaper>
+      </Sprite>
+
+      {/* ════════ SCENE 4 (18–24s): CASO INSS — Phone ════════ */}
+      <Sprite start={18} end={24}>
+        <ScenePaper>
+          <Dust/>
+          <Fleur x={960} y={160} size={50} color={TK.accent}/>
+          <Rule x={960} y={210} width={480} withFleur={true}/>
+          <Folio x={960} y={120} text="— caso-âncora —" size={18} color={TK.accent}/>
+
+          {/* Left side: context */}
+          <div style={{position:'absolute',left:140,top:280,maxWidth:700}}>
+            <RevealText text="Aposentadoria Rural" x={140} y={340} size={60} weight={500} italic={false} color={TK.ink} startAt={0.5} duration={1.4} align="left"/>
+            <RevealText text="negada automaticamente" x={140} y={420} size={60} weight={500} italic={true} color={TK.accent} startAt={0.8} duration={1.4} align="left"/>
+
+            <div style={{marginTop:40,fontFamily:TK.serifBody,fontSize:22,color:TK.ink2,lineHeight:1.5,maxWidth:640}}>
+              <div style={{opacity:clamp(useSprite().localTime - 2.0,0,1)*clamp(4.5 - useSprite().localTime,0,1),transition:'opacity .3s'}}>
+                O sistema cruzou CNIS, CadÚnico e geolocalização — <em style={{color:TK.accent}}>inferiu</em> atividade urbana e indeferiu. Sem contraditório. Sem explicação. Em desacordo com a própria IN 128/2022 do INSS.
+              </div>
+            </div>
+
+            <div style={{marginTop:30,opacity:clamp(useSprite().localTime - 2.8,0,1)*clamp(3.2 - useSprite().localTime,0,1)}}>
+              <div style={{fontFamily:TK.mono,fontSize:14,color:TK.ink3,letterSpacing:'.2em',textTransform:'uppercase',marginBottom:8}}>o regulador que se descumpre</div>
+              <div style={{fontFamily:TK.serifDisplay,fontStyle:'italic',fontSize:26,color:TK.accent}}>quem edita a IN 128 é quem a viola</div>
+            </div>
+          </div>
+
+          {/* Right side: phone */}
+          <PhoneFrame x={1520} y={520} scale={0.7} startAt={1.2}/>
+
+          <Rule x={960} y={940} width={360} color={TK.ruleStrong}/>
+          <Folio x={960} y={980} text="slide 26 — caso INSS" size={14} color={TK.ink3}/>
+        </ScenePaper>
+      </Sprite>
+
+      {/* ════════ SCENE 5 (23.5–28s): BLACK BOX ════════ */}
+      <Sprite start={23.5} end={28.5}>
+        <ScenePaper>
+          <Dust/>
+          <Fleur x={960} y={160} size={50} color={TK.accent}/>
+          <Rule x={960} y={210} width={480} withFleur={true}/>
+          <Folio x={960} y={120} text="— a opacidade algorítmica —" size={18} color={TK.accent}/>
+
+          <RevealText text="A caixa-preta do Estado" x={960} y={300} size={64} weight={500} italic={false} color={TK.ink} startAt={0.4} duration={1.4}/>
+
+          <BlackBoxGfx x={960} y={560} width={1300} startAt={1.5}/>
+
+          <div style={{position:'absolute',left:'50%',top:780,transform:'translateX(-50%)',textAlign:'center',opacity:clamp(useSprite().localTime - 2.5,0,1)}}>
+            <div style={{fontFamily:TK.serifDisplay,fontStyle:'italic',fontSize:30,color:TK.accent}}>"Não comprovada a qualidade de segurado especial"</div>
+            <div style={{fontFamily:TK.serifBody,fontSize:18,color:TK.ink3,marginTop:8}}>não é motivação — é fórmula vazia</div>
+          </div>
+
+          <Rule x={960} y={900} width={360} color={TK.ruleStrong}/>
+          <Folio x={960} y={940} text="slide 27 — black box INSS" size={14} color={TK.ink3}/>
+        </ScenePaper>
+      </Sprite>
+
+      {/* ════════ SCENE 6 (28–32s): PROTÓTIPO — 4 colunas ════════ */}
+      <Sprite start={28} end={34}>
+        <ScenePaper>
+          <Dust/>
+          <Fleur x={960} y={140} size={50} color={TK.gold}/>
+          <Rule x={960} y={190} width={480} withFleur={true} color={TK.gold}/>
+          <Folio x={960} y={100} text="— conselho de contestação algorítmica —" size={18} color={TK.ink2}/>
+
+          <RevealText text="4 vozes · 4 artigos" x={960} y={260} size={52} weight={500} italic={true} color={TK.ink} startAt={0.4} duration={1.2}/>
+
+          {/* 4 columns for 4 personas */}
+          <ColumnGfx x={340} y={620} height={260} width={56} label="Defensoria" sublabel="contraditório" color={TK.ink} accent={TK.accent} startAt={1.2} fall={true}/>
+          <ColumnGfx x={750} y={620} height={260} width={56} label="Cientista" sublabel="explicabilidade" color={TK.ink} accent={TK.accent2} startAt={1.6} fall={true}/>
+          <ColumnGfx x={1160} y={620} height={260} width={56} label="Administrador" sublabel="governança" color={TK.ink} accent={TK.gold} startAt={2.0} fall={true}/>
+          <ColumnGfx x={1570} y={620} height={260} width={56} label="Cidadão" sublabel="literacia digital" color={TK.ink} accent={TK.accent} startAt={2.4} fall={true}/>
+
+          <div style={{position:'absolute',left:'50%',top:790,transform:'translateX(-50%)',textAlign:'center',opacity:clamp(useSprite().localTime - 3.2,0,1)}}>
+            <div style={{fontFamily:TK.serifDisplay,fontStyle:'italic',fontSize:28,color:TK.ink2}}>Cada persona = uma leitura do seminário</div>
+          </div>
+
+          <Rule x={960} y={870} width={360} color={TK.ruleStrong}/>
+          <Folio x={960} y={910} text="slides 30–33 · protótipo" size={14} color={TK.ink3}/>
+        </ScenePaper>
+      </Sprite>
+
+      {/* ════════ FECHO (31.5–32s): Tese final — stamp ════════ */}
+      <Sprite start={31} end={35}>
+        <ScenePaper>
+          <Dust/>
+          <Fleur x={960} y={220} size={64} color={TK.accent}/>
+          <Rule x={960} y={280} width={520} withFleur={true}/>
+
+          <Folio x={960} y={170} text="— contribuição autoral —" size={18} color={TK.accent}/>
+
+          <DropCap x={400} y={420} letter="O" size={200} startAt={0.5}/>
+          <div style={{position:'absolute',left:500,top:340,maxWidth:1100}}>
+            <div style={{fontFamily:TK.serifDisplay,fontSize:52,fontWeight:500,color:TK.ink,lineHeight:1.15}}>
+              Estado opera como <span style={{fontStyle:'italic',color:TK.accent}}>regulador ⇄ regulado</span>:
+            </div>
+            <div style={{fontFamily:TK.serifDisplay,fontSize:52,fontWeight:500,fontStyle:'italic',color:TK.accent,lineHeight:1.15,marginTop:8}}>
+              quem edita a regra é,
+            </div>
+            <div style={{fontFamily:TK.serifDisplay,fontSize:52,fontWeight:500,color:TK.ink,lineHeight:1.15,marginTop:8}}>
+              com frequência, quem mais
+            </div>
+            <div style={{fontFamily:TK.serifDisplay,fontSize:52,fontWeight:600,fontStyle:'italic',color:TK.accent,lineHeight:1.15,marginTop:8}}>
+              a descumpre contra o cidadão.
+            </div>
+          </div>
+
+          <Stamp text="Do Poder-Dever" x={960} y={760} size={48} color={TK.ink} rotation={-1.5} startAt={2.5}/>
+          <Stamp text="ao Dever-Poder" x={960} y={830} size={48} color={TK.accent} rotation={1} startAt={2.8}/>
+
+          <Folio x={960} y={920} text="25 · V · 2026 · PPGD/UFSC" size={18} color={TK.ink3}/>
+          <Rule x={960} y={970} width={360} color={TK.ruleStrong}/>
+          <Folio x={960} y={1000} text="slide 34 · tese final" size={14} color={TK.ink3}/>
+        </ScenePaper>
+      </Sprite>
+
+    </Stage>
+  );
+}
+
+// ── Render ──────────────────────────────────────────────────────────────────
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+
+</body>
+</html>

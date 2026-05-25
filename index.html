@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Seminário 8 — Índice · Vanzin & Oliveira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Spectral:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#fbfaf5;
+    --paper-warm:#f5f1e6;
+    --paper-dark:#ebe6d8;
+    --ink:#16140f;
+    --ink-2:#3a3733;
+    --ink-3:#6a665e;
+    --ink-4:#9a958b;
+    --rule:rgba(22,20,15,.18);
+    --rule-strong:rgba(22,20,15,.4);
+    --accent:#8b1a1a;
+    --accent-2:#6a1212;
+    --gold:#a67a2c;
+
+    --serif-display:"EB Garamond",Georgia,serif;
+    --serif-body:"Spectral",Georgia,serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#e6e2d6;min-height:100vh}
+  body{
+    font-family:var(--serif-body);
+    color:var(--ink);
+    padding:0 0 80px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* page = paper sheet */
+  .sheet{
+    background:var(--paper);
+    max-width:1180px;
+    margin:48px auto;
+    padding:88px 96px 96px;
+    position:relative;
+    box-shadow:
+      0 1px 0 rgba(0,0,0,.04),
+      0 20px 50px -25px rgba(22,20,15,.35),
+      0 60px 120px -40px rgba(22,20,15,.18);
+  }
+  /* paper grain */
+  .sheet::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(900px 600px at 8% -10%,rgba(166,122,44,.06),transparent 60%),
+      radial-gradient(700px 500px at 110% 110%,rgba(139,26,26,.05),transparent 60%);
+  }
+
+  /* deckle edges feel */
+  .sheet::after{
+    content:"";position:absolute;left:0;right:0;top:0;height:6px;
+    background:repeating-linear-gradient(90deg,var(--paper) 0 12px,transparent 12px 14px);
+    pointer-events:none;
+  }
+
+  /* ─── HEAD ─── */
+  .top-rule{
+    display:flex;justify-content:space-between;align-items:baseline;
+    border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:36px;
+    font-family:var(--serif-display);font-style:italic;
+    color:var(--ink-2);font-size:18px;
+  }
+  .top-rule .vol{letter-spacing:.02em}
+  .top-rule .date{
+    font-style:normal;font-family:var(--mono);
+    font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);
+  }
+
+  .eyebrow{
+    font-family:var(--serif-display);font-style:italic;
+    font-size:24px;color:var(--accent);
+    margin-bottom:22px;
+  }
+  h1.title{
+    font-family:var(--serif-display);font-weight:500;
+    font-size:88px;line-height:1.0;letter-spacing:-.012em;
+    color:var(--ink);
+    margin-bottom:28px;
+    max-width:920px;
+    text-wrap:balance;
+  }
+  h1.title em{font-style:italic;color:var(--accent)}
+  h1.title .ampersand{font-style:italic;color:var(--ink-3);font-weight:400;padding:0 4px}
+
+  .deck-meta{
+    display:grid;grid-template-columns:auto 1fr auto;gap:32px;align-items:start;
+    padding:18px 0 24px;
+    border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+    margin-bottom:48px;
+  }
+  .deck-meta .who{
+    font-family:var(--serif-display);
+    font-size:22px;color:var(--ink-2);line-height:1.3;
+  }
+  .deck-meta .who strong{font-weight:500;color:var(--ink)}
+  .deck-meta .who em{font-style:italic;color:var(--ink-3);font-size:18px;display:block;margin-top:2px}
+  .deck-meta .inst{
+    font-family:var(--mono);font-size:12px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--ink-3);text-align:right;line-height:1.6;
+  }
+  .deck-meta .abstract{
+    font-family:var(--serif-body);font-style:italic;
+    font-size:19px;line-height:1.5;color:var(--ink-2);
+    max-width:520px;
+    padding:0 28px;
+    border-left:1px solid var(--rule);border-right:1px solid var(--rule);
+  }
+
+  /* ─── THESIS BAND ─── */
+  .thesis{
+    margin:0 -8px 60px;
+    padding:34px 40px 36px;
+    background:var(--paper-warm);
+    border-top:1px solid var(--ink);
+    border-bottom:1px solid var(--ink);
+    position:relative;
+  }
+  .thesis::before{
+    content:"§";position:absolute;
+    left:-18px;top:50%;transform:translateY(-50%);
+    background:var(--paper-warm);
+    width:36px;height:36px;display:grid;place-items:center;
+    font-family:var(--serif-display);font-style:italic;font-size:28px;color:var(--accent);
+    border:1px solid var(--ink);
+  }
+  .thesis .label{
+    font-family:var(--mono);font-size:11px;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--ink-3);margin-bottom:14px;
+  }
+  .thesis p{
+    font-family:var(--serif-display);font-weight:500;
+    font-size:36px;line-height:1.18;letter-spacing:-.005em;
+    color:var(--ink);
+    text-wrap:balance;
+  }
+  .thesis p em{font-style:italic;color:var(--accent)}
+  .thesis .src{
+    display:block;margin-top:18px;
+    font-family:var(--serif-display);font-style:italic;
+    font-size:19px;color:var(--ink-3);
+  }
+
+  /* ─── SUMMARY HEADING ─── */
+  .sum-head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    margin-bottom:8px;
+  }
+  .sum-head h2{
+    font-family:var(--serif-display);font-weight:500;font-style:italic;
+    font-size:42px;color:var(--ink);
+  }
+  .sum-head .ct{
+    font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--ink-3);
+  }
+  .sum-rule{
+    border-bottom:1px solid var(--ink);margin-bottom:8px;
+  }
+  .sum-rule-2{
+    border-bottom:1px solid var(--ink);margin-bottom:36px;height:4px;
+  }
+
+  /* ─── ENTRIES (table of contents, hierarchical) ─── */
+  .toc{
+    display:flex;flex-direction:column;
+  }
+  .entry{
+    display:grid;grid-template-columns:78px 1fr 220px;
+    gap:36px;align-items:start;
+    padding:32px 0 34px;
+    border-bottom:1px solid var(--rule);
+    text-decoration:none;color:inherit;
+    position:relative;
+    transition:background .18s ease,padding-left .18s ease;
+  }
+  .entry:hover{
+    background:linear-gradient(90deg,rgba(139,26,26,.04),transparent 70%);
+    padding-left:14px;
+  }
+  .entry:hover .num{color:var(--accent)}
+  .entry:hover .e-title em{color:var(--accent)}
+  .entry:hover .arrow{transform:translateX(6px);color:var(--accent)}
+
+  .entry .num{
+    font-family:var(--serif-display);font-style:italic;font-weight:500;
+    font-size:72px;line-height:.85;color:var(--ink);
+    letter-spacing:-.02em;
+    transition:color .18s;
+  }
+  .entry .num .roman{display:block;font-size:18px;font-style:normal;color:var(--ink-3);letter-spacing:.18em;margin-top:6px;font-family:var(--mono);font-weight:400}
+
+  .entry .body{}
+  .entry .kicker{
+    font-family:var(--mono);font-size:11px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:8px;
+  }
+  .entry .e-title{
+    font-family:var(--serif-display);font-weight:500;
+    font-size:38px;line-height:1.08;color:var(--ink);
+    margin-bottom:10px;letter-spacing:-.005em;
+  }
+  .entry .e-title em{font-style:italic;transition:color .18s}
+  .entry .desc{
+    font-size:17px;line-height:1.48;color:var(--ink-2);max-width:560px;
+  }
+  .entry .desc em{font-style:italic;color:var(--ink)}
+  .entry .tags{
+    display:flex;flex-wrap:wrap;gap:6px 10px;margin-top:14px;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--ink-3);
+  }
+  .entry .tags span{
+    border:1px solid var(--rule-strong);
+    padding:3px 8px;
+  }
+  .entry .tags span.hot{color:var(--accent);border-color:var(--accent)}
+
+  .entry .meta{
+    display:flex;flex-direction:column;align-items:flex-end;gap:6px;
+    padding-top:4px;
+    text-align:right;
+  }
+  .entry .meta .stat{
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--ink-3);
+  }
+  .entry .meta .stat b{color:var(--ink);font-weight:500}
+  .entry .meta .arrow{
+    margin-top:14px;
+    font-family:var(--serif-display);font-size:36px;color:var(--ink);
+    transition:transform .2s,color .18s;
+  }
+  .entry .meta .ftype{
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--ink-3);
+    border:1px solid var(--ink-3);padding:3px 8px;
+    margin-top:2px;
+  }
+
+  /* primary entry — slightly heavier */
+  .entry.primary{
+    background:linear-gradient(90deg,rgba(166,122,44,.05),transparent 65%);
+  }
+  .entry.primary .num{color:var(--accent)}
+  .entry.primary::before{
+    content:"";position:absolute;left:0;top:32px;bottom:34px;width:3px;
+    background:var(--accent);
+  }
+
+  /* ─── STRUCTURE PREVIEW (deck arc) ─── */
+  .arc{
+    margin:50px 0 0;
+    padding:30px 0 0;
+    border-top:1px solid var(--ink);
+  }
+  .arc-head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    margin-bottom:24px;
+  }
+  .arc-head h3{
+    font-family:var(--serif-display);font-style:italic;font-weight:500;font-size:30px;color:var(--ink);
+  }
+  .arc-head .by{
+    font-family:var(--mono);font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--ink-3);
+  }
+  .arc-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+    border:1px solid var(--ink);
+  }
+  .arc-cell{
+    padding:22px 22px 24px;
+    border-right:1px solid var(--ink);
+    position:relative;
+    background:var(--paper);
+  }
+  .arc-cell:last-child{border-right:none}
+  .arc-cell .act{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:8px;
+  }
+  .arc-cell .arc-t{
+    font-family:var(--serif-display);font-style:italic;font-weight:500;
+    font-size:24px;line-height:1.1;color:var(--ink);margin-bottom:10px;
+  }
+  .arc-cell .arc-d{
+    font-size:13.5px;line-height:1.42;color:var(--ink-2);
+  }
+  .arc-cell .slidenum{
+    position:absolute;top:14px;right:14px;
+    font-family:var(--mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.18em;
+  }
+  .arc-cell.peak{background:var(--paper-warm)}
+  .arc-cell.peak::after{
+    content:"★";position:absolute;left:22px;bottom:14px;color:var(--accent);font-size:14px;
+  }
+
+  /* ─── BOTTOM RULES + COLOPHON ─── */
+  .colophon{
+    margin-top:64px;padding-top:28px;
+    border-top:2px solid var(--ink);
+    display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;
+  }
+  .colophon h4{
+    font-family:var(--mono);font-size:11px;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--ink-3);margin-bottom:12px;font-weight:500;
+  }
+  .colophon p{
+    font-family:var(--serif-display);font-size:17px;line-height:1.45;color:var(--ink-2);
+  }
+  .colophon p em{font-style:italic;color:var(--accent)}
+  .colophon .glyph{
+    font-family:var(--serif-display);font-style:italic;font-size:28px;color:var(--accent);
+  }
+
+  /* ─── FOLIO ─── */
+  .folio{
+    margin-top:36px;
+    display:flex;justify-content:space-between;
+    font-family:var(--serif-display);font-style:italic;font-size:16px;color:var(--ink-3);
+  }
+  .folio .pageno{
+    font-family:var(--mono);font-style:normal;font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  }
+
+  /* ─── ornaments ─── */
+  .orn{
+    display:flex;align-items:center;justify-content:center;gap:12px;
+    color:var(--accent);font-family:var(--serif-display);font-style:italic;font-size:24px;
+    margin:8px 0 30px;
+  }
+  .orn::before,.orn::after{
+    content:"";flex:1;border-top:1px solid var(--rule-strong);max-width:120px;
+  }
+
+  /* responsive trim */
+  @media (max-width:900px){
+    .sheet{padding:48px 32px 64px;margin:16px}
+    h1.title{font-size:54px}
+    .deck-meta{grid-template-columns:1fr;gap:18px}
+    .deck-meta .abstract{padding:0;border:none}
+    .deck-meta .inst{text-align:left}
+    .entry{grid-template-columns:54px 1fr;gap:18px}
+    .entry .meta{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:flex-start;text-align:left;flex-wrap:wrap;gap:8px 14px}
+    .entry .num{font-size:48px}
+    .entry .e-title{font-size:28px}
+    .thesis p{font-size:24px}
+    .arc-grid{grid-template-columns:1fr 1fr}
+    .arc-cell:nth-child(2){border-right:none}
+    .arc-cell:nth-child(1),.arc-cell:nth-child(2){border-bottom:1px solid var(--ink)}
+    .colophon{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<article class="sheet" data-screen-label="00 Índice">
+
+  <!-- ──────────── HEAD ──────────── -->
+  <div class="top-rule">
+    <span class="vol">Volume único · dossiê de entrega</span>
+    <span class="date">PPGD / UFSC · 2026</span>
+  </div>
+
+  <div class="eyebrow">Seminário VIII — administração pública orientada por dados</div>
+
+  <h1 class="title">
+    Do <em>poder-dever</em> <span class="ampersand">ao</span> <em>dever-poder</em>
+  </h1>
+
+  <div class="deck-meta">
+    <div class="who">
+      <strong>Ana Vitória Vanzin</strong> <span class="ampersand" style="color:var(--ink-3)">&amp;</span> <strong>Vinícius Oliveira</strong>
+      <em>autores · expositores</em>
+    </div>
+    <div class="abstract">
+      Quatro artigos lidos como um único arco: a privacidade que não cabe na regra, o governo aberto que falta cumprir, o big data que escapa do consentimento e a decisão algorítmica que precisa de contraditório.
+    </div>
+    <div class="inst">
+      Direito da<br>Administração Pública<br>
+      <span style="color:var(--ink)">Prof. Cristóvam</span><br>
+      25 · v · 2026
+    </div>
+  </div>
+
+  <!-- ──────────── THESIS ──────────── -->
+  <div class="thesis">
+    <div class="label">— tese · núcleo crítico —</div>
+    <p>O Estado opera como <em>regulador ⇄ regulado</em>: quem edita a regra é, com frequência, quem mais a descumpre <em>contra o cidadão</em>.</p>
+    <span class="src">Caso-âncora: aposentadoria rural negada pelo INSS sem contraditório · espelho internacional: SyRI, Haia, 2020.</span>
+  </div>
+
+  <!-- ──────────── SUMÁRIO HEADER ──────────── -->
+  <div class="sum-head">
+    <h2>Sumário da entrega</h2>
+    <span class="ct">05 · peças</span>
+  </div>
+  <div class="sum-rule"></div>
+  <div class="sum-rule-2"></div>
+
+  <!-- ──────────── ENTRIES ──────────── -->
+  <nav class="toc">
+
+    <a class="entry primary" href="Seminario8.html">
+      <div class="num">i<span class="roman">caput</span></div>
+      <div class="body">
+        <div class="kicker">peça principal · apresentação ao vivo</div>
+        <div class="e-title">A <em>apresentação</em> — 33 lâminas em arco</div>
+        <div class="desc">
+          O deck completo, arco de tensão em quatro atos: <em>promessa</em> (LGPD e governo aberto) → <em>choque</em> (big data e IA) → <em>conflito</em> (tese Regulador⇄Regulado, INSS, SyRI) → <em>resolução</em> (proposta e protótipo). Sistema visual editorial — papel envelhecido, EB Garamond, marginália itálica, terminais neon para os ganchos contemporâneos.
+        </div>
+        <div class="tags">
+          <span class="hot">★ canônico</span>
+          <span>33 slides</span>
+          <span>1920 × 1080</span>
+          <span>navegação ← →</span>
+          <span>quatro artigos</span>
+        </div>
+      </div>
+      <div class="meta">
+        <span class="stat"><b>33</b> · slides</span>
+        <span class="stat"><b>~45</b> · min</span>
+        <span class="ftype">HTML · deck</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="entry" href="Seminario8-print.html">
+      <div class="num">ii<span class="roman">impressa</span></div>
+      <div class="body">
+        <div class="kicker">para distribuição · pdf-ready</div>
+        <div class="e-title">Versão para <em>impressão</em></div>
+        <div class="desc">
+          Mesmo conteúdo do deck, reflowed para folhas: sem chrome de slide, sem animação, sem fundos escuros que consomem toner. Para revisar página a página, anotar ou imprimir para o orientador. Use <em>Ctrl/Cmd + P</em> e salve como PDF.
+        </div>
+        <div class="tags">
+          <span>fluxo de papel</span>
+          <span>print-friendly</span>
+          <span>sem animação</span>
+        </div>
+      </div>
+      <div class="meta">
+        <span class="stat"><b>A4</b> · papel</span>
+        <span class="stat">imprimir → pdf</span>
+        <span class="ftype">HTML · print</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="entry" href="Conselho.html">
+      <div class="num">iii<span class="roman">protótipo</span></div>
+      <div class="body">
+        <div class="kicker">demo ao vivo · ato seguinte ao slide 32</div>
+        <div class="e-title">O <em>Conselho</em> de Contestação Algorítmica</div>
+        <div class="desc">
+          Demo enlatada (offline) do GovLens: quatro vozes — administrativista, processualista, técnica e cidadã — deliberam sobre o caso INSS. Mostra como o contraditório algorítmico do art. IV (Tavares et al.) pode ser <em>encarnado em interface</em>, não só discutido em doutrina. Abre direto no navegador.
+        </div>
+        <div class="tags">
+          <span class="hot">★ autoral</span>
+          <span>caso INSS</span>
+          <span>4 personas</span>
+          <span>offline-ready</span>
+        </div>
+      </div>
+      <div class="meta">
+        <span class="stat"><b>1</b> · caso-âncora</span>
+        <span class="stat"><b>4</b> · vozes</span>
+        <span class="ftype">HTML · app</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="entry" href="Wireframes.html">
+      <div class="num">iv<span class="roman">bastidor</span></div>
+      <div class="body">
+        <div class="kicker">processo · exploração inicial</div>
+        <div class="e-title">Os <em>wireframes</em> — direções descartadas e mantidas</div>
+        <div class="desc">
+          A pasta de ateliê: três direções visuais lado a lado antes de comprometer o deck final com uma. Útil para defender escolhas no debate (“por que <em>essa</em> linguagem e não outra?”) e para futuras versões do material.
+        </div>
+        <div class="tags">
+          <span>3 direções</span>
+          <span>baixa fidelidade</span>
+          <span>referência</span>
+        </div>
+      </div>
+      <div class="meta">
+        <span class="stat">exploração</span>
+        <span class="stat">b&amp;w + sangue</span>
+        <span class="ftype">HTML · sketch</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="entry" href="Seminario8-animado.html">
+      <div class="num">v<span class="roman">animação</span></div>
+      <div class="body">
+        <div class="kicker">multimídia · resumo animado</div>
+        <div class="e-title">A <em>animação</em> — o seminário em 32 segundos</div>
+        <div class="desc">
+          Resumo visual animado do arco completo: <em>capa → tese Janus → quatro artigos → caso INSS → caixa-preta → protótipo → fecho</em>. Mesmo sistema visual editorial (papel + Garamond + sangue) em timeline animada com playback controls. Ideal para abertura ou redes sociais.
+        </div>
+        <div class="tags">
+          <span class="hot">★ novo</span>
+          <span>32 segundos</span>
+          <span>1920 × 1080</span>
+          <span>loop automático</span>
+        </div>
+      </div>
+      <div class="meta">
+        <span class="stat"><b>6</b> · cenas</span>
+        <span class="stat"><b>32</b> · seg</span>
+        <span class="ftype">HTML · anim</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+  </nav>
+
+  <!-- ──────────── DECK ARC PREVIEW ──────────── -->
+  <section class="arc">
+    <div class="arc-head">
+      <h3>Como o deck se desdobra — quatro atos</h3>
+      <span class="by">arco de tensão · 33 slides</span>
+    </div>
+    <div class="arc-grid">
+      <div class="arc-cell">
+        <span class="slidenum">01–09</span>
+        <div class="act">ato i · promessa</div>
+        <div class="arc-t">A LGPD <em>quase</em> dá conta</div>
+        <div class="arc-d">Salgado &amp; Saito leem privacidade como direito complexo e situam a ANPD no limite da prestação normativa.</div>
+      </div>
+      <div class="arc-cell">
+        <span class="slidenum">10–15</span>
+        <div class="act">ato ii · promessa²</div>
+        <div class="arc-t">Governo aberto, <em>se</em> fizermos</div>
+        <div class="arc-d">Cristóvam &amp; Hahn: dado aberto como valor público; INDA, marco normativo e boas práticas pendentes.</div>
+      </div>
+      <div class="arc-cell peak">
+        <span class="slidenum">16–24</span>
+        <div class="act">ato iii · choque</div>
+        <div class="arc-t">O big data <em>já</em> chegou</div>
+        <div class="arc-d">Sarlet &amp; Molinaro e Tavares et al.: cinco campos, soberania de dados, IA &amp; contraditório algorítmico em três tempos.</div>
+      </div>
+      <div class="arc-cell peak">
+        <span class="slidenum">25–33</span>
+        <div class="act">ato iv · ato autoral</div>
+        <div class="arc-t">Regulador <em>contra</em> regulado</div>
+        <div class="arc-d">A tese, o caso INSS, o espelho SyRI, a tabela 2020–26 e a passagem para o protótipo.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────── COLOPHON ──────────── -->
+  <section class="colophon">
+    <div>
+      <h4>Contribuição autoral</h4>
+      <p>
+        <span class="glyph">¶</span> Antes de cada contestação, um <em>pressuposto</em>: que se possa compreender o que se contesta. O contraditório algorítmico, sem isso, vira ornamento de manual.
+      </p>
+    </div>
+    <div>
+      <h4>Método</h4>
+      <p>
+        <span class="glyph">§</span> Quatro artigos, uma única tese, dois casos espelhados. Cada artigo gera duas leituras canônicas e uma <em>nossa leitura</em>, em itálico, marginada, antes de avançar.
+      </p>
+    </div>
+    <div>
+      <h4>Como navegar</h4>
+      <p>
+        <span class="glyph">→</span> Comece em <em>i. apresentação</em>. Imprima <em>ii.</em> para anotar. Mostre <em>iii.</em> ao vivo no slide 32. <em>iv.</em> fica de reserva para o debate.
+      </p>
+    </div>
+  </section>
+
+  <!-- ──────────── FOLIO ──────────── -->
+  <div class="folio">
+    <span>Vanzin &amp; Oliveira · PPGD / UFSC</span>
+    <span class="pageno">— ÍNDICE · I —</span>
+    <span>Seminário VIII · 2026</span>
+  </div>
+
+</article>
+
+</body>
+</html>

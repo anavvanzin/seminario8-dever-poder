@@ -1,0 +1,23 @@
+# Screenshots de referência
+*.png
+*.jpg
+
+# Scraps do design tool
+scraps/
+
+# Arquivos pesados que não são fonte
+uploads/*.pptx
+uploads/*.svg
+uploads/*.pdf
+
+# Manter os materiais de referência
+!uploads/materiais-base/*.md
+!uploads/planos/*.md
+!uploads/prototipo/*.md
+!uploads/apresentacao/*.md
+!uploads/prototipo/*.html
+!uploads/README.md
+
+# Sistema
+.DS_Store
+Thumbs.db

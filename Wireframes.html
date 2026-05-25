@@ -1,0 +1,1281 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Wireframes — Seminário 8 — escolha a direção</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Spectral:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#e8e6e1}
+  body{
+    font-family:"Spectral",Georgia,serif;
+    color:#1a1a18;
+    padding:60px 48px 120px;
+    min-height:100vh;
+  }
+
+  /* ─── PAGE CHROME ─── */
+  .page-head{max-width:1480px;margin:0 auto 36px}
+  .eyebrow{
+    font-family:"Caveat",cursive;font-size:34px;color:#8b1a1a;
+    transform:rotate(-2deg);display:inline-block;margin-bottom:8px;
+  }
+  .page-title{
+    font-family:"EB Garamond",serif;font-weight:500;font-size:64px;line-height:1.02;
+    letter-spacing:-0.01em;margin-bottom:18px;
+  }
+  .page-title em{font-style:italic;color:#8b1a1a}
+  .page-sub{font-size:21px;max-width:900px;line-height:1.5;color:#3a3733}
+  .page-sub b{font-weight:600}
+  .page-sub .ctx{
+    margin-top:14px;padding-top:14px;border-top:1px dashed #b8b4ab;
+    font-family:"Caveat",cursive;font-size:24px;color:#5a564e;line-height:1.3
+  }
+
+  /* ─── COLUMN HEADERS (sticky) ─── */
+  .columns-head{
+    position:sticky;top:0;z-index:50;
+    background:linear-gradient(180deg,#e8e6e1 0%,#e8e6e1 85%,rgba(232,230,225,0));
+    padding:18px 0 28px;
+    max-width:1480px;margin:0 auto;
+  }
+  .col-grid{
+    display:grid;grid-template-columns:120px repeat(3,1fr);
+    gap:24px;align-items:end;
+  }
+  .col-head{
+    padding:14px 18px 16px;
+    border:1.5px solid #1a1a18;
+    background:#fafaf7;
+    position:relative;
+  }
+  .col-head .tag{
+    position:absolute;top:-12px;left:14px;background:#1a1a18;color:#fafaf7;
+    font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.16em;
+    padding:3px 8px;text-transform:uppercase;
+  }
+  .col-head h3{
+    font-family:"EB Garamond",serif;font-weight:600;font-size:24px;line-height:1.1;
+    margin-bottom:4px;
+  }
+  .col-head h3 em{font-style:italic;font-weight:500}
+  .col-head .desc{font-size:13.5px;line-height:1.35;color:#4a4640}
+  .col-head .palette{
+    display:flex;gap:6px;margin-top:8px;
+  }
+  .col-head .palette span{
+    width:18px;height:18px;border:1px solid rgba(0,0,0,.15);
+  }
+
+  /* row spacer label */
+  .row-label{
+    display:flex;flex-direction:column;justify-content:flex-start;
+    padding-top:4px;
+  }
+  .row-label .num{
+    font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;
+    color:#8b1a1a;margin-bottom:4px;
+  }
+  .row-label .nm{
+    font-family:"Caveat",cursive;font-size:22px;line-height:1.05;
+    color:#1a1a18;transform:rotate(-1deg);
+  }
+  .row-label .hint{
+    font-size:11px;color:#7a7670;margin-top:6px;line-height:1.3;font-style:italic;
+  }
+
+  /* ─── ROWS ─── */
+  .rows{max-width:1480px;margin:0 auto;display:flex;flex-direction:column;gap:36px}
+  .row{
+    display:grid;grid-template-columns:120px repeat(3,1fr);
+    gap:24px;align-items:start;
+  }
+
+  /* ─── SLIDE CELLS ─── */
+  .cell{position:relative}
+  .cell-tag{
+    position:absolute;top:-8px;left:8px;z-index:3;
+    font-family:"JetBrains Mono",monospace;font-size:10px;
+    background:#1a1a18;color:#fafaf7;
+    padding:2px 6px;letter-spacing:.14em;
+  }
+  .cell-frame{
+    width:100%;aspect-ratio:16/9;
+    position:relative;overflow:hidden;
+    border:1.5px dashed #8a857c;
+    box-shadow:0 6px 22px -10px rgba(0,0,0,.25);
+    background:#fff;
+  }
+  .scale{
+    position:absolute;top:0;left:0;
+    width:960px;height:540px;
+    transform-origin:0 0;
+    /* dynamic scale via CSS variable set per column width */
+  }
+  /* Each column gets the same width; cell is responsive. We approximate scale=cellWidth/960. */
+  /* Using container queries would be best — instead, set transform via JS on load + resize. */
+
+  .cell-caption{
+    margin-top:10px;font-family:"Caveat",cursive;font-size:16px;color:#5a564e;
+    line-height:1.2;
+  }
+
+  /* ============================================================
+     DIRECTION A — EDITORIAL (NYRB-style)
+     palette: ink #111, paper #fbfaf5, accent #8b1a1a
+     fonts: EB Garamond display + Spectral body
+     ============================================================ */
+  .A{font-family:"Spectral",Georgia,serif;color:#111;background:#fbfaf5}
+  .A .rule{height:1px;background:#111}
+  .A .rule-thin{height:.5px;background:#111;opacity:.6}
+  .A .sc{
+    font-family:"EB Garamond",serif;text-transform:uppercase;letter-spacing:.18em;
+    font-weight:500;font-size:13px;color:#111;
+  }
+  .A .sc.red{color:#8b1a1a}
+  .A .num{font-family:"EB Garamond",serif;font-style:italic;color:#8b1a1a}
+  .A h1.disp{font-family:"EB Garamond",serif;font-weight:500;line-height:.98;letter-spacing:-.015em}
+  .A em{font-style:italic}
+  .A .ital{font-style:italic;font-family:"EB Garamond",serif}
+  .A .meta{font-family:"EB Garamond",serif;font-size:13px;color:#5b5750;font-style:italic}
+  .A .folio{
+    position:absolute;left:60px;right:60px;bottom:34px;
+    display:flex;justify-content:space-between;
+    font-family:"EB Garamond",serif;font-style:italic;font-size:13px;color:#5b5750;
+    border-top:.5px solid #1118;padding-top:10px;
+  }
+
+  /* A — Capa */
+  .A.s-capa{padding:80px 90px 0}
+  .A.s-capa .vol{font-family:"EB Garamond",serif;font-style:italic;font-size:14px;color:#8b1a1a}
+  .A.s-capa h1{font-size:88px;margin-top:38px;max-width:780px}
+  .A.s-capa h1 em{color:#8b1a1a}
+  .A.s-capa .sub{font-family:"Spectral",serif;font-style:italic;font-size:21px;color:#3a3733;margin-top:24px;max-width:660px;line-height:1.35}
+  .A.s-capa .by{position:absolute;left:90px;bottom:90px;font-family:"EB Garamond",serif;font-size:15px}
+  .A.s-capa .by b{font-weight:600;font-style:normal}
+  .A.s-capa .right-rule{position:absolute;right:90px;top:60px;bottom:60px;width:.5px;background:#1115}
+
+  /* A — Pergunta */
+  .A.s-perg{padding:60px 90px}
+  .A.s-perg .q-mark{position:absolute;top:60px;right:90px;font-family:"EB Garamond",serif;font-style:italic;font-size:220px;color:#8b1a1a;line-height:.8;opacity:.85}
+  .A.s-perg .q{font-family:"EB Garamond",serif;font-style:italic;font-size:48px;line-height:1.14;margin-top:160px;max-width:680px}
+  .A.s-perg .a{font-family:"EB Garamond",serif;font-size:54px;font-weight:500;margin-top:30px;color:#8b1a1a}
+  .A.s-perg .footnote{position:absolute;left:90px;bottom:60px;font-family:"Spectral",serif;font-style:italic;font-size:14px;color:#5b5750;max-width:480px;line-height:1.4}
+
+  /* A — Divisor */
+  .A.s-div{padding:0;display:flex;flex-direction:column;justify-content:center;padding-left:120px}
+  .A.s-div .pt{font-family:"EB Garamond",serif;font-style:italic;font-size:18px;color:#8b1a1a;letter-spacing:.04em}
+  .A.s-div h1{font-size:120px;margin-top:14px;font-style:italic;line-height:.94}
+  .A.s-div .num-big{position:absolute;right:90px;top:80px;font-family:"EB Garamond",serif;font-style:italic;font-size:160px;color:#8b1a1a;opacity:.18;line-height:.8}
+  .A.s-div .arts{margin-top:30px;display:flex;flex-direction:column;gap:6px;font-family:"Spectral",serif;font-style:italic;font-size:16px;color:#3a3733;max-width:680px}
+
+  /* A — Expositivo */
+  .A.s-expo{padding:48px 60px 60px}
+  .A.s-expo .head-row{display:flex;justify-content:space-between;border-bottom:1px solid #111;padding-bottom:8px}
+  .A.s-expo h2{font-family:"EB Garamond",serif;font-weight:500;font-size:36px;margin-top:16px;letter-spacing:-.005em;line-height:1.1;max-width:680px}
+  .A.s-expo h2 em{color:#8b1a1a}
+  .A.s-expo .body{column-count:2;column-gap:36px;margin-top:18px;font-size:14px;line-height:1.45;text-align:justify;hyphens:auto}
+  .A.s-expo .body p{margin-bottom:8px;text-indent:1.2em}
+  .A.s-expo .body p.lead{text-indent:0}
+  .A.s-expo .body p.lead::first-letter{font-family:"EB Garamond",serif;font-size:44px;float:left;line-height:.85;padding:4px 6px 0 0;color:#8b1a1a}
+  .A.s-expo .marg{position:absolute;right:30px;top:120px;width:120px;font-family:"EB Garamond",serif;font-style:italic;font-size:11px;color:#8b1a1a;line-height:1.3;padding-left:8px;border-left:.5px solid #8b1a1a}
+
+  /* A — Autoral */
+  .A.s-aut{padding:60px 140px 60px;background:#f5f1e6}
+  .A.s-aut .flag{font-family:"EB Garamond",serif;font-style:italic;font-size:14px;color:#8b1a1a;letter-spacing:.06em;text-align:center}
+  .A.s-aut .flag::before,.A.s-aut .flag::after{content:"❦";margin:0 14px;opacity:.6}
+  .A.s-aut h2{font-family:"EB Garamond",serif;font-weight:500;font-size:42px;font-style:italic;text-align:center;line-height:1.14;margin:18px 0 22px;max-width:680px;margin-left:auto;margin-right:auto}
+  .A.s-aut h2 b{font-weight:500;color:#8b1a1a;font-style:normal}
+  .A.s-aut .essay{font-size:16px;line-height:1.55;text-align:justify;hyphens:auto;max-width:680px;margin:0 auto}
+  .A.s-aut .essay em{color:#8b1a1a}
+  .A.s-aut .cite{font-family:"EB Garamond",serif;font-style:italic;text-align:center;font-size:13px;color:#5b5750;margin-top:14px}
+
+  /* A — Diagrama */
+  .A.s-diag{padding:50px 70px}
+  .A.s-diag .head-row{display:flex;justify-content:space-between;border-bottom:1px solid #111;padding-bottom:8px}
+  .A.s-diag h2{font-family:"EB Garamond",serif;font-weight:500;font-size:32px;margin-top:14px;font-style:italic;line-height:1.1}
+  .A.s-diag .dia{margin-top:24px;display:grid;grid-template-columns:1fr 100px 1fr;gap:16px;align-items:center}
+  .A.s-diag .box{border:1px solid #111;padding:18px 16px;background:#fff;position:relative}
+  .A.s-diag .box .lbl{font-family:"EB Garamond",serif;font-style:italic;color:#8b1a1a;font-size:14px;letter-spacing:.04em}
+  .A.s-diag .box h3{font-family:"EB Garamond",serif;font-weight:500;font-size:28px;line-height:1;margin:6px 0 12px}
+  .A.s-diag .box ul{list-style:none;font-size:13px;line-height:1.45}
+  .A.s-diag .box li::before{content:"—";color:#8b1a1a;margin-right:6px}
+  .A.s-diag .center{text-align:center;font-family:"EB Garamond",serif;font-style:italic;color:#8b1a1a;font-size:48px;line-height:1}
+  .A.s-diag .center .lab{font-size:12px;color:#3a3733;font-style:italic;display:block;margin-top:8px}
+
+  /* A — Caso INSS */
+  .A.s-caso{padding:50px 70px}
+  .A.s-caso .head-row{display:flex;justify-content:space-between;border-bottom:1px solid #111;padding-bottom:8px}
+  .A.s-caso h2{font-family:"EB Garamond",serif;font-weight:500;font-size:34px;margin-top:14px;line-height:1.05}
+  .A.s-caso h2 em{color:#8b1a1a;font-style:italic}
+  .A.s-caso .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:36px;margin-top:18px}
+  .A.s-caso .narr{font-size:14px;line-height:1.5;text-align:justify;hyphens:auto}
+  .A.s-caso .narr p{margin-bottom:8px}
+  .A.s-caso .narr em{color:#8b1a1a}
+  .A.s-caso .box-doc{
+    background:#111;color:#fbfaf5;padding:22px 22px;
+    font-family:"EB Garamond",serif;font-style:italic;font-size:14px;line-height:1.4;
+    position:relative;
+  }
+  .A.s-caso .box-doc::before{content:"INDEFERIDO";position:absolute;top:18px;right:-30px;background:#8b1a1a;color:#fbfaf5;font-family:"EB Garamond",serif;font-weight:600;font-style:normal;font-size:11px;letter-spacing:.2em;padding:4px 30px;transform:rotate(8deg)}
+  .A.s-caso .box-doc .h{font-family:"EB Garamond",serif;font-style:normal;letter-spacing:.16em;font-size:11px;color:#c8a87a;margin-bottom:10px;text-transform:uppercase}
+
+  /* A — Tabela */
+  .A.s-tab{padding:46px 60px}
+  .A.s-tab .head-row{display:flex;justify-content:space-between;border-bottom:1px solid #111;padding-bottom:8px}
+  .A.s-tab h2{font-family:"EB Garamond",serif;font-weight:500;font-size:30px;margin-top:14px;font-style:italic}
+  .A.s-tab table{width:100%;border-collapse:collapse;margin-top:16px;font-size:13px}
+  .A.s-tab th{font-family:"EB Garamond",serif;text-transform:uppercase;letter-spacing:.14em;font-size:11px;font-weight:500;color:#111;border-bottom:1px solid #111;text-align:left;padding:8px 10px;background:transparent}
+  .A.s-tab td{padding:8px 10px;border-bottom:.5px solid #1113;vertical-align:top;line-height:1.35}
+  .A.s-tab td.year{font-family:"EB Garamond",serif;font-style:italic;color:#8b1a1a;font-size:14px}
+  .A.s-tab td.case{font-weight:500;color:#111}
+  .A.s-tab caption{caption-side:bottom;font-family:"EB Garamond",serif;font-style:italic;font-size:11px;color:#5b5750;text-align:left;margin-top:8px}
+
+  /* A — Tese final */
+  .A.s-tese{padding:0;display:flex;align-items:center;justify-content:center;text-align:center}
+  .A.s-tese .frame{max-width:740px}
+  .A.s-tese .pt{font-family:"EB Garamond",serif;font-style:italic;font-size:16px;color:#8b1a1a;letter-spacing:.04em}
+  .A.s-tese h1{font-family:"EB Garamond",serif;font-weight:500;font-size:48px;line-height:1.1;margin:18px 0 22px}
+  .A.s-tese h1 em{font-style:italic;color:#8b1a1a}
+  .A.s-tese .quartet{display:flex;justify-content:center;gap:18px;font-family:"EB Garamond",serif;font-style:italic;font-size:24px;color:#111}
+  .A.s-tese .quartet span{border-bottom:.5px solid #1115;padding:0 6px 4px}
+
+  /* ============================================================
+     DIRECTION B — DOSSIÊ × PAINEL (split radical)
+     ============================================================ */
+  .B{
+    --paper:#efe9dc;--ink:#23201b;--ink2:#5b5345;
+    --red:#b03a2e;--gold:#b8923f;
+    --dark:#0b141b;--dark2:#0c1820;--neon:#3fe0a0;--neon2:#9af5cf;
+    --pal-dim:#5b7a70;
+    display:grid;grid-template-columns:1fr 1fr;
+  }
+  .B .L{background:var(--paper);color:var(--ink);padding:42px 38px;position:relative;font-family:"Source Serif 4",Georgia,serif}
+  .B .L::after{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--red)}
+  .B .R{background:radial-gradient(120% 100% at 50% 0,var(--dark2),var(--dark));color:#d6f5e8;padding:42px 38px;font-family:"JetBrains Mono",monospace;position:relative;overflow:hidden}
+  .B .R::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 26px,rgba(63,224,160,.06) 26px 27px),repeating-linear-gradient(90deg,transparent 0 26px,rgba(63,224,160,.04) 26px 27px);pointer-events:none}
+  .B .L .ph{
+    font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--ink2);
+    display:flex;justify-content:space-between;
+    border-bottom:1px solid rgba(35,32,27,.25);padding-bottom:8px;margin-bottom:18px;
+  }
+  .B .R .ph{
+    font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--neon);
+    display:flex;justify-content:space-between;
+    border-bottom:1px solid #173029;padding-bottom:8px;margin-bottom:18px;
+  }
+  .B .L .kicker{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase}
+  .B .R .kicker{font-size:11px;letter-spacing:.28em;color:var(--neon);text-transform:uppercase}
+  .B .L h2{font-family:"Playfair Display",serif;font-weight:600;line-height:1.04;font-size:34px;margin-top:10px}
+  .B .L h2 em{font-style:italic}
+  .B .R h2{font-family:"Playfair Display",serif;font-weight:500;color:#eafff6;font-size:34px;line-height:1.04;margin-top:10px}
+  .B .stamp{position:absolute;border:3px double var(--red);color:var(--red);font-family:"JetBrains Mono",monospace;font-weight:700;letter-spacing:.16em;padding:6px 12px;font-size:14px;text-transform:uppercase;transform:rotate(-7deg)}
+  .B .arrow-pill{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--gold);color:var(--ink);font-family:"JetBrains Mono",monospace;font-weight:700;font-size:10px;padding:6px 12px;border-radius:24px;letter-spacing:.08em;white-space:nowrap;z-index:5}
+
+  /* B — Capa (full split) */
+  .B.s-capa .L h1{font-family:"Playfair Display",serif;font-weight:700;font-size:48px;line-height:.98;margin-top:80px}
+  .B.s-capa .L h1 em{font-style:italic;color:var(--red)}
+  .B.s-capa .L .sub{font-family:"Source Serif 4",serif;font-style:italic;font-size:15px;color:var(--ink2);margin-top:14px;line-height:1.4}
+  .B.s-capa .L .by{position:absolute;bottom:34px;left:38px;font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ink2);letter-spacing:.1em}
+  .B.s-capa .R{display:flex;flex-direction:column}
+  .B.s-capa .R .term-head{margin-top:80px;font-size:11px;color:var(--neon);letter-spacing:.18em}
+  .B.s-capa .R .term-q{font-family:"Playfair Display",serif;font-style:italic;color:#eafff6;font-size:28px;line-height:1.15;margin-top:16px}
+  .B.s-capa .R .term-a{font-family:"JetBrains Mono",monospace;font-size:16px;color:var(--neon);margin-top:18px}
+  .B.s-capa .R .term-a::before{content:"$ ";opacity:.5}
+
+  /* B — Pergunta */
+  .B.s-perg .L .big-q{font-family:"Playfair Display",serif;font-style:italic;font-size:240px;color:var(--red);line-height:.78;margin-top:30px;opacity:.95}
+  .B.s-perg .L .q-text{position:absolute;bottom:60px;left:50px;right:30px;font-family:"Source Serif 4",serif;font-style:italic;font-size:15px;color:var(--ink2);line-height:1.4}
+  .B.s-perg .R{display:flex;flex-direction:column;justify-content:center}
+  .B.s-perg .R h2{font-size:42px;line-height:1.04}
+  .B.s-perg .R h2 em{color:var(--neon)}
+  .B.s-perg .R .verdict{font-family:"JetBrains Mono",monospace;font-size:48px;color:var(--neon);margin-top:24px;letter-spacing:-.02em}
+
+  /* B — Divisor */
+  .B.s-div .L{display:flex;flex-direction:column;justify-content:center}
+  .B.s-div .L .pt{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--gold);letter-spacing:.28em;text-transform:uppercase}
+  .B.s-div .L h1{font-family:"Playfair Display",serif;font-style:italic;font-weight:700;font-size:64px;line-height:.96;margin-top:14px}
+  .B.s-div .L .arts{margin-top:20px;font-family:"Source Serif 4",serif;font-style:italic;font-size:14px;color:var(--ink2);line-height:1.5}
+  .B.s-div .R{display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+  .B.s-div .R .nbig{font-family:"Playfair Display",serif;font-size:160px;color:var(--neon);line-height:.85;opacity:.85}
+  .B.s-div .R .lab{font-size:11px;color:var(--pal-dim);letter-spacing:.16em;margin-top:14px}
+
+  /* B — Expositivo */
+  .B.s-expo{grid-template-columns:1.15fr .85fr}
+  .B.s-expo .L .body{font-size:13px;line-height:1.5;margin-top:14px}
+  .B.s-expo .L .body p{margin-bottom:8px;text-align:justify}
+  .B.s-expo .L h2{font-size:28px;margin-top:6px}
+  .B.s-expo .R{font-family:"JetBrains Mono",monospace}
+  .B.s-expo .R .lbl{font-size:9px;color:var(--neon);letter-spacing:.18em;margin-bottom:8px}
+  .B.s-expo .R .seq{font-size:12px;color:#d6f5e8;line-height:1.7;margin-top:8px}
+  .B.s-expo .R .seq b{color:var(--neon);font-weight:500}
+  .B.s-expo .R .seq .v{color:var(--neon2)}
+  .B.s-expo .R .key{font-family:"Playfair Display",serif;font-style:italic;color:#eafff6;font-size:20px;line-height:1.2;margin-top:16px}
+
+  /* B — Autoral (★ nossa leitura) */
+  .B.s-aut .L .star{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--red);letter-spacing:.18em}
+  .B.s-aut .L h2{font-size:30px}
+  .B.s-aut .L h2 em{font-style:italic;color:var(--red)}
+  .B.s-aut .L .body{margin-top:14px;font-size:13px;line-height:1.5;text-align:justify}
+  .B.s-aut .L .body em{color:var(--red);font-style:italic}
+  .B.s-aut .R .lbl{font-size:9px;color:var(--neon);letter-spacing:.18em;margin-bottom:8px}
+  .B.s-aut .R .case{margin-top:8px;border-left:2px solid var(--neon);padding-left:14px}
+  .B.s-aut .R .case .tag{font-size:9px;color:var(--neon);letter-spacing:.18em;margin-bottom:4px}
+  .B.s-aut .R .case .ttl{font-family:"Playfair Display",serif;color:#eafff6;font-size:18px;line-height:1.1;font-style:italic}
+  .B.s-aut .R .case .num{font-family:"Playfair Display",serif;color:var(--neon);font-size:28px;line-height:1}
+  .B.s-aut .R .case+.case{margin-top:14px}
+
+  /* B — Diagrama Regulador⇄Regulado */
+  .B.s-diag{position:relative}
+  .B.s-diag .L{padding:32px}
+  .B.s-diag .R{padding:32px}
+  .B.s-diag .L .kicker{margin-bottom:8px}
+  .B.s-diag .L h3{font-family:"Playfair Display",serif;font-size:30px;font-weight:600;color:var(--red);margin-bottom:8px;font-style:italic}
+  .B.s-diag .L .role{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;color:var(--ink2);text-transform:uppercase;margin-bottom:10px}
+  .B.s-diag .L ul,.B.s-diag .R ul{list-style:none;font-size:12px;line-height:1.55}
+  .B.s-diag .L li::before{content:"§ ";color:var(--gold)}
+  .B.s-diag .R h3{font-family:"Playfair Display",serif;font-size:30px;font-weight:500;color:var(--neon);margin-bottom:8px;font-style:italic}
+  .B.s-diag .R li::before{content:"› ";color:var(--neon)}
+  .B.s-diag .arrow-pill{font-size:11px;padding:8px 14px}
+
+  /* B — Caso INSS */
+  .B.s-caso .L .lbl{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--gold);letter-spacing:.18em}
+  .B.s-caso .L h2{font-size:26px;margin-top:8px}
+  .B.s-caso .L h2 em{color:var(--red);font-style:italic}
+  .B.s-caso .L .narr{font-size:12.5px;line-height:1.5;text-align:justify;margin-top:12px}
+  .B.s-caso .L .narr em{color:var(--red);font-style:italic}
+  .B.s-caso .L .stamp{bottom:34px;right:30px;font-size:11px;padding:5px 10px}
+  .B.s-caso .R{font-family:"JetBrains Mono",monospace}
+  .B.s-caso .R .lbl{font-size:9px;color:var(--neon);letter-spacing:.18em;margin-bottom:8px}
+  .B.s-caso .R .blackbox{background:#000;border:1px solid #173029;padding:14px;color:#3fe0a0;font-size:11px;line-height:1.55;margin-top:8px}
+  .B.s-caso .R .blackbox .err{color:#f08070}
+  .B.s-caso .R .quote{font-family:"Playfair Display",serif;font-style:italic;color:#eafff6;font-size:17px;line-height:1.2;margin-top:14px;border-left:2px solid var(--red);padding-left:12px}
+
+  /* B — Tabela: split flips — left is the law, right is the violation */
+  .B.s-tab .L h3,.B.s-tab .R h3{font-family:"Playfair Display",serif;font-style:italic;font-size:22px;margin-bottom:10px}
+  .B.s-tab .L h3{color:var(--red)}
+  .B.s-tab .R h3{color:var(--neon)}
+  .B.s-tab .L table,.B.s-tab .R table{width:100%;font-size:11px}
+  .B.s-tab th{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;text-align:left;padding:5px 0;font-weight:500}
+  .B.s-tab .L th{color:var(--ink2);border-bottom:1px solid rgba(35,32,27,.3)}
+  .B.s-tab .R th{color:var(--neon);border-bottom:1px solid #173029}
+  .B.s-tab td{padding:5px 0;vertical-align:top;line-height:1.4}
+  .B.s-tab .L td{border-bottom:.5px dotted rgba(35,32,27,.2)}
+  .B.s-tab .R td{border-bottom:.5px dotted #173029;color:#bfe9d8;font-family:"JetBrains Mono",monospace;font-size:10.5px}
+  .B.s-tab .L td.k{font-weight:600;font-family:"Source Serif 4",serif}
+  .B.s-tab .R td.bad{color:#f08070}
+
+  /* B — Tese fechamento (split converge) */
+  .B.s-tese .L{display:flex;flex-direction:column;justify-content:center}
+  .B.s-tese .L .pt{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--gold);letter-spacing:.28em;text-transform:uppercase}
+  .B.s-tese .L h1{font-family:"Playfair Display",serif;font-style:italic;font-weight:700;font-size:38px;line-height:1.04;margin-top:14px}
+  .B.s-tese .L h1 em{font-style:normal;font-weight:600;color:var(--red)}
+  .B.s-tese .R{display:flex;flex-direction:column;justify-content:center}
+  .B.s-tese .R .pillars{display:flex;flex-direction:column;gap:8px}
+  .B.s-tese .R .pill{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--neon);letter-spacing:.04em}
+  .B.s-tese .R .pill::before{content:"› ";opacity:.7}
+  .B.s-tese .R .ask{font-family:"Playfair Display",serif;font-style:italic;color:#eafff6;font-size:18px;margin-top:18px;line-height:1.2}
+
+  /* ============================================================
+     DIRECTION C — TERMINAL / PAINEL (full dark monospace)
+     ============================================================ */
+  .C{
+    --bg:#0b141b;--bg2:#0e1a22;--panel:#0a1a22;--line:#173029;
+    --neon:#3fe0a0;--neon2:#9af5cf;--neon3:#5dffd0;
+    --text:#cfe9dd;--dim:#6a8a80;--warn:#f5b961;--err:#f08070;--cit:#9ad5f5;
+    background:radial-gradient(120% 100% at 30% -10%,var(--bg2),var(--bg) 70%);
+    color:var(--text);font-family:"JetBrains Mono",monospace;
+    padding:40px 50px;position:relative;
+  }
+  .C::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(63,224,160,.022) 3px 4px);pointer-events:none}
+  .C::after{content:"";position:absolute;inset:0;background:radial-gradient(80% 60% at 50% 100%,rgba(63,224,160,.05),transparent 60%);pointer-events:none}
+  .C .chrome{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.18em;color:var(--neon);text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:14px;position:relative;z-index:1}
+  .C .chrome .dots{display:inline-flex;gap:4px}
+  .C .chrome .dots span{width:8px;height:8px;border-radius:50%;background:#1a2c25;display:inline-block;border:1px solid #2a4a3e}
+  .C .chrome .dots .live{background:var(--neon);box-shadow:0 0 6px var(--neon)}
+  .C .prompt{font-size:12px;color:var(--neon);margin-bottom:6px}
+  .C .prompt::before{content:"$ ";opacity:.7}
+  .C h2,.C h1{font-family:"Space Grotesk",sans-serif;color:#eafff6;font-weight:500;letter-spacing:-.005em;position:relative;z-index:1}
+  .C em{color:var(--neon2);font-style:italic;font-family:"Space Grotesk",sans-serif}
+  .C .dim{color:var(--dim)}
+  .C .cit{color:var(--cit)}
+  .C .warn{color:var(--warn)}
+  .C .err{color:var(--err)}
+  .C .glow{text-shadow:0 0 8px rgba(63,224,160,.5)}
+
+  /* C — Capa */
+  .C.s-capa h1{font-size:54px;font-weight:500;line-height:.98;margin-top:30px}
+  .C.s-capa h1 em{display:block;color:var(--neon);font-style:normal;font-weight:300;margin-top:6px}
+  .C.s-capa .meta{margin-top:24px;font-size:11px;line-height:1.7;color:var(--dim)}
+  .C.s-capa .meta b{color:var(--neon2);font-weight:400}
+  .C.s-capa .by{position:absolute;bottom:34px;left:50px;font-size:10px;color:var(--neon);letter-spacing:.16em}
+  .C.s-capa .ascii{position:absolute;right:48px;top:80px;font-size:10px;color:var(--neon);line-height:1.15;opacity:.65;white-space:pre;text-align:right}
+
+  /* C — Pergunta */
+  .C.s-perg .q{font-family:"Space Grotesk",sans-serif;font-size:36px;color:#eafff6;line-height:1.1;font-weight:400;margin-top:30px;max-width:660px}
+  .C.s-perg .q em{color:var(--neon)}
+  .C.s-perg .a-block{margin-top:36px;border-left:3px solid var(--neon);padding-left:18px}
+  .C.s-perg .a-block .lab{font-size:10px;color:var(--neon);letter-spacing:.18em;margin-bottom:6px}
+  .C.s-perg .a-block .val{font-family:"Space Grotesk",sans-serif;font-size:48px;color:var(--neon);font-weight:500}
+
+  /* C — Divisor */
+  .C.s-div{display:flex;flex-direction:column;justify-content:center}
+  .C.s-div .pt{font-size:13px;color:var(--neon);letter-spacing:.3em}
+  .C.s-div h1{font-family:"Space Grotesk",sans-serif;font-size:72px;font-weight:300;color:#eafff6;line-height:.96;margin-top:14px}
+  .C.s-div h1 em{color:var(--neon);font-style:normal;font-weight:500}
+  .C.s-div .arts{margin-top:24px;font-size:11px;line-height:1.7;color:var(--dim)}
+  .C.s-div .arts b{color:var(--neon2);font-weight:400}
+  .C.s-div .bar{position:absolute;bottom:60px;left:50px;right:50px;height:1px;background:var(--line)}
+  .C.s-div .bar::before{content:"";position:absolute;left:0;top:0;width:30%;height:1px;background:var(--neon);box-shadow:0 0 8px var(--neon)}
+
+  /* C — Expositivo */
+  .C.s-expo .head{display:flex;justify-content:space-between;margin-bottom:8px}
+  .C.s-expo h2{font-size:28px;font-weight:500;line-height:1.04;max-width:80%}
+  .C.s-expo h2 em{color:var(--neon);font-weight:300}
+  .C.s-expo .layout{display:grid;grid-template-columns:1.2fr 1fr;gap:20px;margin-top:14px}
+  .C.s-expo .body{font-size:11.5px;line-height:1.55;color:var(--text)}
+  .C.s-expo .body p{margin-bottom:7px}
+  .C.s-expo .body em{color:var(--neon)}
+  .C.s-expo .panel{border:1px solid var(--line);padding:12px;background:rgba(63,224,160,.04)}
+  .C.s-expo .panel .lbl{font-size:9px;color:var(--neon);letter-spacing:.18em;margin-bottom:8px}
+  .C.s-expo .panel ol{list-style:none;counter-reset:n}
+  .C.s-expo .panel li{counter-increment:n;font-size:11px;padding:5px 0;border-bottom:.5px dotted var(--line);line-height:1.4}
+  .C.s-expo .panel li::before{content:counter(n,decimal-leading-zero);color:var(--neon);margin-right:8px;font-size:10px}
+  .C.s-expo .panel li:last-child{border:0}
+
+  /* C — Autoral */
+  .C.s-aut .tag{font-size:11px;color:var(--err);letter-spacing:.18em;margin-top:6px}
+  .C.s-aut h2{font-size:26px;font-weight:500;margin-top:8px;line-height:1.1;max-width:80%}
+  .C.s-aut h2 em{color:var(--err);font-weight:400}
+  .C.s-aut .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:16px}
+  .C.s-aut .grid .col{border:1px solid var(--line);padding:14px;background:rgba(63,224,160,.03)}
+  .C.s-aut .grid .num{font-family:"Space Grotesk",sans-serif;font-size:30px;color:var(--neon);line-height:1}
+  .C.s-aut .grid .ttl{font-family:"Space Grotesk",sans-serif;font-size:14px;margin:6px 0 8px;color:#eafff6}
+  .C.s-aut .grid .desc{font-size:10.5px;line-height:1.45;color:var(--dim)}
+  .C.s-aut .grid .ref{margin-top:8px;font-size:9.5px;color:var(--cit);letter-spacing:.04em}
+
+  /* C — Diagrama Regulador⇄Regulado */
+  .C.s-diag h2{font-size:24px;font-weight:500;margin-bottom:6px}
+  .C.s-diag h2 em{color:var(--neon)}
+  .C.s-diag .layout{display:grid;grid-template-columns:1fr 80px 1fr;gap:14px;margin-top:14px;align-items:stretch}
+  .C.s-diag .box{border:1px solid var(--line);padding:14px;background:rgba(63,224,160,.04);position:relative}
+  .C.s-diag .box .tag{font-size:9px;letter-spacing:.18em;color:var(--neon)}
+  .C.s-diag .box .role{font-family:"Space Grotesk",sans-serif;font-size:22px;color:#eafff6;margin:4px 0 8px}
+  .C.s-diag .box ul{list-style:none}
+  .C.s-diag .box li{font-size:10.5px;line-height:1.55;padding:3px 0}
+  .C.s-diag .box li::before{content:"› ";color:var(--neon)}
+  .C.s-diag .swap{display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--neon);font-size:32px;line-height:1}
+  .C.s-diag .swap .l{font-size:9px;color:var(--dim);letter-spacing:.14em;margin-top:6px;text-align:center}
+  .C.s-diag .box.bad{border-color:#3a1a18;background:rgba(240,128,112,.04)}
+  .C.s-diag .box.bad .tag,.C.s-diag .box.bad li::before{color:var(--err)}
+
+  /* C — Caso INSS */
+  .C.s-caso h2{font-size:24px;font-weight:500;margin-bottom:4px}
+  .C.s-caso h2 em{color:var(--err)}
+  .C.s-caso .layout{display:grid;grid-template-columns:1fr 1.1fr;gap:18px;margin-top:14px}
+  .C.s-caso .cell-stat{border:1px solid var(--line);padding:12px;background:rgba(63,224,160,.04)}
+  .C.s-caso .cell-stat .l{font-size:9px;color:var(--neon);letter-spacing:.16em}
+  .C.s-caso .cell-stat .v{font-family:"Space Grotesk",sans-serif;font-size:30px;color:#eafff6;line-height:1;margin:5px 0}
+  .C.s-caso .cell-stat .v.err{color:var(--err)}
+  .C.s-caso .cell-stat .d{font-size:10px;color:var(--dim);line-height:1.4}
+  .C.s-caso .blackbox{background:#000;border:1px solid var(--line);padding:12px;font-size:10.5px;line-height:1.5}
+  .C.s-caso .blackbox .err{color:var(--err)}
+  .C.s-caso .blackbox .warn{color:var(--warn)}
+  .C.s-caso .blackbox .v{color:var(--neon2)}
+  .C.s-caso .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+  /* C — Tabela */
+  .C.s-tab h2{font-size:22px;font-weight:500;margin-bottom:6px}
+  .C.s-tab h2 em{color:var(--err)}
+  .C.s-tab table{width:100%;border-collapse:collapse;margin-top:10px;font-size:10.5px}
+  .C.s-tab th{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--neon);padding:6px 4px;text-align:left;border-bottom:1px solid var(--line)}
+  .C.s-tab td{padding:6px 4px;border-bottom:.5px dotted var(--line);vertical-align:top;line-height:1.35}
+  .C.s-tab td.case{color:#eafff6}
+  .C.s-tab td.year{color:var(--neon2)}
+  .C.s-tab td.bad{color:var(--err);font-family:"JetBrains Mono",monospace}
+  .C.s-tab td.cit{color:var(--cit)}
+  .C.s-tab .ftnote{margin-top:10px;font-size:9.5px;color:var(--dim);line-height:1.4}
+
+  /* C — Tese */
+  .C.s-tese{display:flex;flex-direction:column;justify-content:center}
+  .C.s-tese .lab{font-size:10px;color:var(--neon);letter-spacing:.28em}
+  .C.s-tese h1{font-family:"Space Grotesk",sans-serif;font-size:42px;font-weight:300;color:#eafff6;line-height:1.04;margin:14px 0 20px;max-width:760px}
+  .C.s-tese h1 em{color:var(--neon);font-weight:500}
+  .C.s-tese .pillars{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+  .C.s-tese .pillars span{border:1px solid var(--line);padding:6px 10px;font-size:11px;color:var(--neon);background:rgba(63,224,160,.04)}
+  .C.s-tese .ask{font-family:"Space Grotesk",sans-serif;font-style:italic;font-size:14px;color:var(--dim);max-width:740px;line-height:1.35}
+  .C.s-tese .blink{display:inline-block;width:10px;height:18px;background:var(--neon);vertical-align:-3px;animation:bl 1s steps(2) infinite}
+  @keyframes bl{50%{opacity:0}}
+
+  /* ─── FOOTER ─── */
+  .footer{
+    max-width:1480px;margin:80px auto 0;padding-top:36px;border-top:1px dashed #b8b4ab;
+    font-family:"Caveat",cursive;font-size:26px;color:#5a564e;line-height:1.4;
+  }
+  .footer b{font-family:"EB Garamond",serif;font-weight:500;font-style:italic;color:#8b1a1a}
+
+  /* responsive scale helper */
+  .scale{transform:scale(var(--scale,.475))}
+</style>
+</head>
+<body>
+
+<header class="page-head">
+  <div class="eyebrow">wireframes · 25/05/2026</div>
+  <h1 class="page-title">Três direções visuais para o <em>Seminário 8</em>.</h1>
+  <p class="page-sub">
+    Mesma estrutura de 33 slides, mesmo conteúdo. Três identidades visuais distintas.
+    <b>Escolha uma</b> — eu monto o deck completo na direção escolhida.
+    <span class="ctx">olha cada coluna do alto até embaixo. depois compara as linhas → mesmo slide, três estéticas. me diz qual te chama.</span>
+  </p>
+</header>
+
+<div class="columns-head">
+  <div class="col-grid">
+    <div></div>
+
+    <div class="col-head">
+      <span class="tag">A · Editorial</span>
+      <h3>Editorial <em>acadêmico</em></h3>
+      <div class="desc">NYRB / revista jurídica. P&amp;B com bordô. Serifa clássica. Texto justificado em colunas. Notas marginais. Argumento como ensaio.</div>
+      <div class="palette">
+        <span style="background:#fbfaf5"></span>
+        <span style="background:#111"></span>
+        <span style="background:#8b1a1a"></span>
+        <span style="background:#f5f1e6"></span>
+      </div>
+    </div>
+
+    <div class="col-head">
+      <span class="tag">B · Dossiê × Painel</span>
+      <h3>Dossiê <em>×</em> Painel</h3>
+      <div class="desc">Todo slide é um split radical: papel/serifa do processo administrativo de um lado · terminal/neon do algoritmo do outro. A tese vira a grade.</div>
+      <div class="palette">
+        <span style="background:#efe9dc"></span>
+        <span style="background:#b03a2e"></span>
+        <span style="background:#b8923f"></span>
+        <span style="background:#0b141b"></span>
+        <span style="background:#3fe0a0"></span>
+      </div>
+    </div>
+
+    <div class="col-head">
+      <span class="tag">C · Terminal</span>
+      <h3>Painel / <em>terminal</em></h3>
+      <div class="desc">Tudo escuro. Monoespaçada + sans display. Estética de log/console: o Estado lido como sistema. Verde neon, citações em ciano. Denso e técnico.</div>
+      <div class="palette">
+        <span style="background:#0b141b"></span>
+        <span style="background:#3fe0a0"></span>
+        <span style="background:#9ad5f5"></span>
+        <span style="background:#f08070"></span>
+        <span style="background:#f5b961"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="rows">
+
+  <!-- ════════════════════════════════════════════
+       01 — CAPA
+       ════════════════════════════════════════════ -->
+  <div class="row">
+    <div class="row-label">
+      <div class="num">01</div>
+      <div class="nm">Capa</div>
+      <div class="hint">título + autoria; abertura tonal</div>
+    </div>
+
+    <!-- A · Capa -->
+    <div class="cell">
+      <span class="cell-tag">01·A</span>
+      <div class="cell-frame"><div class="scale A s-capa" style="width:960px;height:540px;position:absolute">
+        <div class="vol">Vol. iv · n. 3 · Seminário 8 · 25.v.2026</div>
+        <h1 class="disp">Do <em>Poder-Dever</em><br>ao <em>Dever-Poder</em>.</h1>
+        <p class="sub">Quando o Estado que edita a regra é o que mais a descumpre contra o cidadão — quatro artigos do <em>IJDL</em> sobre a Administração Pública 4.0, relidos a partir do caso INSS.</p>
+        <div class="by"><b>Ana Vitória Vanzin</b> &amp; <b>Vinícius Oliveira</b> · PPGD/UFSC</div>
+        <div class="right-rule"></div>
+      </div></div>
+    </div>
+
+    <!-- B · Capa -->
+    <div class="cell">
+      <span class="cell-tag">01·B</span>
+      <div class="cell-frame"><div class="scale B s-capa" style="width:960px;height:540px;position:absolute">
+        <div class="L">
+          <div class="ph"><span>fl. 001/033</span><span>PROC. 2026.SEM.08</span></div>
+          <div class="kicker">Seminário 8 · PPGD/UFSC</div>
+          <h1>Do Poder-Dever<br>ao <em>Dever-Poder</em>.</h1>
+          <div class="sub">A Administração Pública 4.0 a partir<br>de quatro artigos do <em>IJDL</em>.</div>
+          <div class="by">ANA VITÓRIA VANZIN · VINÍCIUS OLIVEIRA</div>
+        </div>
+        <div class="R">
+          <div class="ph"><span>STATE.MACHINE</span><span>v4.0</span></div>
+          <div class="term-head">// QUERY</div>
+          <div class="term-q">digital ⇒ democrático?</div>
+          <div class="term-a">return false;</div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- C · Capa -->
+    <div class="cell">
+      <span class="cell-tag">01·C</span>
+      <div class="cell-frame"><div class="scale C s-capa" style="width:960px;height:540px;position:absolute">
+        <div class="chrome"><span>SEM_08 · PPGD/UFSC · 2026-05-25</span><span class="dots"><span></span><span></span><span class="live"></span></span></div>
+        <div class="prompt">load seminario.deck</div>
+        <h1>Do Poder-Dever<br><em>ao Dever-Poder.</em></h1>
+        <div class="meta">
+          OBJETO &nbsp;·&nbsp; <b>Administração Pública 4.0</b><br>
+          CORPUS &nbsp;·&nbsp; 4 artigos · <b>IJDL 2020</b><br>
+          CASO &nbsp;·&nbsp; <b>INSS</b> · aposentadoria rural · IN 128/2022<br>
+          TESE &nbsp;·&nbsp; o regulador é o maior infrator
+        </div>
+        <div class="ascii">┌───────────┐
+│  STATE.   │
+│  MACHINE  │
+│  v 4 . 0  │
+└─────┬─────┘
+      │
+   <span style="color:#f08070">▼ FAIL</span></div>
+        <div class="by">ANA · VINÍCIUS  ▮</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       02 — PERGUNTA ORIENTADORA
+       ════════════════════════════════════════════ -->
+  <div class="row">
+    <div class="row-label">
+      <div class="num">02</div>
+      <div class="nm">Pergunta</div>
+      <div class="hint">a chave que orienta o deck</div>
+    </div>
+
+    <!-- A · Pergunta -->
+    <div class="cell">
+      <span class="cell-tag">02·A</span>
+      <div class="cell-frame"><div class="scale A s-perg" style="width:960px;height:540px;position:absolute">
+        <span class="q-mark">?</span>
+        <div class="sc red">Pergunta orientadora</div>
+        <div class="q">Quando a Administração Pública se torna <em>digital</em>, ela se torna automaticamente <em>mais democrática</em>?</div>
+        <div class="a">Não.</div>
+        <div class="footnote">A digitalização pode ampliar acesso, eficiência e transparência — mas também cria novas formas de opacidade, desloca decisões para sistemas opacos e produz cidadania digital de duas velocidades.</div>
+      </div></div>
+    </div>
+
+    <!-- B · Pergunta -->
+    <div class="cell">
+      <span class="cell-tag">02·B</span>
+      <div class="cell-frame"><div class="scale B s-perg" style="width:960px;height:540px;position:absolute">
+        <div class="L">
+          <div class="ph"><span>fl. 002/033</span><span>QUESTÃO ORIENTADORA</span></div>
+          <div class="kicker">Quando a APD se torna digital,</div>
+          <div class="big-q">?</div>
+          <div class="q-text">...ela se torna automaticamente mais democrática? Salgado, Cristóvam, Sarlet, Tavares — cada artigo mostra como <em>não</em>.</div>
+        </div>
+        <div class="R">
+          <div class="ph"><span>VERDICT</span><span>0x00</span></div>
+          <div class="kicker">// resposta</div>
+          <h2>digital <em>≠</em> democrático.</h2>
+          <div class="verdict">→ não.</div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- C · Pergunta -->
+    <div class="cell">
+      <span class="cell-tag">02·C</span>
+      <div class="cell-frame"><div class="scale C s-perg" style="width:960px;height:540px;position:absolute">
+        <div class="chrome"><span>02 · PERGUNTA ORIENTADORA</span><span>RUN</span></div>
+        <div class="prompt">eval democratic(digital_state)</div>
+        <div class="q">Quando a Administração Pública se torna <em>digital</em>, ela se torna automaticamente <em>mais democrática</em>?</div>
+        <div class="a-block">
+          <div class="lab">// RETURN</div>
+          <div class="val glow">false</div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       03 — DIVISOR DE BLOCO
+       ════════════════════════════════════════════ -->
+  <div class="row">
+    <div class="row-label">
+      <div class="num">03</div>
+      <div class="nm">Divisor</div>
+      <div class="hint">abre o bloco "Artigos I + II"</div>
+    </div>
+
+    <!-- A · Divisor -->
+    <div class="cell">
+      <span class="cell-tag">03·A</span>
+      <div class="cell-frame"><div class="scale A s-div" style="width:960px;height:540px;position:absolute">
+        <div class="num-big">I</div>
+        <div class="pt">Parte primeira · Revista IJDL 2020</div>
+        <h1>Proteção <em>de dados</em> &amp;<br>governo aberto.</h1>
+        <div class="arts">
+          <div><span class="sc">Art. I —</span> Salgado &amp; Saito · privacidade e multifuncionalidade.</div>
+          <div><span class="sc">Art. II —</span> Cristóvam &amp; Hahn · governo aberto e INDA.</div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- B · Divisor -->
+    <div class="cell">
+      <span class="cell-tag">03·B</span>
+      <div class="cell-frame"><div class="scale B s-div" style="width:960px;height:540px;position:absolute">
+        <div class="L">
+          <div class="ph"><span>fl. 004/033</span><span>PARTE I</span></div>
+          <div class="pt">Parte i</div>
+          <h1>Proteção de dados &amp;<br>governo aberto.</h1>
+          <div class="arts">Salgado &amp; Saito · Cristóvam &amp; Hahn<br><em>IJDL · 2020</em></div>
+        </div>
+        <div class="R">
+          <div class="ph"><span>// PARTITION</span><span>01 of 02</span></div>
+          <div class="nbig">01</div>
+          <div class="lab">// 2 ARTIGOS · 9 SLIDES</div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- C · Divisor -->
+    <div class="cell">
+      <span class="cell-tag">03·C</span>
+      <div class="cell-frame"><div class="scale C s-div" style="width:960px;height:540px;position:absolute">
+        <div class="chrome"><span>03 · PART_01 · loading...</span><span>2/33</span></div>
+        <div class="pt">// PARTE I</div>
+        <h1>Proteção de dados<br><em>&amp; governo aberto.</em></h1>
+        <div class="arts">
+          ART.I &nbsp;·&nbsp; <b>Salgado &amp; Saito</b> &nbsp;·&nbsp; privacidade · multifuncionalidade<br>
+          ART.II &nbsp;·&nbsp; <b>Cristóvam &amp; Hahn</b> &nbsp;·&nbsp; governo aberto · INDA
+        </div>
+        <div class="bar"></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       04 — EXPOSITIVO (denso)
+       ════════════════════════════════════════════ -->
+  <div class="row">
+    <div class="row-label">
+      <div class="num">04</div>
+      <div class="nm">Expositivo</div>
+      <div class="hint">Salgado &amp; Saito · privacidade — slide tipo Vinícius, denso</div>
+    </div>
+
+    <!-- A · Expositivo -->
+    <div class="cell">
+      <span class="cell-tag">04·A</span>
+      <div class="cell-frame"><div class="scale A s-expo" style="width:960px;height:540px;position:absolute">
+        <div class="head-row"><span class="sc">Art. I · Salgado &amp; Saito</span><span class="sc">IJDL · v. 1 · n. 3 · 2020</span></div>
+        <h2>A <em>multifuncionalidade</em> da proteção de dados.</h2>
+        <div class="body">
+          <p class="lead">Salgado e Saito propõem ler a proteção de dados pessoais como direito fundamental complexo, irredutível à dimensão de defesa contra o Estado.</p>
+          <p>A privacidade ganha três funções concorrentes: <em>defesa</em>, <em>prestação normativa</em> (LGPD, ANPD) e <em>prestação fática</em> (políticas públicas de segurança da informação).</p>
+          <p>A LGPD é prestação normativa de primeira ordem; mas, ressaltam, a dimensão de defesa não desaparece — o Estado segue como agente de tratamento.</p>
+          <p>O caso Snowden e a MP 954/2020 (ADI 6.387) mostram que mesmo a regulação não basta: foi preciso outro Poder conter o regulador-coletor.</p>
+        </div>
+        <div class="marg">"O Estado<br>é, ele próprio,<br>um poderoso<br>agente de<br>tratamento."<br><br><span class="sc red">— Salgado &amp; Saito</span></div>
+      </div></div>
+    </div>
+
+    <!-- B · Expositivo -->
+    <div class="cell">
+      <span class="cell-tag">04·B</span>
+      <div class="cell-frame"><div class="scale B s-expo" style="width:960px;height:540px;position:absolute">
+        <div class="L">
+          <div class="ph"><span>fl. 005/033</span><span>ART. I · § 2.3</span></div>
+          <div class="kicker">Art. I · Salgado &amp; Saito</div>
+          <h2>Multifuncionalidade da<br>proteção de <em>dados</em>.</h2>
+          <div class="body">
+            <p>Direito fundamental <b>complexo</b>: a privacidade não se esgota em defesa.</p>
+            <p>Três funções concorrentes — defesa contra ingerências; prestação normativa (LGPD/ANPD); prestação fática (políticas).</p>
+            <p>A regulação não anula a função de defesa: o Estado segue como o maior agente de tratamento.</p>
+          </div>
+        </div>
+        <div class="R">
+          <div class="ph"><span>// DECOMPOSE</span><span>3 functions</span></div>
+          <div class="lbl">// privacidade.functions</div>
+          <div class="seq">
+            <b>def</b> defesa: <span class="v">→ contra ingerências</span><br>
+            <b>def</b> prest_normativa: <span class="v">→ LGPD · ANPD</span><br>
+            <b>def</b> prest_fatica: <span class="v">→ políticas públicas</span>
+          </div>
+          <div class="key">"O Estado é, ele próprio, um poderoso agente de tratamento."</div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- C · Expositivo -->
+    <div class="cell">
+      <span class="cell-tag">04·C</span>
+      <div class="cell-frame"><div class="scale C s-expo" style="width:960px;height:540px;position:absolute">
+        <div class="chrome"><span>04 · ART.I · SALGADO &amp; SAITO · IJDL v.1 n.3</span><span>5/33</span></div>
+        <h2>A <em>multifuncionalidade</em> da proteção de dados.</h2>
+        <div class="layout">
+          <div class="body">
+            <p>Privacidade lida como direito fundamental <em>complexo</em>: três funções concorrentes que não se reduzem à dimensão de defesa.</p>
+            <p>A LGPD é prestação normativa de primeira ordem. <em>Mas</em>: a função de defesa <em>não desaparece</em> — o Estado segue como agente de tratamento.</p>
+            <p>Snowden, MP 954/2020, ADI 6.387 → foi preciso o STF conter o regulador-coletor.</p>
+          </div>
+          <div class="panel">
+            <div class="lbl">// 3 FUNÇÕES</div>
+            <ol>
+              <li>DEFESA · contra ingerências do Estado</li>
+              <li>PRESTAÇÃO NORMATIVA · LGPD · ANPD</li>
+              <li>PRESTAÇÃO FÁTICA · políticas de segurança</li>
+            </ol>
+          </div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       05 — NOSSA LEITURA (autoral)
+       ════════════════════════════════════════════ -->
+  <div class="row">
+    <div class="row-label">
+      <div class="num">05</div>
+      <div class="nm">★ Autoral</div>
+      <div class="hint">"nossa leitura" entre artigos — voz da dupla</div>
+    </div>
+
+    <!-- A · Autoral -->
+    <div class="cell">
+      <span class="cell-tag">05·A</span>
+      <div class="cell-frame"><div class="scale A s-aut" style="width:960px;height:540px;position:absolute">
+        <div class="flag">★ Nossa leitura</div>
+        <h2>A dimensão de defesa <em>persiste</em> — mesmo com a LGPD, mesmo com a ANPD.</h2>
+        <div class="essay">A ressalva de Salgado e Saito é o coração da tese deste seminário: o Estado segue sendo o maior agente de tratamento de dados do país. <em>Snowden, MP 954/2020 e a ADI 6.387</em> mostram que a autotutela do regulador-coletor não basta — foi preciso outro Poder segurá-lo. O cidadão precisa, ainda hoje, ser protegido <em>contra</em> o aparato que escreve a norma.</div>
+        <div class="cite">— Persona do protótipo: <em>Cidadão</em></div>
+      </div></div>
+    </div>
+
+    <!-- B · Autoral -->
+    <div class="cell">
+      <span class="cell-tag">05·B</span>
+      <div class="cell-frame"><div class="scale B s-aut" style="width:960px;height:540px;position:absolute">
+        <div class="L">
+          <div class="ph"><span>fl. 010/033</span><span>NOSSA LEITURA · ★</span></div>
+          <div class="star">★ NOSSA LEITURA</div>
+          <h2>A função de defesa <em>persiste</em> — mesmo sob LGPD.</h2>
+          <div class="body">
+            <p>O Estado segue como o maior agente de tratamento. A autotutela do regulador-coletor não basta: foi preciso o STF.</p>
+            <p>A persona <em>Cidadão</em> do nosso Conselho é exatamente o sujeito que precisa, ainda hoje, ser protegido <em>contra</em> quem escreve a norma.</p>
+          </div>
+        </div>
+        <div class="R">
+          <div class="ph"><span>// EVIDENCE</span><span>3 cases</span></div>
+          <div class="lbl">// Estado vs cidadão</div>
+          <div class="case"><div class="tag">2013 · EUA</div><div class="ttl">Snowden</div></div>
+          <div class="case"><div class="tag">2020 · BR</div><div class="ttl">MP 954</div><div class="num">ADI 6.387</div></div>
+          <div class="case"><div class="tag">2021 · BR</div><div class="ttl">Gov.br</div><div class="num">251M CPFs</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- C · Autoral -->
+    <div class="cell">
+      <span class="cell-tag">05·C</span>
+      <div class="cell-frame"><div class="scale C s-aut" style="width:960px;height:540px;position:absolute">
+        <div class="chrome"><span>05 · ★ NOSSA LEITURA · pós-art.I</span><span>10/33</span></div>
+        <div class="tag">// AUTORAL · INTERLEITURA</div>
+        <h2>A defesa <em>persiste</em> — mesmo sob LGPD.</h2>
+        <div class="grid">
+          <div class="col">
+            <div class="num">01</div>
+            <div class="ttl">Snowden · 2013</div>
+            <div class="desc">vigilância de massa exposta; o regulador também é vigilante.</div>
+            <div class="ref">cit. Salgado &amp; Saito</div>
+          </div>
+          <div class="col">
+            <div class="num">02</div>
+            <div class="ttl">MP 954 · 2020</div>
+            <div class="desc">o Executivo quis dados de telecom sem finalidade. <span class="cit">STF · ADI 6.387.</span></div>
+            <div class="ref">cit. STF, 2020</div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       06 — DIAGRAMA REGULADOR ⇄ REGULADO
+       ════════════════════════════════════════════ -->
+  <div class="row">
+    <div class="row-label">
+      <div class="num">06</div>
+      <div class="nm">Diagrama tese</div>
+      <div class="hint">Regulador ⇄ Regulado — o coração da tese</div>
+    </div>
+
+    <!-- A · Diagrama -->
+    <div class="cell">
+      <span class="cell-tag">06·A</span>
+      <div class="cell-frame"><div class="scale A s-diag" style="width:960px;height:540px;position:absolute">
+        <div class="head-row"><span class="sc red">★ tese central</span><span class="sc">do poder-dever ao dever-poder</span></div>
+        <h2>O Estado em duas posições <em>simultâneas</em>.</h2>
+        <div class="dia">
+          <div class="box">
+            <div class="lbl">REGULADOR</div>
+            <h3>Edita a regra.</h3>
+            <ul>
+              <li>LAI · 12.527/2011</li>
+              <li>LGPD · 13.709/2018</li>
+              <li>Lei 14.129/2021</li>
+              <li>IN 128/2022 · INSS</li>
+            </ul>
+          </div>
+          <div class="center">⇄<span class="lab">a mesma<br>pessoa<br>jurídica</span></div>
+          <div class="box" style="background:#1a1a18;color:#fbfaf5;border-color:#1a1a18">
+            <div class="lbl" style="color:#c8a87a">REGULADO</div>
+            <h3 style="color:#fbfaf5">Descumpre a regra.</h3>
+            <ul style="color:#cfcab9">
+              <li>vazamento Gov.br</li>
+              <li>INSS · indeferimento automático</li>
+              <li>TJ-MA · IA em sentenças</li>
+              <li>opacidade seletiva (LAI art. 23)</li>
+            </ul>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- B · Diagrama -->
+    <div class="cell">
+      <span class="cell-tag">06·B</span>
+      <div class="cell-frame"><div class="scale B s-diag" style="width:960px;height:540px;position:absolute">
+        <div class="L">
+          <div class="ph"><span>fl. 026/033</span><span>TESE CENTRAL</span></div>
+          <div class="kicker">REGULADOR</div>
+          <h3>Edita a regra.</h3>
+          <div class="role">o poder-dever</div>
+          <ul>
+            <li>LAI · 12.527/2011</li>
+            <li>LGPD · 13.709/2018</li>
+            <li>Lei 14.129/2021 · gov digital</li>
+            <li>IN 128/2022 · INSS</li>
+          </ul>
+        </div>
+        <div class="R">
+          <div class="ph"><span>// SAME ENTITY</span><span>STATE</span></div>
+          <div class="kicker">REGULADO</div>
+          <h3>Descumpre a regra.</h3>
+          <div class="role" style="color:var(--neon)">o dever-poder</div>
+          <ul>
+            <li>Gov.br · vazamento 251M CPFs</li>
+            <li>INSS · indeferimento sem motivação</li>
+            <li>TJ-MA · sentenças por IA · 80→969</li>
+            <li>LAI art. 23 · opacidade seletiva</li>
+          </ul>
+        </div>
+        <div class="arrow-pill">⇄ a mesma pessoa jurídica</div>
+      </div></div>
+    </div>
+
+    <!-- C · Diagrama -->
+    <div class="cell">
+      <span class="cell-tag">06·C</span>
+      <div class="cell-frame"><div class="scale C s-diag" style="width:960px;height:540px;position:absolute">
+        <div class="chrome"><span>06 · ★ TESE · REGULADOR ⇄ REGULADO</span><span>26/33</span></div>
+        <h2>O Estado <em>em duas posições</em>.</h2>
+        <div class="layout">
+          <div class="box">
+            <div class="tag">REGULADOR · /law</div>
+            <div class="role">edita a regra</div>
+            <ul>
+              <li>LAI 12.527/2011</li>
+              <li>LGPD 13.709/2018</li>
+              <li>L 14.129/2021</li>
+              <li>IN 128/2022 · INSS</li>
+            </ul>
+          </div>
+          <div class="swap">⇄<span class="l">same<br>entity</span></div>
+          <div class="box bad">
+            <div class="tag">REGULADO · /violations</div>
+            <div class="role">descumpre a regra</div>
+            <ul>
+              <li>Gov.br · vazamento</li>
+              <li>INSS · auto-indef.</li>
+              <li>TJ-MA · IA · 80→969</li>
+              <li>LAI §23 · sigilo</li>
+            </ul>
+          </div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       07 — CASO INSS (caixa-preta)
+       ════════════════════════════════════════════ -->
+  <div class="row">
+    <div class="row-label">
+      <div class="num">07</div>
+      <div class="nm">Caso INSS</div>
+      <div class="hint">o caso-âncora da apresentação</div>
+    </div>
+
+    <!-- A · Caso -->
+    <div class="cell">
+      <span class="cell-tag">07·A</span>
+      <div class="cell-frame"><div class="scale A s-caso" style="width:960px;height:540px;position:absolute">
+        <div class="head-row"><span class="sc red">★ caso-âncora</span><span class="sc">INSS · IN 128/2022</span></div>
+        <h2>O <em>indeferimento automático</em> da aposentadoria rural.</h2>
+        <div class="grid">
+          <div class="narr">
+            <p>Trabalhadora rural, 62 anos, requer benefício. O sistema do INSS cruza bases (CadÚnico, RAIS, CNIS) e <em>infere</em> que ela não preenche o requisito de tempo no campo.</p>
+            <p>Decisão automática. Sem contraditório prévio. <em>Em desacordo com a IN 128/2022</em> da própria autarquia.</p>
+            <p>A segurada recebe uma mensagem padrão: "indeferido por inconsistência cadastral". Não há motivação, não há dados, não há recurso direto.</p>
+          </div>
+          <div class="box-doc">
+            <div class="h">Decisão · proc. nb 2026.NB.0XXXXX</div>
+            "Indeferido por inconsistência cadastral &amp; risco elevado de inelegibilidade detectado em modelo automatizado."<br><br>
+            <span style="opacity:.6">— sem revisão humana<br>— sem base legal citada<br>— sem dados informados</span>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- B · Caso -->
+    <div class="cell">
+      <span class="cell-tag">07·B</span>
+      <div class="cell-frame"><div class="scale B s-caso" style="width:960px;height:540px;position:absolute">
+        <div class="L">
+          <div class="ph"><span>fl. 027/033</span><span>CASO · INSS</span></div>
+          <div class="lbl">CASO-ÂNCORA</div>
+          <h2>Indeferimento automático da<br>aposentadoria <em>rural</em>.</h2>
+          <div class="narr">
+            <p>Trabalhadora rural, 62 anos. O sistema cruza CadÚnico/RAIS/CNIS e <em>infere</em> não-elegibilidade.</p>
+            <p>Sem contraditório. Em desacordo com a <em>IN 128/2022</em> do próprio INSS.</p>
+            <p>O regulador-do-recurso é quem suprime o recurso.</p>
+          </div>
+          <div class="stamp">INDEFERIDO</div>
+        </div>
+        <div class="R">
+          <div class="ph"><span>// BLACK BOX</span><span>output</span></div>
+          <div class="lbl">// query: por que negaram?</div>
+          <div class="blackbox">
+            decision: <span class="err">DENY</span><br>
+            reason: <span class="err">"inconsistência cadastral"</span><br>
+            human_review: <span class="err">null</span><br>
+            legal_basis: <span class="err">null</span><br>
+            data_used: <span class="err">— hidden —</span><br>
+            appeal_url: <span class="err">— missing —</span>
+          </div>
+          <div class="quote">"Por que negaram?" não tem resposta.</div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- C · Caso -->
+    <div class="cell">
+      <span class="cell-tag">07·C</span>
+      <div class="cell-frame"><div class="scale C s-caso" style="width:960px;height:540px;position:absolute">
+        <div class="chrome"><span>07 · CASO · INSS · auto_indef()</span><span>27/33</span></div>
+        <h2>Caso-âncora: <em>aposentadoria rural negada</em>.</h2>
+        <div class="layout">
+          <div class="stats">
+            <div class="cell-stat"><div class="l">// decisão</div><div class="v err">DENY</div><div class="d">automatizada · sem revisão humana</div></div>
+            <div class="cell-stat"><div class="l">// norma violada</div><div class="v">IN 128</div><div class="d">/2022 · do próprio INSS</div></div>
+            <div class="cell-stat"><div class="l">// segurada</div><div class="v">62 anos</div><div class="d">rural · sem internet domiciliar</div></div>
+            <div class="cell-stat"><div class="l">// recurso</div><div class="v err">null</div><div class="d">canal de contestação ausente</div></div>
+          </div>
+          <div class="blackbox">
+            <span class="dim">// API response</span><br>
+            {<br>
+            &nbsp;&nbsp;decision: <span class="err">"DENY"</span>,<br>
+            &nbsp;&nbsp;reason: <span class="warn">"inconsistência cadastral"</span>,<br>
+            &nbsp;&nbsp;model: <span class="v">"interno · não-publicado"</span>,<br>
+            &nbsp;&nbsp;data_used: <span class="err">null</span>,<br>
+            &nbsp;&nbsp;legal_basis: <span class="err">null</span>,<br>
+            &nbsp;&nbsp;human_review: <span class="err">false</span>,<br>
+            &nbsp;&nbsp;appeal: <span class="err">— missing —</span><br>
+            }
+          </div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       08 — TABELA "ESTADO CONTRA SI MESMO"
+       ════════════════════════════════════════════ -->
+  <div class="row">
+    <div class="row-label">
+      <div class="num">08</div>
+      <div class="nm">Tabela 2025-26</div>
+      <div class="hint">o Estado contra si mesmo — caixa de munição</div>
+    </div>
+
+    <!-- A · Tabela -->
+    <div class="cell">
+      <span class="cell-tag">08·A</span>
+      <div class="cell-frame"><div class="scale A s-tab" style="width:960px;height:540px;position:absolute">
+        <div class="head-row"><span class="sc red">★ caixa de munição</span><span class="sc">2020 — 2026</span></div>
+        <h2>O <em>Estado contra si mesmo.</em></h2>
+        <table>
+          <thead><tr><th>Ano</th><th>Episódio</th><th>Norma violada</th><th>Quem edita / quem viola</th></tr></thead>
+          <tbody>
+            <tr><td class="year">2020</td><td class="case">MP 954 — telecom + IBGE</td><td>LGPD (em vacatio); finalidade</td><td>Executivo Federal / STF (ADI 6.387)</td></tr>
+            <tr><td class="year">2021</td><td class="case">Vazamento Gov.br — 251M CPFs</td><td>LGPD art. 46; ANPD</td><td>Governo Digital / mesmo Governo</td></tr>
+            <tr><td class="year">2020</td><td class="case">SyRI — Haia (espelho)</td><td>CEDH 8 · privacidade · finalidade</td><td>Estado holandês / Tribunal de Haia</td></tr>
+            <tr><td class="year">2025</td><td class="case">INSS — aposentadoria rural</td><td>IN 128/2022 · CF art. 5º LV</td><td>INSS / o próprio INSS</td></tr>
+            <tr><td class="year">2025</td><td class="case">TJ-MA — sentenças por IA</td><td>CNJ Res. 615/2025</td><td>CNJ / juiz vinculado ao CNJ</td></tr>
+          </tbody>
+          <caption>Tabela 1 — Compilação dos autores a partir de fontes públicas.</caption>
+        </table>
+      </div></div>
+    </div>
+
+    <!-- B · Tabela -->
+    <div class="cell">
+      <span class="cell-tag">08·B</span>
+      <div class="cell-frame"><div class="scale B s-tab" style="width:960px;height:540px;position:absolute">
+        <div class="L">
+          <div class="ph"><span>fl. 029/033</span><span>NORMA · O QUE ESTÁ ESCRITO</span></div>
+          <h3>A regra escrita.</h3>
+          <table>
+            <thead><tr><th>Lei</th><th>Garante</th></tr></thead>
+            <tbody>
+              <tr><td class="k">LGPD art. 6º</td><td>finalidade, minimização</td></tr>
+              <tr><td class="k">LAI art. 8º</td><td>publicidade ativa</td></tr>
+              <tr><td class="k">CF art. 5º LV</td><td>contraditório prévio</td></tr>
+              <tr><td class="k">IN 128/22 INSS</td><td>motivação da decisão</td></tr>
+              <tr><td class="k">CNJ Res. 615/25</td><td>IA com supervisão</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="R">
+          <div class="ph"><span>// PRACTICE · O QUE O ESTADO FAZ</span><span>2025-26</span></div>
+          <h3>A prática.</h3>
+          <table>
+            <thead><tr><th>Episódio</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Gov.br · vazamento 251M</td><td class="bad">FAIL</td></tr>
+              <tr><td>MP 954 · telecom</td><td class="bad">STRUCK_DOWN</td></tr>
+              <tr><td>INSS · indef. automático</td><td class="bad">VIOLATION</td></tr>
+              <tr><td>SyRI · Haia 2020</td><td class="bad">STRUCK_DOWN</td></tr>
+              <tr><td>TJ-MA · sentenças IA</td><td class="bad">80 → 969</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- C · Tabela -->
+    <div class="cell">
+      <span class="cell-tag">08·C</span>
+      <div class="cell-frame"><div class="scale C s-tab" style="width:960px;height:540px;position:absolute">
+        <div class="chrome"><span>08 · /violations · 2020—2026</span><span>29/33</span></div>
+        <h2>O <em>Estado contra si mesmo.</em></h2>
+        <table>
+          <thead><tr><th>ano</th><th>episódio</th><th>norma</th><th>status</th><th>fonte</th></tr></thead>
+          <tbody>
+            <tr><td class="year">2020</td><td class="case">MP 954 · telecom + IBGE</td><td>LGPD · CF 5º</td><td class="bad">STRUCK_DOWN</td><td class="cit">STF · ADI 6.387</td></tr>
+            <tr><td class="year">2021</td><td class="case">Gov.br · vazamento</td><td>LGPD art. 46</td><td class="bad">251M CPF</td><td class="cit">ANPD</td></tr>
+            <tr><td class="year">2020</td><td class="case">SyRI · Haia (espelho)</td><td>CEDH 8</td><td class="bad">STRUCK_DOWN</td><td class="cit">Trib. Haia</td></tr>
+            <tr><td class="year">2025</td><td class="case">INSS · apos. rural</td><td>IN 128/2022 · CF 5º LV</td><td class="bad">VIOLATION</td><td class="cit">autos</td></tr>
+            <tr><td class="year">2025</td><td class="case">TJ-MA · sentenças IA</td><td>CNJ Res. 615/2025</td><td class="bad">80 → 969</td><td class="cit">CNJ-corregedoria</td></tr>
+          </tbody>
+        </table>
+        <div class="ftnote">// fonte: compilação dos autores · 2026 · IJDL/PPGD-UFSC</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       09 — TESE DE FECHAMENTO
+       ════════════════════════════════════════════ -->
+  <div class="row">
+    <div class="row-label">
+      <div class="num">09</div>
+      <div class="nm">Tese final</div>
+      <div class="hint">os 4 pilares + pergunta de debate</div>
+    </div>
+
+    <!-- A · Tese -->
+    <div class="cell">
+      <span class="cell-tag">09·A</span>
+      <div class="cell-frame"><div class="scale A s-tese" style="width:960px;height:540px;position:absolute">
+        <div class="frame">
+          <div class="pt">— in fine —</div>
+          <h1>Só há Administração Pública 4.0 <em>democrática</em> quando a decisão é</h1>
+          <div class="quartet">
+            <span>explicável</span><span>·</span><span>contestável</span><span>·</span><span>inclusiva</span><span>·</span><span>controlável</span>
+          </div>
+          <div class="folio" style="position:relative;left:0;right:0;bottom:0;margin-top:30px"><span>Vanzin &amp; Oliveira · 2026</span><span>33 / 33</span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- B · Tese -->
+    <div class="cell">
+      <span class="cell-tag">09·B</span>
+      <div class="cell-frame"><div class="scale B s-tese" style="width:960px;height:540px;position:absolute">
+        <div class="L">
+          <div class="ph"><span>fl. 033/033</span><span>FECHO</span></div>
+          <div class="pt">— in fine —</div>
+          <h1>Não há <em>4.0 democrática</em> sem</h1>
+        </div>
+        <div class="R">
+          <div class="ph"><span>// CONDITIONS</span><span>4 of 4</span></div>
+          <div class="pillars">
+            <div class="pill">explicabilidade</div>
+            <div class="pill">contestabilidade</div>
+            <div class="pill">inclusão digital</div>
+            <div class="pill">controle democrático</div>
+          </div>
+          <div class="ask">"decidindo melhor — ou apenas decidindo mais rápido?"</div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- C · Tese -->
+    <div class="cell">
+      <span class="cell-tag">09·C</span>
+      <div class="cell-frame"><div class="scale C s-tese" style="width:960px;height:540px;position:absolute">
+        <div class="chrome"><span>33/33 · FECHO · assert_democratic()</span><span>END</span></div>
+        <div class="lab">// CONDIÇÕES MÍNIMAS</div>
+        <h1>Não há <em>4.0 democrática</em> sem<br>quatro condições.</h1>
+        <div class="pillars">
+          <span>explicabilidade</span>
+          <span>contestabilidade</span>
+          <span>inclusão digital</span>
+          <span>controle democrático</span>
+        </div>
+        <div class="ask">"a APD está decidindo melhor — ou apenas decidindo mais rápido, com menos chance de compreensão, contestação e participação?"<span class="blink"></span></div>
+      </div></div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <b>e aí, qual te chama?</b> me diga A, B ou C — eu construo os 33 slides na direção escolhida hoje ainda. (também posso misturar: tipo "A, mas com o split da B nos slides autorais")
+</footer>
+
+<script>
+// Auto-scale: each .scale is designed at 960×540; we scale to fit its parent .cell-frame width.
+function fitScales(){
+  document.querySelectorAll('.cell-frame').forEach(frame => {
+    const w = frame.clientWidth;
+    const scale = w / 960;
+    const inner = frame.querySelector('.scale');
+    if(inner) inner.style.transform = `scale(${scale})`;
+  });
+}
+window.addEventListener('load', fitScales);
+window.addEventListener('resize', fitScales);
+</script>
+
+</body>
+</html>
