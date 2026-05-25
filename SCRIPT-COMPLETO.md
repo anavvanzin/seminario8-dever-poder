@@ -32,7 +32,7 @@ As falas são intercaladas. O Vinícius entrega a **dogmática** (conceito, arti
 
 **Vinícius:**
 
-"Bom dia, boa tarde a todos. Obrigado, professor Cristóvam, pela disciplina e pelo espaço. Hoje a Ana e eu vamos apresentar quatro artigos do International Journal of Digital Law, mas não como quatro leituras separadas. A gente vai ler os quatro como um único arco dramático."
+"Bom dia, boa tarde a todos. Obrigado, professor Cristóvam, pela disciplina e pelo espaço. Hoje a Ana e eu vamos apresentar quatro artigos sobre Administração Pública orientada por dados, governo aberto, LGPD e decisão algorítmica, mas não como quatro leituras separadas. A gente vai ler os quatro como um único arco dramático."
 
 "Os artigos são: Salgado e Saito, sobre privacidade e multifuncionalidade; Cristóvam e Hahn, sobre governo aberto e INDA; Sarlet e Molinaro, sobre big data e proteção de dados na saúde; e Tavares, Bitencourt e Cristóvam, sobre explicabilidade e contraditório algorítmico."
 

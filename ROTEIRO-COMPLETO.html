@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Roteiro Completo — Seminário 8</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <style>
+    @page { size: A4; margin: 16mm 18mm; }
+    body {
+      font-family: "EB Garamond", Georgia, "Times New Roman", serif;
+      font-size: 11.5pt; line-height: 1.5; color: #1a1a1a;
+      max-width: none; margin: 0;
+    }
+    h1 { font-size: 21pt; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 4pt; color: #16140f; }
+    h1 + p, h1 + p em { color: #555; }
+    h2 {
+      font-size: 14pt; font-weight: 600; color: #8b1a1a;
+      margin: 18pt 0 6pt; padding-top: 8pt; border-top: 1.5px solid #e0dccf;
+      break-after: avoid;
+    }
+    h3 {
+      font-family: "JetBrains Mono", monospace; font-size: 10pt; font-weight: 600;
+      letter-spacing: 0.04em; color: #16140f; background: #f4f1e9;
+      padding: 4pt 8pt; border-radius: 3px; margin: 14pt 0 4pt;
+      break-after: avoid;
+    }
+    p { margin: 0 0 7pt; }
+    strong { font-weight: 700; color: #16140f; }
+    blockquote {
+      margin: 6pt 0; padding: 2pt 0 2pt 12pt; border-left: 2px solid #c9bca6;
+      color: #2a2a2a;
+    }
+    em { color: #444; }
+    hr { border: none; border-top: 1px solid #e0dccf; margin: 14pt 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 10pt; margin: 8pt 0; }
+    th, td { text-align: left; padding: 4pt 8pt; border-bottom: 1px solid #e6e2d8; vertical-align: top; }
+    th { font-family: "JetBrains Mono", monospace; font-size: 8pt; letter-spacing: 0.06em; text-transform: uppercase; color: #666; }
+    ul, ol { margin: 4pt 0 8pt; padding-left: 18pt; }
+    li { margin-bottom: 3pt; }
+    code { font-family: "JetBrains Mono", monospace; font-size: 9.5pt; background: #f4f1e9; padding: 1pt 3pt; border-radius: 2px; }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Roteiro Completo — Seminário 8</h1>
+</header>
+<h1 id="script-completo-seminário-8-25-de-maio-de-2026">SCRIPT COMPLETO
+— Seminário 8 · 25 de maio de 2026</h1>
+<p><strong>Administração Pública orientada por dados · Governo aberto ·
+LGPD · processo digital · decisão algorítmica</strong></p>
+<p>Ana Vitória Vanzin &amp; Vinícius Oliveira · PPGD/UFSC ·
+Prof. Cristóvam</p>
+<hr />
+<h2 id="como-usar-este-script">COMO USAR ESTE SCRIPT</h2>
+<p>As falas são intercaladas. O Vinícius entrega a
+<strong>dogmática</strong> (conceito, artigo, doutrina); a Ana entrega a
+<strong>tensão</strong> (o Estado contra si mesmo, o caso brasileiro, a
+tese Regulador ⇄ Regulado). Cada bloco fecha com a Ana passando a
+palavra de volta.</p>
+<p><strong>Duração total estimada:</strong> ~40 minutos de exposição +
+~10 minutos de debate.</p>
+<p><strong>Regra de ouro:</strong> o Vinícius dá o
+<strong>conceito</strong>; a Ana dá a <strong>tensão</strong> e o
+<strong>caso</strong>. Ninguém lê — todo mundo fala.</p>
+<hr />
+<h2 id="ato-0-antes-de-começar-checklist-técnico">ATO 0 — ANTES DE
+COMEÇAR (checklist técnico)</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />Abrir <code>Seminario8.html</code>
+no navegador. Testar ← →. Checar se fontes carregaram.</label></li>
+<li><label><input type="checkbox" />Abrir <code>Conselho.html</code> em
+OUTRA aba (rede de segurança — Plano B).</label></li>
+<li><label><input type="checkbox" />Se for usar Plano A (demo ao vivo):
+<code>cd algoritmo-em-disputa &amp;&amp; ./start.sh</code>, abrir
+<code>localhost:5173</code>, clicar “Carregar caso INSS (demo)” para
+pré-aquecer.</label></li>
+<li><label><input type="checkbox" />Decidir: Plano A ou B? (A é mais
+impactante, B é à prova de falha.)</label></li>
+<li><label><input type="checkbox" />Celular no silencioso. Garrafa
+d’água. Relógio visível.</label></li>
+</ul>
+<hr />
+<h2 id="ato-1-abertura-2-min">ATO 1 — ABERTURA (~2 min)</h2>
+<h3 id="slide-01-capa">SLIDE 01 · Capa</h3>
+<p><strong>Vinícius:</strong></p>
+<p>“Bom dia, boa tarde a todos. Obrigado, professor Cristóvam, pela
+disciplina e pelo espaço. Hoje a Ana e eu vamos apresentar quatro
+artigos sobre Administração Pública orientada por dados, governo aberto,
+LGPD e decisão algorítmica, mas não como quatro leituras separadas. A
+gente vai ler os quatro como um único arco dramático.”</p>
+<p>“Os artigos são: Salgado e Saito, sobre privacidade e
+multifuncionalidade; Cristóvam e Hahn, sobre governo aberto e INDA;
+Sarlet e Molinaro, sobre big data e proteção de dados na saúde; e
+Tavares, Bitencourt e Cristóvam, sobre explicabilidade e contraditório
+algorítmico.”</p>
+<p>“Eu vou expor a dogmática de cada um. A Ana entra depois com uma
+leitura crítica que costura os quatro — e que é a nossa contribuição
+autoral.”</p>
+<h3 id="slide-02-pergunta-orientadora">SLIDE 02 · Pergunta
+orientadora</h3>
+<p><strong>Vinícius:</strong></p>
+<p>“Mas antes de abrir os artigos, a gente precisa de uma pergunta que
+organize tudo. A pergunta é esta: <strong>quando a Administração Pública
+se torna digital, ela se torna automaticamente mais
+democrática?</strong>”</p>
+<p>“A resposta curta é não. A digitalização pode ampliar acesso,
+eficiência e transparência — mas também pode criar novas formas de
+opacidade administrativa, deslocar decisões públicas para sistemas que
+ninguém entende, e produzir uma cidadania digital de duas velocidades. A
+tecnologia não é neutra. E o Direito Administrativo existe exatamente
+para isso: para domesticar o poder, inclusive o poder algorítmico.”</p>
+<h3 id="slide-03-chave-de-leitura-janus">SLIDE 03 · Chave de leitura
+(Janus)</h3>
+<p><strong>Ana:</strong></p>
+<p>“O Vinícius deu o mapa. Deixa eu dar a chave que vai abrir todas as
+portas.”</p>
+<p>“O Poder Público aparece nestes quatro artigos em <strong>duas
+posições ao mesmo tempo</strong>. Ele é o <strong>Regulador</strong> —
+edita a LAI, a LGPD, cria a ANPD, publica resoluções do CNJ, edita
+instruções normativas como a IN 128 do INSS. E ele é também o
+<strong>Regulado</strong> — é o maior controlador de dados pessoais do
+país, é o maior usuário de algoritmos que decidem sobre direitos, é o
+maior contratante de plataformas de inteligência artificial.”</p>
+<p>“A pergunta que a gente vai perseguir nos próximos 40 minutos é:
+<strong>o que acontece quando o mesmo aparato que faz a regra é o que
+mais tem incentivo para descumpri-la contra o cidadão?</strong>”</p>
+<p>“A gente chama esse movimento de <strong>‘do poder-dever ao
+dever-poder’</strong>. O Estado tem o <em>poder-dever</em> de regular —
+mas quando ele é o principal destinatário da norma que ele mesmo editou,
+esse poder se inverte. O dever de cumprir a regra que ele criou vira um
+<em>dever-poder</em>: uma obrigação que o próprio Estado é o primeiro a
+relativizar. É isso que costura os quatro artigos.”</p>
+<p>“Vinícius, volta pra ti.”</p>
+<hr />
+<h2 id="ato-2-parte-i-promessa-10-min">ATO 2 — PARTE I: PROMESSA (~10
+min)</h2>
+<h3 id="slide-04-divisor-parte-i">SLIDE 04 · Divisor Parte I</h3>
+<p><strong>Vinícius:</strong></p>
+<p>“Vamos aos dois primeiros artigos. Eles formam o que a gente chama de
+<strong>promessa</strong> da Administração Pública digital: a ideia de
+que dados, transparência e proteção podem produzir um Estado mais
+eficiente e mais democrático.”</p>
+<h3
+id="slides-0508-salgado-saito-privacidade-e-multifuncionalidade">SLIDES
+05–08 · Salgado &amp; Saito — Privacidade e multifuncionalidade</h3>
+<p><strong>Vinícius:</strong></p>
+<p>“Salgado e Saito partem de uma premissa que parece simples mas não é:
+<strong>a privacidade não é uma coisa só</strong>. Eles propõem uma
+leitura multifuncional do direito à privacidade — três dimensões que
+operam ao mesmo tempo.”</p>
+<p>“<strong>Primeira: dimensão de defesa.</strong> O direito de ser
+deixado em paz. O Estado não pode invadir a esfera privada sem
+justificativa constitucional. Essa é a leitura clássica, consolidada
+desde o célebre artigo de Warren e Brandeis em 1890, e reforçada no
+Brasil com a ADI 6.387 — que declarou inconstitucional a MP 954, aquela
+que obrigava as teles a compartilharem dados de usuários com o IBGE
+durante a pandemia.”</p>
+<p>“<strong>Segunda: prestação normativa.</strong> O Estado não pode só
+se abster de violar — ele tem que criar o aparato institucional que
+protege. É a LGPD. É a ANPD. São as normas que estruturam a proteção de
+dados como política pública. A Constituição, no art. 5º, LXXIX,
+introduzido pela EC 115/2022, tornou a proteção de dados pessoais
+direito fundamental expresso.”</p>
+<p>“<strong>Terceira: prestação fática.</strong> Não basta ter lei. O
+Estado tem que entregar: fiscalizar, sancionar, educar, orientar. A ANPD
+não pode ser um conselho de enfeite — e aqui entra o problema crônico
+brasileiro de criar autarquias sem dar dentes, pessoal e orçamento.”</p>
+<p>“Os autores traçam também uma linha histórica: das <em>gerações</em>
+legislativas da privacidade. Primeira geração, anos 1970 — leis
+setoriais, tipo crédito e saúde. Segunda, anos 1980 e 1990 — leis gerais
+nacionais, como o Data Protection Act inglês. Terceira, 1990 a 2010 —
+diretivas comunitárias, como a 95/46 da União Europeia. Quarta geração,
+2016 em diante — o RGPD europeu e a LGPD brasileira. A cada geração, o
+direito se expande e a regulação se sofistica.”</p>
+<p>“Agora a Ana entra com a leitura crítica. Ana?”</p>
+<h3 id="slide-09-nossa-leitura-i">SLIDE 09 · ★ Nossa leitura I</h3>
+<p><strong>Ana:</strong></p>
+<p>“Obrigada. Salgado e Saito fazem uma ressalva que é o coração da
+nossa tese. Eles dizem assim: mesmo com todo esse aparato — LGPD, ANPD,
+gerações legislativas — <strong>a dimensão de defesa não
+desaparece</strong>. Por quê? Porque o Estado continua sendo, nas
+palavras deles, ‘um poderoso agente de tratamento de dados’.”</p>
+<p>“Eles lembram do caso Snowden — uma agência de Estado coletando dados
+em massa, sem consentimento e sem finalidade. Eles lembram da MP 954 de
+2020 — o próprio Executivo quis compartilhar dados de telecomunicação de
+200 milhões de brasileiros sem finalidade clara. Resultado: o STF teve
+que conter o governo na ADI 6.387. A <strong>autotutela administrativa
+não bastou</strong>. Foi preciso outro Poder — o Judiciário — para
+segurar o regulador.”</p>
+<p>“Isso é o Regulador ⇄ Regulado em estado puro. O mesmo Estado que
+edita a LGPD é aquele cujo braço executivo tenta furar a LGPD. A
+autotutela — que é um dos atributos clássicos do ato administrativo —
+falhou. E se falhou nesse caso, falha em quantos outros que não chegam
+ao STF?”</p>
+<p>“Essa é a voz da persona <strong>Cidadão</strong> no nosso protótipo:
+o sujeito que a norma foi feita para proteger, mas que está exatamente
+na mira do maior violador.”</p>
+<p>“Vinícius.”</p>
+<hr />
+<h3 id="slides-1014-cristóvam-hahn-governo-aberto-e-inda">SLIDES 10–14 ·
+Cristóvam &amp; Hahn — Governo aberto e INDA</h3>
+<p><strong>Vinícius:</strong></p>
+<p>“Cristóvam e Hahn deslocam o debate: da proteção de dados para o
+governo aberto. Eles tratam abertura, transparência, proteção e
+regulação como um ciclo único. E ancoram isso em três referências
+teóricas pesadas.”</p>
+<p>“<strong>Mark Moore</strong> e a ideia de <em>valor público</em>: o
+gestor público não entrega só serviços — ele cria valor. E esse valor
+não se mede só por eficiência, mas por equidade, accountability e
+confiança. Um portal pode ser rápido e ainda assim não gerar valor
+público, se ninguém entende o que está lá.”</p>
+<p>“<strong>Patrick Dunleavy</strong> e a <em>governança digital</em>: a
+tecnologia não é ferramenta — ela redefine a própria burocracia. O
+Estado weberiano, com balcão e carimbo, dá lugar ao Estado-plataforma.
+Mas essa plataforma pode ser um shopping de serviços — ou pode ser um
+panóptico.”</p>
+<p>“<strong>OCDE 2019</strong> e a <em>Recomendação sobre Governo
+Aberto</em>: transparência, integridade, accountability e participação.
+O Brasil internalizou esses princípios na <strong>INDA — Infraestrutura
+Nacional de Dados Abertos</strong>, que o decreto que a instituiu
+organiza em torno de quatro pilares.”</p>
+<p>“Pilar um: <strong>transparência ativa</strong>. Quem já tentou
+baixar uma planilha de execução orçamentária em CSV e recebeu um PDF
+escaneado de uma planilha impressa sabe que a diferença entre ‘publicar’
+e ‘abrir’ é um abismo.”</p>
+<p>“Pilar dois: <strong>accountability</strong>. Dado aberto sem trilha
+de auditoria é anedota.”</p>
+<p>“Pilar três: <strong>participação</strong>. A INDA prevê que o
+cidadão não é só consumidor de dado — ele coproduz. Isso é ambicioso e
+quase nunca acontece.”</p>
+<p>“Pilar quatro: <strong>tecnologia</strong>. Interoperabilidade, APIs,
+formatos abertos. Na prática, ainda estamos no reino do PDF e do portal
+que muda de URL a cada troca de gestão.”</p>
+<p>“E eles trazem evidência empírica. Três municípios que ilustram o
+espectro.”</p>
+<p>“<strong>Recife</strong>: 92,90% no PNTP 2025. Terceiro Selo Ouro
+consecutivo. Decreto formalizando a Estratégia de Transformação Digital
+em 2021. Conecta Recife com mais de 120 serviços. Portal da
+Transparência com 42 mil visitas mensais.”</p>
+<p>“<strong>São Paulo</strong>: 72,95% no PNTP 2023. Classificação
+Intermediária. Mas tem escala — SP156 com mais de 560 serviços digitais,
+economia estimada de R$ 3,3 milhões em dois anos. O ‘Descomplica
+Digital’ garante atendimento presencial assistido — inclusão digital
+como política.”</p>
+<p>“<strong>Florianópolis</strong>: 87,51% no PNTP 2025. Selo Ouro.
+Destaque no GeoPortal — 160 camadas de dados geoespaciais, download
+vetorial, viabilidades urbanísticas automatizadas. Mas evidências
+fragmentadas quanto à integração de serviços em plataforma única.”</p>
+<p>“O traço comum entre os três: <strong>nenhum exibe instrumentos
+consolidados de explicabilidade algorítmica ou auditoria de decisões
+automatizadas</strong>. O PNTP mede publicidade de itens de LAI e LRF —
+não mede se o algoritmo que negou um benefício é compreensível. Mede
+transparência fiscal, não transparência algorítmica.”</p>
+<p>“Ana, tua leitura?”</p>
+<h3 id="slide-14-nossa-leitura-ii">SLIDE 14 · ★ Nossa leitura II</h3>
+<p><strong>Ana:</strong></p>
+<p>“Cristóvam e Hahn tratam abertura e transparência como um ciclo
+virtuoso. Mas repara na assimetria: a abertura é um <strong>dever
+jurídico</strong> do Estado, e ao mesmo tempo é <strong>o próprio Estado
+quem decide o que abre</strong>.”</p>
+<p>“A LAI, no artigo 23, permite classificar informação como reservada,
+secreta, ultrassecreta. Quem classifica? O Executivo — o maior detentor
+de informação do país. Ou seja: a mesma lei que obriga a transparência
+dá ao Estado as chaves do sigilo. O Estado pode <strong>opacizar a si
+mesmo</strong>.”</p>
+<p>“Recife, São Paulo e Florianópolis são boas práticas — e a gente
+celebra isso. Mas são 3 municípios num país de 5.570. Apenas 22% dos
+municípios com mais de 200 mil habitantes têm plano de governo digital
+vigente. O federalismo virou federalismo de adesão: a Lei 14.129 só
+alcança o município que adota seus comandos por ato próprio. Cada
+prefeitura é um ponto de decisão soberana — e a maioria decide não
+decidir.”</p>
+<p>“Os portais são transparentes. Mas o algoritmo que decide não é. E o
+selo Ouro do PNTP não captura isso. Essa é a persona
+<strong>Administrador Público</strong> no nosso protótipo: a governança
+que promete abertura e controla as chaves do sigilo.”</p>
+<p>“Vinícius, fecha a Parte I?”</p>
+<h3 id="slide-15-síntese-parte-i">SLIDE 15 · Síntese Parte I</h3>
+<p><strong>Vinícius:</strong></p>
+<p>“Fecho curto. Os dois primeiros artigos nos dão a promessa: um Estado
+que protege dados e que se abre ao escrutínio público. A LGPD estrutura
+a defesa; a INDA estrutura a transparência. Mas a promessa é frágil —
+porque quem promete é também quem pode descumprir. A Parte II vai
+mostrar o choque: quando a escala do big data e a opacidade do algoritmo
+encontram essa promessa, o que acontece?”</p>
+<hr />
+<h2 id="ato-3-parte-ii-choque-10-min">ATO 3 — PARTE II: CHOQUE (~10
+min)</h2>
+<h3 id="slide-16-divisor-parte-ii">SLIDE 16 · Divisor Parte II</h3>
+<p><strong>Vinícius:</strong></p>
+<p>“Os dois próximos artigos viram a chave. Da promessa, entramos no
+choque de realidade.”</p>
+<h3
+id="slides-1719-sarlet-molinaro-big-data-saúde-e-proteção-de-dados">SLIDES
+17–19 · Sarlet &amp; Molinaro — Big data, saúde e proteção de dados</h3>
+<p><strong>Vinícius:</strong></p>
+<p>“Sarlet e Molinaro escolheram o setor mais sensível possível: a
+saúde. E mostram que a LGPD — que celebramos no artigo anterior como
+conquista civilizatória — foi concebida num paradigma <strong>pré-big
+data</strong>.”</p>
+<p>“Eles identificam cinco campos em que o big data impacta a
+saúde.”</p>
+<p>“<strong>Campo um: pesquisa clínica.</strong> Dados de pacientes em
+escala inédita. Potencial enorme para descoberta de padrões, mas também
+para reidentificação de indivíduos ‘anonimizados’. A anonimização no big
+data é uma promessa frágil: com datasets suficientemente grandes, a
+reidentificação é quase sempre possível.”</p>
+<p>“<strong>Campo dois: saúde pública.</strong> Modelos preditivos de
+epidemia, alocação de recursos. Mas quem decide qual variável prediz
+risco? Se o modelo usa CEP como proxy de vulnerabilidade, ele está
+usando território como destino.”</p>
+<p>“<strong>Campo três: gestão hospitalar.</strong> Eficiência
+operacional. Só que o hospital que otimiza leitos por algoritmo pode
+estar, sem saber, triando pacientes por perfil de ‘custo esperado’. Isso
+é discriminação por proxy.”</p>
+<p>“<strong>Campo quatro: medicina personalizada.</strong> Genômica,
+biomarcadores. A fronteira mais promissora — e a mais perigosa para
+privacidade. Dado genético não se troca como senha.”</p>
+<p>“<strong>Campo cinco: wearables e Internet das Coisas.</strong> O
+relógio que mede batimentos, o app que registra sono. Esses dados já
+estão sendo comprados por seguradoras e planos de saúde. Nos Estados
+Unidos, isso já acontece. No Brasil, é questão de tempo.”</p>
+<p>“Diante disso, os autores interrogam os pilares da LGPD.
+<strong>Finalidade:</strong> qual é a finalidade de um algoritmo que
+encontra correlações que ninguém previu? <strong>Minimização:</strong>
+como minimizar dados num regime que vive de maximizá-los?
+<strong>Consentimento:</strong> o paciente do SUS consente com o quê,
+exatamente, quando os dados dele alimentam modelos que ele nunca soube
+que existiam?”</p>
+<p>“Essa fragilidade é estrutural, e não acidental. A LGPD é uma lei
+analógica num mundo de dados exponenciais. E o Estado brasileiro é um
+dos maiores coletores de dados de saúde do planeta.”</p>
+<p>“Ana?”</p>
+<h3 id="slide-20-nossa-leitura-iii">SLIDE 20 · ★ Nossa leitura III</h3>
+<p><strong>Ana:</strong></p>
+<p>“Sarlet e Molinaro mostram que a LGPD foi concebida num paradigma
+pré-big data. E isso é grave <strong>quando o Estado é o grande
+coletor</strong>.”</p>
+<p>“O SUS é o maior sistema público de saúde do mundo. São bilhões de
+registros: atendimentos, internações, medicamentos, exames, vacinas. Em
+Santa Catarina, mais de 10 milhões de registros preditivos só na
+educação. Imagina na saúde.”</p>
+<p>“Enquanto isso, o suposto vazamento de <strong>251 milhões de CPFs do
+Gov.br</strong> — mais CPFs do que brasileiros vivos — mostra o tamanho
+do risco. O maior controlador de dados do país é o mesmo ente que
+deveria fiscalizar a proteção desses dados.”</p>
+<p>“Minimização vira letra morta. Consentimento vira ficção jurídica.
+Finalidade vira abstração. Quando quem coleta é quem regula, os freios
+da LGPD viram sugestões. E o cidadão — o titular dos dados — é o último
+a saber. Essa é a segunda face da persona <strong>Cidadão</strong> no
+nosso protótipo: o sujeito que a LGPD diz proteger, mas cujos dados
+vazam do lugar que deveria ser o mais seguro.”</p>
+<p>“Vinícius, o quarto artigo.”</p>
+<hr />
+<h3
+id="slides-2124-tavares-bitencourt-cristóvam-explicabilidade-e-contraditório-algorítmico">SLIDES
+21–24 · Tavares, Bitencourt &amp; Cristóvam — Explicabilidade e
+contraditório algorítmico</h3>
+<p><strong>Vinícius:</strong></p>
+<p>“Tavares, Bitencourt e Cristóvam fecham o ciclo com o artigo mais
+ambicioso dos quatro. Eles enfrentam o problema que os três anteriores
+apenas tangenciaram: quando a decisão automatizada viola direitos, como
+se contesta?”</p>
+<p>“Primeiro: <strong>algoritmo não é inteligência artificial, e IA não
+é algoritmo</strong>. Algoritmo é uma sequência determinística de
+passos. Se A, então B. Inteligência artificial — especialmente machine
+learning — é um sistema que aprende padrões com dados e produz
+inferências que nem o programador consegue prever completamente. A
+diferença é crucial, porque a explicabilidade de um é trivial; a do
+outro, não.”</p>
+<p>“Segundo: <strong>três tipologias de decisão</strong>. Decisão humana
+— um servidor analisa um requerimento. Decisão híbrida — o algoritmo
+sugere, o humano decide. Decisão algorítmica — o sistema decide e o
+humano, se existir, só homologa. O problema brasileiro está na terceira:
+a homologação sem análise.”</p>
+<p>“Terceiro: <strong>explicabilidade em três tempos</strong>. Prévia —
+antes da decisão, o cidadão sabe quais dados serão usados e com que
+peso. Concomitante — durante o processo, o cidadão pode contestar os
+dados que o sistema está usando. Posterior — depois da decisão, o
+cidadão recebe uma explicação compreensível. A maior parte do debate
+brasileiro foca na posterior. Mas os autores defendem que <strong>a
+explicabilidade prévia e concomitante são mais importantes</strong>,
+porque permitem evitar o dano, não apenas remediá-lo.”</p>
+<p>“Quarto: <strong>contraditório algorítmico</strong>. O art. 5º, LV da
+Constituição garante contraditório e ampla defesa. Mas o que significa
+contraditório quando o ‘acusador’ é um modelo de machine learning?
+Contestar o quê — o código-fonte? A base de treinamento? O peso de cada
+variável? O viés do modelo? Os autores propõem uma releitura
+constitucional: <strong>o contraditório em ambiente algorítmico precisa
+ser prévio à decisão</strong>. Recurso administrativo depois do fato não
+sana a nulidade — porque o dano já está produzido.”</p>
+<p>“E aqui é onde o artigo encontra a realidade. Ana?”</p>
+<h3 id="slides-2528-nossa-leitura-iv-transição-para-o-conflito">SLIDES
+25–28 · ★ Nossa leitura IV + Transição para o Conflito</h3>
+<p><strong>Ana:</strong></p>
+<p>“Esse é o artigo que vira software no nosso protótipo. Tavares e os
+coautores defendem que o contraditório tem que ser prévio — recurso
+depois não sana a nulidade. E o caso brasileiro é gritante.”</p>
+<p>“O <strong>INSS</strong> vem indeferindo aposentadoria rural de forma
+automática. Uma trabalhadora rural — segurada especial — pede a
+aposentadoria por idade. O sistema cruza CNIS, CadÚnico, dados do ITR,
+geolocalização. E <strong>infere</strong> que ela exerce atividade
+urbana. Inferência — não prova. Ignora a autodeclaração rural — que é o
+dado primário. E indefere. A notificação no Meu INSS diz apenas: ‘NÃO
+COMPROVADA A QUALIDADE DE SEGURADO ESPECIAL’. Sem explicar quais dados,
+qual critério, qual peso.”</p>
+<p>“Isso viola a <strong>IN 128/2022 do próprio INSS</strong> — que
+exige análise e contraditório prévio antes do indeferimento. O órgão que
+editou a norma é o primeiro a descumpri-la. Regulador que edita a IN é o
+Regulado que automatiza o indeferimento suprimir o contraditório. Do
+poder-dever ao dever-poder.”</p>
+<p><em>Aponta para o diagrama Regulador vs Regulado:</em></p>
+<p>“O que a segurada recebe é uma <strong>caixa-preta</strong>. Dados
+entram — CPF, CNIS, CadÚnico, geolocalização — e uma negativa sai. Sem
+rosto. Sem porquê. Sem pessoa. A opacidade algorítmica servindo à
+eficiência arrecadatória contra o direito fundamental. Este é o
+caso-âncora da nossa tese.”</p>
+<p>“No plano internacional, o espelho é o <strong>SyRI</strong> — o
+sistema holandês de detecção de fraude em benefícios sociais. Foi usado
+para cruzar dados e identificar ‘risco de fraude’ em bairros pobres, com
+alta concentração de imigrantes turcos e marroquinos. O Tribunal de
+Haia, em 2020, proibiu: violava o art. 8º da Convenção Europeia de
+Direitos Humanos — privacidade, finalidade, minimização, devido
+processo. Lá, um tribunal conteve a opacidade algorítmica do Estado.
+Aqui, a gente ainda está no estágio da denúncia.”</p>
+<p>“E em vez de só <em>falar</em> disso, a gente vai <em>mostrar</em>.
+Mas antes, deixa eu acrescentar duas camadas que considero
+decisivas.”</p>
+<hr />
+<h2 id="ato-4-minha-contribuição-propedêutica-2-min">ATO 4 — MINHA
+CONTRIBUIÇÃO PROPEDÊUTICA (~2 min)</h2>
+<h3
+id="slide-30-propedêutica-literacia-algorítmica-notícia-humana">SLIDE 30
+· Propedêutica: literacia algorítmica + notícia humana</h3>
+<p><strong>Ana:</strong></p>
+<p>“Quero acrescentar dois degraus que vêm <strong>antes</strong> do
+contraditório.”</p>
+<p>“O primeiro é a <strong>literacia algorítmica</strong>. A
+trabalhadora rural muitas vezes nem sabe que foi uma <em>máquina</em>
+que decidiu. Ela não faz ideia do que é ‘inteligência artificial’, ‘viés
+de proxy’, ‘inferência’. Ora, não se contesta o que não se compreende.
+Empoderar não é só abrir um canal de recurso — é
+<strong>traduzir</strong> a decisão em linguagem que a pessoa
+entenda.”</p>
+<p>“Transparência não basta. Um portal pode ser transparente — publicar
+todos os dados, todos os critérios, todos os pesos — e ainda assim ser
+incompreensível para quem precisa contestar. Transparência é condição
+necessária, mas não suficiente. O que falta é
+<strong>inteligibilidade</strong>.”</p>
+<p>“O segundo degrau é uma tese normativa que proponho. Certas decisões
+podem até ser automatizadas — eu não sou contra a tecnologia. Mas a
+<strong>comunicação</strong> de uma decisão adversa a alguém em situação
+de vulnerabilidade — a negativa de um benefício, o corte de um auxílio,
+o indeferimento de uma aposentadoria — deveria, em tese, ser feita por
+<strong>uma pessoa, não por uma máquina</strong>. O humano no circuito
+não apenas na <em>decisão</em>, mas no <strong>cuidado da
+comunicação</strong>.”</p>
+<p>“Notificar um indeferimento por um app frio — ‘NÃO COMPROVADA A
+QUALIDADE DE SEGURADO ESPECIAL’ — a quem depende daquele benefício para
+comer é uma violência burocrática silenciosa. A dignidade do
+administrado também está em <em>como</em> ele é avisado. O Estado que se
+diz eficiente é o mesmo que comunica de forma desumana a quem mais
+precisa de cuidado. Isso é Regulador ⇄ Regulado no nível mais
+íntimo.”</p>
+<p>“E agora a gente mostra como isso vira ferramenta.”</p>
+<hr />
+<h2 id="ato-5-demonstração-4-min">ATO 5 — DEMONSTRAÇÃO (~4 min)</h2>
+<h3 id="slides-3133-protótipo-demo">SLIDES 31–33 · Protótipo + Demo</h3>
+<p><strong>Ana:</strong></p>
+<p>“Nós construímos um protótipo. Ele se chama <strong>Conselho de
+Contestação Algorítmica</strong> e é um fork do llm-council, adaptado
+para o contexto jurídico brasileiro.”</p>
+<p>“A ideia é simples. Imaginem a trabalhadora rural que teve a
+aposentadoria negada. Em vez de um parecer só — o parecer do INSS que
+diz ‘indeferido’ — quatro perspectivas jurídicas analisam o caso.”</p>
+<p>“Cada perspectiva é, na prática, uma das leituras que o Vinícius
+acabou de apresentar.”</p>
+<p>“Tem a <strong>Defensoria Pública</strong> — que carrega o artigo do
+Tavares. Contraditório prévio. Art. 5º, LV. A nulidade não se sana com
+recurso posterior. A IN 128/2022 foi descumprida pelo próprio INSS.”</p>
+<p>“Tem o <strong>Cientista de Dados</strong> — que carrega a
+explicabilidade. Viés de proxy. SHAP values. Feature importance. O
+modelo inferiu atividade urbana a partir de lacuna contributiva — mas
+lacuna em CNIS de trabalhador rural é a norma, não a exceção. O modelo
+penaliza a informalidade que deveria proteger.”</p>
+<p>“Tem o <strong>Administrador Público</strong> — que carrega Cristóvam
+e Hahn. Governança. A Lei 14.129, art. 6º, exige que decisões
+automatizadas sejam explicáveis. A notificação do Meu INSS não é uma
+explicação — é uma fórmula vazia. Faltou supervisão humana obrigatória,
+como exige o art. 20, §2º da LGPD.”</p>
+<p>“E tem o <strong>Cidadão</strong> — que carrega Salgado e Saito,
+Sarlet e Molinaro, e a nossa camada propedêutica. Exclusão digital — a
+negativa chega pelo Meu INSS, mas quem vive no campo, sem internet
+estável e sem letramento digital, precisa viajar até a agência só para
+entender o que houve. Literacia algorítmica — a pessoa nem sabe que foi
+uma máquina que decidiu. Notícia humana — ninguém ligou. Ninguém
+explicou. Foi um app.”</p>
+<p><em>Transição para a demo:</em></p>
+<p>“O conselho funciona em três fases.”</p>
+<p>“<strong>Fase 1:</strong> cada conselheiro dá seu parecer. Quatro
+leituras independentes — e frequentemente conflitantes. A Defensoria
+fala em nulidade. O Cientista fala em viés de proxy. O Administrador
+fala em governança. O Cidadão fala em fome. Nenhum substitui o
+outro.”</p>
+<p>“<strong>Fase 2:</strong> os conselheiros se avaliam anonimamente.
+Eles ranqueiam os argumentos uns dos outros por proteção aos direitos do
+cidadão. Isso produz um ranking que torna visíveis as tensões — e o
+Administrador Público consistentemente fica em último lugar. O que já é
+um achado.”</p>
+<p>“<strong>Fase 3:</strong> um Relator sintetiza tudo num parecer final
+com fundamentação jurídica. Ele não substitui as quatro vozes — ele as
+organiza. E no fim, o sistema não decide pela pessoa. Ele
+<strong>devolve a ela o contraditório que o Estado
+suprimiu</strong>.”</p>
+<p><em>Opera a demo — ou abre o fallback:</em></p>
+<p>“Vou mostrar.”</p>
+<p><em>[Abre o Conselho. Clica ‘INSS — Aposentadoria Rural Negada’.
+Navega Fase 1 → Fase 2 → Fase 3. Comenta os cards e o parecer final à
+medida que aparecem.]</em></p>
+<p>“Este protótipo é conceitual. Não é um produto comercial — é uma
+maquete acadêmica para discutir o que falta. Fala.BR e Conteste Aqui
+existem, mas nenhum deles explica o algoritmo ou gera estratégia
+jurídica. O valor está na integração crítica, não na invenção de cada
+peça isolada.”</p>
+<p>“Vinícius, o fecho.”</p>
+<hr />
+<h2 id="ato-6-fecho-2-min">ATO 6 — FECHO (~2 min)</h2>
+<h3 id="slide-3334-tese-final">SLIDE 33/34 · Tese final</h3>
+<p><strong>Ana:</strong></p>
+<p>“O protótipo é a resposta prática à pergunta do início. A
+Administração 4.0 não fica democrática só por ser digital. Ela só é
+legítima quando a decisão pode ser <strong>compreendida, explicada e
+contestada</strong> — e isso vale com mais força justamente porque o
+Estado é, ao mesmo tempo, quem faz a regra e quem mais a descumpre.”</p>
+<p><strong>Vinícius:</strong></p>
+<p>“A gente fecha com uma releitura constitucional dos institutos que
+atravessaram os quatro artigos.”</p>
+<p>“A <strong>privacidade</strong>, no ambiente digital, não é só o
+direito de ser deixado em paz — é o direito de saber quais dados o
+Estado tem sobre você, com que finalidade ele os usa, e de exigir a
+correção do que está errado. O art. 5º, LXXIX, tornou isso direito
+fundamental expresso. Mas direito fundamental sem enforcement é
+promessa.”</p>
+<p>“A <strong>publicidade</strong>, no governo digital, não se esgota em
+portal. É a obrigação de publicar em formato aberto, reutilizável,
+compreensível — e de não usar a classificação de sigilo como escudo
+contra o controle social. O art. 37, <em>caput</em>, da Constituição
+coloca a publicidade ao lado da legalidade e da moralidade. Não é item
+decorativo.”</p>
+<p>“O <strong>contraditório</strong>, na decisão automatizada, precisa
+ser prévio. Recurso posterior é paliativo. O art. 5º, LV, não foi
+escrito para o mundo analógico — foi escrito para qualquer mundo em que
+o Estado decida e o cidadão sofra. Se a máquina decide, a máquina
+precisa ser contestada.”</p>
+<p>“E a <strong>motivação</strong>, no ato administrativo digital, não
+pode ser uma fórmula padronizada. ‘Inconsistência de dados’, ‘risco
+elevado’, ‘perfil incompatível’ — isso não é motivação. É placeholder. A
+Lei 9.784/99, art. 50, exige motivação explícita, clara e congruente. Um
+algoritmo que produz ‘indeferido’ sem dizer por quê viola esse artigo
+tanto quanto um despacho manuscrito que só diz ‘indefiro’.”</p>
+<p>“A Administração Pública digital está decidindo
+<strong>melhor</strong> — ou apenas decidindo <strong>mais
+rápido</strong>, com menos chance de compreensão, contestação e
+participação democrática?”</p>
+<p>“Fica a pergunta. Obrigado.”</p>
+<hr />
+<h2 id="caixa-de-munição-para-o-debate">CAIXA DE MUNIÇÃO (para o
+debate)</h2>
+<p><strong>Robodebt (Austrália):</strong> O governo australiano usou um
+algoritmo para calcular dívidas de benefícios sociais e emitir cobranças
+automáticas. Sem checagem humana. Resultado: centenas de milhares de
+cobranças indevidas, suicídios, dano social massivo. O algoritmo errou,
+e ninguém revisou. Hoje é estudo de caso global de falha de governança
+algorítmica.</p>
+<p><strong>Juiz do TJ/MA:</strong> De 80 para 969 sentenças usando IA.
+Decisões padronizadas, precedentes inexistentes (alucinação do modelo),
+fundamentação genérica. Quem edita a regra — o CNJ, com a Resolução
+615/2025 — é o ramo que a viola. Regulador ⇄ Regulado no Judiciário.</p>
+<p><strong>Palantir / Enter (unicórnio jurídico de IA):</strong> O
+mercado de IA jurídica no Brasil cresce mais rápido que a regulação. O
+Estado contrata plataformas cujo código-fonte é segredo industrial. Isso
+é terceirização da discricionariedade administrativa. ‘O protagonismo
+privado não exime o Estado’ — mas o Estado está cada vez mais
+confortável sendo coadjuvante.</p>
+<p><strong>SyRI (Holanda, Haia 2020):</strong> O precedente
+internacional. O tribunal holandês proibiu o sistema de detecção de
+fraude que focava em bairros pobres e imigrantes. Violava privacidade,
+finalidade, minimização e devido processo. A sentença é um modelo de
+como o Judiciário pode conter a opacidade algorítmica do Executivo.
+<strong>Lá, um tribunal conteve o Estado. Aqui, ainda estamos no estágio
+da denúncia.</strong></p>
+<hr />
+<h2 id="mapa-rápido-slide-quem-fala">MAPA RÁPIDO: slide → quem fala</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Slide</th>
+<th>Quem</th>
+<th>Conteúdo resumido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>Vinícius</td>
+<td>Capa, apresentação dos 4 artigos</td>
+</tr>
+<tr>
+<td>02</td>
+<td>Vinícius</td>
+<td>Pergunta orientadora</td>
+</tr>
+<tr>
+<td>03</td>
+<td>Ana</td>
+<td>Chave de leitura: Regulador ⇄ Regulado</td>
+</tr>
+<tr>
+<td>04</td>
+<td>Vinícius</td>
+<td>Divisor Parte I</td>
+</tr>
+<tr>
+<td>05–08</td>
+<td>Vinícius</td>
+<td>Salgado &amp; Saito: privacidade, 3 dimensões, 4 gerações</td>
+</tr>
+<tr>
+<td>09</td>
+<td>Ana</td>
+<td>★ Nossa leitura I: ADI 6.387, persona Cidadão</td>
+</tr>
+<tr>
+<td>10–13</td>
+<td>Vinícius</td>
+<td>Cristóvam &amp; Hahn: Moore/Dunleavy/OCDE, INDA, 3 municípios</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Ana</td>
+<td>★ Nossa leitura II: opacidade seletiva, persona Administrador</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Vinícius</td>
+<td>Síntese Parte I</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Vinícius</td>
+<td>Divisor Parte II</td>
+</tr>
+<tr>
+<td>17–19</td>
+<td>Vinícius</td>
+<td>Sarlet &amp; Molinaro: 5 campos, LGPD pré-big data</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Ana</td>
+<td>★ Nossa leitura III: 251M CPFs, persona Cidadão</td>
+</tr>
+<tr>
+<td>21–24</td>
+<td>Vinícius</td>
+<td>Tavares et al.: IA×algoritmo, 3 tipologias, explicabilidade</td>
+</tr>
+<tr>
+<td>25–28</td>
+<td>Ana</td>
+<td>★ Nossa leitura IV: INSS, Black Box, SyRI, anuncia Bloco 5</td>
+</tr>
+<tr>
+<td>30</td>
+<td>Ana</td>
+<td>Propedêutica: literacia algorítmica + notícia humana</td>
+</tr>
+<tr>
+<td>31–33</td>
+<td>Ana</td>
+<td>Demo: 4 personas × 4 artigos, Fase 1→2→3</td>
+</tr>
+<tr>
+<td>33/34</td>
+<td>Ana</td>
+<td>Fecho: compreendida, explicada, contestada</td>
+</tr>
+<tr>
+<td>33/34</td>
+<td>Vinícius</td>
+<td>Releitura constitucional + pergunta para debate</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Script consolidado em 25 de maio de 2026. Para ser falado, não
+lido. Tempo total estimado: ~40 minutos de exposição.</em></p>
+</body>
+</html>
