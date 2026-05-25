@@ -15,7 +15,28 @@
       --blue: #6688cc;
       --muted: #555;
       --border: #252525;
+      --speech-size: 1.55rem;
     }
+
+    body.light {
+      --bg: #faf8f3;
+      --text: #1a1a1a;
+      --muted: #888;
+      --border: #e3ddd0;
+      --amber: #b5790a;
+      --green: #0a7d4f;
+      --blue: #2b5fb0;
+    }
+    body.light .speech strong { color: #000; }
+    body.light .speech em { color: #444; }
+    body.light .emerg { background: rgba(43,95,176,.06); border-color: #cdd8e6; }
+    body.light .emerg p { color: #3a5c82; }
+    body.light .emerg-label { color: #5a7494; }
+    body.light .click { background: rgba(43,95,176,.06); }
+    body.light .nbtn { background: #fff; border-color: #ddd2bf; color: #777; }
+    body.light .nbtn:hover { background: #f0eadd; color: #222; border-color: #c9bca6; }
+    body.light #counter { color: #999; }
+    body.light #hint { color: #b8ad97; }
 
     html, body { height: 100%; background: var(--bg); color: var(--text); font-family: Georgia, 'Times New Roman', serif; font-size: 18px; line-height: 1.7; }
 
@@ -45,7 +66,7 @@
       margin-bottom: 40px; letter-spacing: 0.02em;
     }
 
-    .speech { font-size: 1.55rem; line-height: 1.78; }
+    .speech { font-size: var(--speech-size, 1.55rem); line-height: 1.78; }
     .speech p { margin-bottom: 1.15em; }
     .speech strong { color: #fff; font-weight: 600; }
     .speech em { color: #bbb; }
@@ -94,6 +115,8 @@
     .nbtn:hover { background: #282828; color: #ccc; border-color: #555; }
     .nbtn:disabled { opacity: 0.2; cursor: default; }
     .nbtn.text { width: auto; padding: 0 14px; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    #timer { width: auto; padding: 0 12px; font-family: 'Courier New', monospace; font-size: 0.85rem; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+    #timer.run { color: var(--green); border-color: var(--green); }
 
     #counter { font-family: 'Courier New', monospace; font-size: 0.78rem; color: #444; letter-spacing: 0.06em; min-width: 48px; text-align: center; }
 
@@ -118,13 +141,17 @@
 <div id="wrap"></div>
 
 <div id="nav">
+  <button class="nbtn" id="timer" title="Cronômetro (T inicia/pausa · 0 zera)">0:00</button>
+  <button class="nbtn" id="bminus" title="Fonte menor (−)">A−</button>
+  <button class="nbtn" id="bplus" title="Fonte maior (+)">A+</button>
+  <button class="nbtn" id="btheme" title="Claro/escuro (L)">☾</button>
   <div id="counter"></div>
   <button class="nbtn" id="bp" title="Anterior (←)">←</button>
   <button class="nbtn text" id="be" title="Emergência (E)">emerg</button>
   <button class="nbtn" id="bn" title="Próximo (→ / Espaço)">→</button>
 </div>
 
-<div id="hint">← → espaço · E emergência · P imprimir</div>
+<div id="hint">← → espaço · E emergência · A± fonte · L claro/escuro · T cronômetro · P imprimir</div>
 
 <script>
 const CARDS = [
@@ -305,11 +332,55 @@ function toggleE() { emergOn = !emergOn; render(); }
 
 bn.onclick = next; bp.onclick = prev; be.onclick = toggleE;
 
+// ── font size (persisted) ──
+let fontPx = parseFloat(localStorage.getItem('tp-font')) || 1.55;
+function applyFont() {
+  fontPx = Math.min(2.6, Math.max(1.0, fontPx));
+  document.documentElement.style.setProperty('--speech-size', fontPx.toFixed(2) + 'rem');
+  localStorage.setItem('tp-font', fontPx);
+}
+function bigger() { fontPx += 0.12; applyFont(); }
+function smaller() { fontPx -= 0.12; applyFont(); }
+document.getElementById('bplus').onclick = bigger;
+document.getElementById('bminus').onclick = smaller;
+applyFont();
+
+// ── theme (persisted) ──
+const btheme = document.getElementById('btheme');
+function applyTheme() {
+  const light = localStorage.getItem('tp-theme') === 'light';
+  document.body.classList.toggle('light', light);
+  btheme.textContent = light ? '☀' : '☾';
+}
+function toggleTheme() {
+  localStorage.setItem('tp-theme', localStorage.getItem('tp-theme') === 'light' ? 'dark' : 'light');
+  applyTheme();
+}
+btheme.onclick = toggleTheme;
+applyTheme();
+
+// ── pacing timer ──
+const timerEl = document.getElementById('timer');
+let tSec = 0, tInt = null;
+function fmt(s) { return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+function tick() { tSec++; timerEl.textContent = fmt(tSec); }
+function toggleTimer() {
+  if (tInt) { clearInterval(tInt); tInt = null; timerEl.classList.remove('run'); }
+  else { tInt = setInterval(tick, 1000); timerEl.classList.add('run'); }
+}
+function resetTimer() { clearInterval(tInt); tInt = null; tSec = 0; timerEl.classList.remove('run'); timerEl.textContent = '0:00'; }
+timerEl.onclick = toggleTimer;
+
 document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
   else if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
   else if (e.key === 'e' || e.key === 'E') toggleE();
   else if (e.key === 'p' || e.key === 'P') window.print();
+  else if (e.key === '+' || e.key === '=') { e.preventDefault(); bigger(); }
+  else if (e.key === '-' || e.key === '_') { e.preventDefault(); smaller(); }
+  else if (e.key === 'l' || e.key === 'L') toggleTheme();
+  else if (e.key === 't' || e.key === 'T') toggleTimer();
+  else if (e.key === '0') resetTimer();
 });
 
 let tx = 0;
@@ -320,6 +391,19 @@ document.addEventListener('touchend', e => {
 }, {passive: true});
 
 render();
+
+// ── auto-fade the hint so it never clutters long cards ──
+const hintEl = document.getElementById('hint');
+hintEl.style.transition = 'opacity .8s';
+let hintT;
+function flashHint() {
+  hintEl.style.opacity = '1';
+  clearTimeout(hintT);
+  hintT = setTimeout(() => { hintEl.style.opacity = '0'; }, 5000);
+}
+flashHint();
+document.addEventListener('keydown', flashHint);
+document.addEventListener('click', flashHint);
 </script>
 </body>
 </html>
