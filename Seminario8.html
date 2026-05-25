@@ -2569,7 +2569,15 @@
 
 <div id="consejo-overlay">
   <div class="c-bar">
-    <h3><em>Conselho de Contestação</em> · INSS — Aposentadoria Rural</h3>
+    <div style="display:flex;align-items:center;gap:14px">
+      <h3 style="margin-right:20px"><em>Conselho de Contestação</em></h3>
+      <select id="c-case-select" onchange="cChangeCase(this.value)" style="padding:6px 12px;font-family:var(--serif-display);font-size:15px;background:var(--paper-warm);border:1px solid var(--ink);border-radius:4px;color:var(--ink);cursor:pointer;outline:none">
+        <option value="4">INSS — Aposentadoria Rural</option>
+        <option value="1">Bolsa Família — Cancelamento</option>
+        <option value="2">IPTU SP — Reclassificação</option>
+        <option value="3">Auxílio Emergencial — Registro Fantasma</option>
+      </select>
+    </div>
     <div style="display:flex;gap:8px;align-items:center">
       <span id="c-status-text" style="font-family:var(--mono);font-size:11px;color:var(--ink-4)">verificando...</span>
       <button class="c-return" onclick="cHide()">← Voltar à tese</button>
@@ -2693,6 +2701,13 @@ const cases = [
 
 let cPhase = 1;
 let cOnline = false;
+let cActiveCase = 4;
+
+function cChangeCase(val) {
+  cActiveCase = parseInt(val);
+  cPhase = 1;
+  cRender();
+}
 
 async function cCheckOnline() {
   try {
@@ -2708,6 +2723,9 @@ async function cCheckOnline() {
 
 function cShow() {
   cPhase = 1;
+  cActiveCase = 4;
+  const sel = document.getElementById('c-case-select');
+  if (sel) sel.value = "4";
   document.getElementById('consejo-overlay').style.display = 'block';
   cRender();
   cCheckOnline();
@@ -2720,7 +2738,7 @@ function cHide() {
 function cSetPhase(p) { cPhase = p; cRender(); }
 
 function cRender() {
-  const c = cases.find(x => x.id === 4); // INSS case
+  const c = cases.find(x => x.id === cActiveCase);
   if (!c) return;
 
   // Phases bar
