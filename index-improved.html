@@ -46,6 +46,8 @@
   --vc-space-10:10px;
   --vc-space-12:12px;
   --vc-space-16:16px;
+  --vc-space-20:20px;
+  --vc-space-22:22px;
   --vc-space-24:24px;
   --vc-space-32:32px;
   --vc-space-40:40px;
@@ -83,7 +85,7 @@ html,body{
   justify-content:space-between;
   align-items:center;
   padding:var(--vc-space-12) 0;
-  border-bottom:var(--vc-border-shadow);
+  box-shadow:0 1px 0 0 rgba(0,0,0,0.08);
   margin-bottom:var(--vc-space-48);
   position:sticky;
   top:0;
@@ -147,8 +149,7 @@ html,body{
 /* ─── THESIS BAND: accent workflow blue ─── */
 .thesis-band{
   background:linear-gradient(90deg,#ebf5ff 0%,#fafafa 100%);
-  border-top:var(--vc-border-shadow);
-  border-bottom:var(--vc-border-shadow);
+  box-shadow:0 -1px 0 0 rgba(0,0,0,0.08), 0 1px 0 0 rgba(0,0,0,0.08);
   padding:var(--vc-space-32);
   margin:var(--vc-space-48) calc(var(--vc-space-24)*-1);
   position:relative;
@@ -168,7 +169,7 @@ html,body{
   font-family:var(--vc-font-primary);
   font-size:24px;
   color:var(--vc-develop-blue);
-  border:var(--vc-border-shadow);
+  box-shadow:var(--vc-border-shadow);
   border-radius:50%;
 }
 
@@ -237,7 +238,7 @@ html,body{
 
 .entry-card{
   background:var(--vc-white);
-  border:var(--vc-card-shadow);
+  box-shadow:var(--vc-card-shadow);
   border-radius:8px;
   padding:var(--vc-space-24);
   text-decoration:none;
@@ -342,7 +343,7 @@ html,body{
   border-radius:9999px;
   color:var(--vc-gray500);
   background:var(--vc-gray50);
-  border:var(--vc-border-shadow);
+  box-shadow:var(--vc-border-shadow);
 }
 
 .tag-pill.hot{
@@ -368,7 +369,7 @@ html,body{
 }
 
 @media(max-width:900px){
-  .entry-meta{flex-direction=row;align-items:center;gap:var(--vc-space-12)}
+  .entry-meta{flex-direction:row;align-items:center;gap:var(--vc-space-12)}
 }
 
 .entry-stats{
@@ -426,7 +427,7 @@ html,body{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:var(--vc-space-2);
-  border:var(--vc-border-shadow);
+  box-shadow:var(--vc-border-shadow);
   border-radius:8px;
   overflow:hidden;
 }
@@ -438,7 +439,7 @@ html,body{
 .arc-cell{
   background:var(--vc-white);
   padding:var(--vc-space-24);
-  border-right:var(--vc-border-shadow);
+  border-right:1px solid rgba(0,0,0,0.08);
   position:relative;
   transition:background 0.18s ease;
 }
@@ -447,8 +448,8 @@ html,body{
 .arc-cell:hover{background:var(--vc-gray50)}
 
 @media(max-width:768px){
-  .arc-cell:nth-child(2){border-right:none;border-bottom:var(--vc-border-shadow)}
-  .arc-cell:nth-child(1),.arc-cell:nth-child(2){border-right:none}
+  .arc-cell:nth-child(2){border-right:none;border-bottom:1px solid rgba(0,0,0,0.08);}
+  .arc-cell:nth-child(1),.arc-cell:nth-child(2){border-right:none;}
 }
 
 .arc-slidenumber{
@@ -506,7 +507,7 @@ html,body{
   grid-template-columns:repeat(3,1fr);
   gap:var(--vc-space-48);
   padding-top:var(--vc-space-32);
-  border-top:var(--vc-border-shadow);
+  box-shadow:0 -1px 0 0 rgba(0,0,0,0.08);
   margin-bottom:var(--vc-space-48);
 }
 
@@ -544,7 +545,7 @@ html,body{
 }
 
 .qr-section img{
-  border:var(--vc-border-shadow);
+  box-shadow:var(--vc-border-shadow);
   border-radius:4px;
   margin-bottom:var(--vc-space-8);
 }
@@ -565,7 +566,7 @@ html,body{
   font-size:14px;
   color:var(--vc-gray500);
   padding-top:var(--vc-space-24);
-  border-top:var(--vc-border-shadow);
+  box-shadow:0 -1px 0 0 rgba(0,0,0,0.08);
 }
 
 .folia-left,.folio-right{
@@ -673,7 +674,7 @@ a:focus-visible{
           <div class="entry-kicker">demo ao vivo · ato seguinte ao slide 32</div>
           <h3 class="entry-title">O <em>Conselho</em> de Contestação Algorítmica</h3>
           <p class="entry-desc">
-            Demo enlatada (offline) do GovLens: quatro vozes — administrativista, processualista, técnica e cidadã — deliberam sobre o caso INSS. Mostra como o contraditório algorítmico do art. IV (Tavares et al.) pode ser <em>encarnado em interface</em>, não só discutido em doutrina. Abre direto no navegador.
+            Demo enlatada (offline) do Conselho de Contestação Algorítmica: quatro vozes — administrativista, processualista, técnica e cidadã — deliberam sobre o caso INSS. Mostra como o contraditório algorítmico do art. IV (Tavares et al.) pode ser <em>encarnado em interface</em>, não só discutido em doutrina. Abre direto no navegador.
           </p>
           <div class="entry-tags">
             <span class="tag-pill author">★ autoral</span>
@@ -808,7 +809,7 @@ a:focus-visible{
       <p><span class="glyph">→</span> Comece em <em>I. apresentação</em>. Imprima <em>II.</em> para anotar. Mostre <em>III.</em> ao vivo no slide 32. <em>IV.</em> fica de reserva para o debate.</p>
       
       <div class="qr-section">
-        <img src="https://chart.googleapis.com/chart?cht=qr&chs=120x120&chl=http://anavanzin.com/seminario8-dever-poder/&choe=UTF-8" alt="QR Code" width="120" height="120">
+        <img src="assets/qr.png" alt="QR code para https://anavanzin.com/seminario8-dever-poder/" width="120" height="120">
         <div class="qr-label">QR · acesse o dossiê</div>
       </div>
     </div>
