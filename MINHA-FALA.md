@@ -37,7 +37,7 @@ Mas ele é também o Regulado: é o maior controlador de dados pessoais do país
 
 Então a nossa pergunta é: o que acontece quando quem faz a regra é também quem tem mais poder — e mais incentivo — para relativizá-la contra o cidadão?
 
-É essa tensão que chamamos de passagem do poder-dever ao dever-poder. O Estado tem poder-dever de regular, mas, quando ele mesmo vira destinatário da norma, esse dever se converte numa obrigação que ele frequentemente administra em benefício próprio.
+É essa tensão que chamamos de passagem do poder-dever ao dever-poder. O Estado tem poder-dever de regular, mas, quando ele mesmo vira destinatário da norma, esse dever vira uma obrigação que ele administra em benefício próprio.
 
 Essa é a chave do seminário: o Estado como Regulador e Regulado ao mesmo tempo.”
 
@@ -47,7 +47,7 @@ Essa é a chave do seminário: o Estado como Regulador e Regulado ao mesmo tempo
 
 ### Versão de emergência
 
-“O fio do nosso seminário é simples: o Estado faz a regra, mas também é o maior submetido a ela. Ele regula dados, transparência e algoritmos; mas é também quem mais coleta dados, opaciza processos e automatiza decisões contra o cidadão. A pergunta é o que acontece quando o regulador vira o principal regulado. É daí que vem a nossa tese: do poder-dever ao dever-poder.”
+“O fio do seminário é simples: o Estado faz a regra, mas é também o maior submetido a ela — regula dados e transparência, mas é quem mais coleta, opaciza e automatiza decisões contra o cidadão. A pergunta é o que acontece quando o regulador vira o principal regulado. É daí que vem a nossa tese: do poder-dever ao dever-poder.”
 
 ---
 
@@ -59,7 +59,7 @@ Essa é a chave do seminário: o Estado como Regulador e Regulado ao mesmo tempo
 
 Por quê? Porque o Estado continua sendo um dos maiores agentes de tratamento de dados do país.
 
-E os próprios autores lembram situações em que isso apareceu de forma muito concreta: o caso Snowden, de vigilância estatal em massa, e, no Brasil, a MP 954 de 2020. Ali, o Executivo tentou compartilhar dados de telecomunicações de milhões de brasileiros sem finalidade suficientemente clara.
+E os próprios autores lembram situações em que isso apareceu de modo bem concreto: o caso Snowden, de vigilância estatal em massa, e, no Brasil, a MP 954 de 2020. Nela, o Executivo tentou compartilhar dados de telecomunicações de milhões de brasileiros sem finalidade suficientemente clara.
 
 O STF teve que conter isso na ADI 6.387.
 
@@ -73,7 +73,7 @@ Esse é o primeiro aparecimento da nossa tese: o Estado que edita a regra de pro
 
 ### Versão de emergência
 
-“Mesmo com LGPD, a dimensão de defesa continua essencial, porque o Estado é um dos maiores tratadores de dados. A MP 954 mostrou isso: o próprio Executivo tentou ampliar o compartilhamento de dados sem finalidade clara, e o STF teve que conter. Aqui aparece a nossa tese: o Estado que regula é também aquele contra o qual o cidadão precisa ser defendido.”
+“Mesmo com LGPD, a dimensão de defesa não some, porque o Estado é um dos maiores tratadores de dados. A MP 954 mostrou isso: o próprio Executivo tentou ampliar o compartilhamento de dados sem finalidade clara, e o STF teve que conter. Aqui aparece a nossa tese: o Estado que regula é também aquele contra o qual o cidadão precisa ser defendido.”
 
 ---
 
@@ -89,7 +89,7 @@ Mas quem decide o que aparece, em que formato aparece, e o que continua sigiloso
 
 A LAI obriga transparência, mas também permite classificação de informações como reservadas, secretas e ultrassecretas. Então a mesma estrutura que promete abertura também guarda as chaves da opacidade.
 
-Recife, São Paulo e Florianópolis mostram boas práticas, claro. Mas elas não eliminam o problema central: um portal pode ser transparente em termos fiscais e ainda ser completamente opaco na decisão algorítmica.
+Recife, São Paulo e Florianópolis mostram boas práticas, claro. Mas elas não eliminam o problema central. Um portal pode ser transparente em termos fiscais e ainda ser completamente opaco na decisão algorítmica.
 
 Então aqui a tensão é: o Estado promete governo aberto, mas continua controlando os pontos de fechamento.”
 
@@ -99,7 +99,7 @@ Então aqui a tensão é: o Estado promete governo aberto, mas continua controla
 
 ### Versão de emergência
 
-“Governo aberto é promessa de transparência, mas quem controla o que abre e o que fecha é o próprio Estado. A LAI obriga publicidade, mas também permite sigilo. E mesmo bons portais não dizem, necessariamente, como um algoritmo decide. Então o Estado promete abertura, mas conserva o poder de opacizar a si mesmo.”
+“Governo aberto é promessa de transparência, mas quem controla o que abre e o que fecha é o próprio Estado — a LAI obriga publicidade, mas também permite sigilo. Mesmo bons portais não dizem como um algoritmo decide. O Estado promete abertura, mas conserva o poder de opacizar a si mesmo.”
 
 ---
 
@@ -149,7 +149,7 @@ Isso toca exatamente a nossa tese. O próprio INSS tem uma instrução normativa
 
 Aqui, o Regulador vira Regulado — e falha.
 
-O que a segurada recebe é uma caixa-preta. Dados entram, uma negativa sai. Sem rosto. Sem porquê. Sem pessoa. E a opacidade algorítmica passa a servir à eficiência administrativa contra um direito fundamental.”
+O que a segurada recebe é uma caixa-preta. Dados entram, uma negativa sai. Sem rosto. Sem porquê. Sem pessoa. A opacidade algorítmica serve à eficiência administrativa contra um direito fundamental.”
 
 ### Se aparecer o slide/diagrama da Black Box
 
@@ -165,7 +165,7 @@ O que a segurada recebe é uma caixa-preta. Dados entram, uma negativa sai. Sem 
 
 ### Versão de emergência
 
-“Tavares et al. mostram que contraditório algorítmico não pode ser só recurso depois. Ele precisa existir antes da decisão. O caso do INSS mostra o problema: a segurada rural recebe uma negativa automática, sem saber quais dados pesaram, que critério foi usado, ou como corrigir a inferência. O órgão que edita a regra é o mesmo que automatiza a violação. Essa é a caixa-preta da nossa tese.”
+“Tavares et al. mostram que contraditório algorítmico precisa ser prévio, não só recurso depois. No INSS, a segurada rural recebe negativa automática sem saber quais dados pesaram, que critério foi usado ou como corrigir a inferência. O órgão que edita a regra é o mesmo que automatiza a violação — essa é a caixa-preta da nossa tese.”
 
 ---
 
@@ -201,7 +201,7 @@ Então, para mim, o contraditório algorítmico tem dois pressupostos: primeiro,
 
 ### Versão de emergência
 
-“Antes do contraditório, existem dois pressupostos. O primeiro é literacia algorítmica: não se contesta o que não se compreende. O segundo é notícia humana: uma decisão adversa contra uma pessoa vulnerável não deveria chegar como uma frase fria num aplicativo. A pessoa precisa entender o que aconteceu e ser tratada como pessoa.”
+“Antes do contraditório, dois pressupostos. Literacia algorítmica: não se contesta o que não se compreende. Notícia humana: uma decisão adversa contra pessoa vulnerável não deveria chegar como frase fria num aplicativo — a pessoa precisa entender e ser tratada como pessoa.”
 
 ---
 
