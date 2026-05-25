@@ -2582,6 +2582,8 @@
         <option value="1">Bolsa Família — Cancelamento</option>
         <option value="2">IPTU SP — Reclassificação</option>
         <option value="3">Auxílio Emergencial — Registro Fantasma</option>
+        <option value="5">Reconhecimento Facial — Falso Positivo</option>
+        <option value="6">Pente-Fino INSS — Suspensão de BPC</option>
       </select>
     </div>
     <div style="display:flex;gap:8px;align-items:center">
@@ -2701,6 +2703,65 @@ const cases = [
       fundamentação: "Art. 5, LV, CF (contraditório e ampla defesa prévios); art. 194 e 201, CF (previdência social); art. 20 e §2, LGPD (revisão e supervisao humana de decisão automatizada); art. 6, Lei 14.129/2021 (explicabilidade); IN INSS 128/2022 (rito do segurado especial). Cf. Tavares, Bitencourt e Cristovam (2024) sobre explicabilidade e contraditório algoritmico.",
       recomendação: "1) Recurso ao CRPS por nulidade (ausencia de contraditório prévio); 2) Pedido LAI/Dataprev exigindo o critério de inferencia rural/urbano; 3) Requerimento LGPD art. 20 de revisão da decisão automatizada; 4) Se mantido, acionar a Defensoria/DPU para mandado de segurança com pedido de liminar.",
       alerta: "Este e o caso-síntese do seminario: o mesmo Estado que, como REGULADOR, edita a IN 128/2022 e a explicabilidade da Lei 14.129/2021 e, como REGULADO, o operador que automatiza o indeferimento e suprime o contraditório que ele proprio exige. Do poder-dever ao dever-poder: quem faz a regra e quem mais a descumpre."
+    }
+  }
+,
+  {
+    id: 5,
+    title: "Segurança Pública — Falso Positivo em Reconhecimento Facial (Salvador/RJ)",
+    desc: "Detenção indevida e constrangedora de cidadão inocente em Salvador devido a viés racial de algoritmo de vigilância.",
+    tag: "Segurança",
+    context: "Um jovem trabalhador negro foi abordado e cercado de forma coercitiva por policiais militares ao sair do metrô em Salvador, sob alegação de possuir mandado de prisão em aberto. O alerta de semelhança biométrica partiu das câmeras inteligentes de monitoramento urbano. O sistema de reconhecimento facial operava com threshold (limiar de precisão) perigosamente relaxado, gerando um 'fuzzy match' errôneo motivado pelo enviesamento de cor intrínseco aos bases estrangeiras de treino da solução.",
+    personas: {
+      defensoria: `A condução sob custódia amparada exclusivamente em similaridade estatística inverte o ônus probatório e aniquila a presunção de inocência (Art. 5º, LVII da CF). Conforme Tavares &amp; Bitencourt, a privação de locomoção corporal exige fundada suspeita individualizada e humana, e nunca ordens matemáticas cruas emanadas do banco de imagens sem controle humano prévio.`,
+      cientista: `Consoante as premissas de Salgado &amp; Saito, sistemas de vigilância baseados em redes neurais convolucionais importadas sofrem de erro no gradiente devido à grave assimetria de representatividade amostral da população negra nos sets de teste originais. O erro estatístico gerou um falso positivo flagrante pela incapacidade do discriminador técnico em diferenciar texturas fenotípicas nacionais.`,
+      admin: `A desgovernança é nítida. O atalho administrativo de automatizar alertas repressivos sem triagem delegada prévia acarreta milionários processos de indenização de responsabilidade civil contra o erário, além do desvio de recursos materiais policiais em diligências fúteis. Cristóvam &amp; Hahn advertem que transferir o ônus de validação para a rua custa cinco vezes mais que uma arquitetura responsável.`,
+      cidadao: `Sarlet &amp; Molinaro defendem o direito à notícia compreensível, que no caso assume o aspecto de dignidade na abordagem. O cidadão vulnerabilizado e algemado em público não recebeu qualquer justificativa intelligível, mas o silêncio hostil de um código de alerta na tela policial. É a concretização física da perversa expropriação civil imposta por máquinas sob tutela estatal.`
+    },
+    rankings: [
+      { pos: 1, name: "Dr. Lucas Mendes (Defensoria)", score: "1.08", votes: 4 },
+      { pos: 2, name: "Profª Clara Santos (Dados)", score: "2.12", votes: 4 },
+      { pos: 3, name: "Sr. Arnaldo Rocha (Cidadão)", score: "2.65", votes: 4 },
+      { pos: 4, name: "Dr. Ricardo Hahn (Gestão)", score: "3.90", votes: 4 }
+    ],
+    final: {
+      sintese: "Restrição indevida do direito de ir e vir decorrente de cruzamento biométrico equivocado gerado por algoritmo de inteligência de videomonitoramento sem controle prévio de homônimos.",
+      consenso: "Convergência integral de que: 1) Alarmes de similaridade facial de IA não produzem presunção fundada de culpa para busca policial; 2) Limiares matemáticos configurados por entes privados para monitoramento de segurança pública ferem a reserva jurídica de soberania; 3) O cidadão tem direito à retratação humana digna imediata.",
+      dissenso: "Dissenso procedimental: o orientador em gestão julga que a câmera é insubstituível para localização de foragidos de extrema gravidade, embora reconheça de pronto que no presente caso a ausência do devido processo e a falha de triagem fulminaram o ato administrativo criminal.",
+      fundamentacao: "Firma-se sob as balizas fundamentais da dignidade da pessoa humana (Art. 1º, inciso III, CF/88), do direito fundamental de locomoção (Art. 5º, inciso XV) e da reserva constitucional de jurisdição de que decorre a estrita necessidade de fundamentação para reclusão corporal (Art. 5º, inciso LXI). A detenção coercitiva baseada exclusivamente em alerta mecânico de semelhança biométrica de monitoramento dotado de threshold condescendente inverte o princípio da presunção de inocência (Art. 5º, LVII, CF/88) e ignora as salvaguardas fixadas pelo Superior Tribunal de Justiça (STJ) no HC 568.693/SP contra reconhecimentos imprecisos. Submete-se de igual modo ao controle rígido de discriminação indireta e de conformidade estatística em algoritmo policial público, nos moldes delineados pelas diretrizes éticas globais de IA de segurança e pela governança de IA estabelecida pelo Conselho Nacional de Justiça (CNJ).",
+      recomendacao: "1. Implosão imediata das consequências fáticas da abordagem policial com exclusão de eventual registro de incidência eletrônica;
+2. Determinação para que a Secretaria de Segurança Pública desative temporariamente a ferramenta de triagem até auditoria de conformidade racial do modelo;
+3. Rigorosa fixação de threshold mínimo de match de similaridade em 99,5% sob pena de imediata responsabilização do fornecedor do software.",
+      alerta: "Softwares de policiamento preditivo e repressão biométrica adquiridos sem homologação e auditoria prévia de impacto aos direitos fundamentais reproduzem a herança do racismo estrutural computorizado."
+    }
+  },
+  {
+    id: 6,
+    title: "Pente-Fino em Lote do INSS — Suspensão de BPC sem Perícia",
+    desc: "Corte automático de Benefício de Prestação Continuada (LOAS) de deficiente físico fundamentado em cruzamento de bases cadastrais frias.",
+    tag: "Previdenciário",
+    context: "Uma cidadã cadeirante de baixa renda teve o pagamento de seu Benefício de Prestação Continuada (BPC/LOAS) sumariamente cortado por um algoritmo do INSS que realizou análise de cruzamento em lote. O eSocial indicou que sua filha, habitante de uma moradia de quintal de fundos do terreno, obteve emprego temporário. O algoritmo procedeu ao cálculo de renda per capita em lote de forma seca, presumindo renda familiar unificada contra o cadastro de coabitação informal, cancelando o mantimento físico sem perícia social.",
+    personas: {
+      defensoria: `O corte do BPC de uma pessoa hipossuficiente sem notificação prévia de contraditório e abertura de prazo para justificação social ofende a dignidade e a vedação ao retrocesso (art. 1º, III, CF). Tavares &amp; Bitencourt assinalam que a amparo constitucional de sobrevivência não se submete à velocidade do processamento fiscal de corte automático.`,
+      cientista: `Conforme indicam Salgado &amp; Saito, a modelagem que imputa economia partilhada pela mera proximidade de chaves territoriais em lote de fundo de quintal padece de absoluto desconhecimento fático. A inconsistência reside no uso de algoritmos 'cegos' que negligenciam a segregação alimentar e fiduciária interna de agregados habitacionais informais no Brasil.`,
+      admin: `Discutindo governança, a suspensão em lote sob a ilusão estatística de eficiência fiscal acarreta uma enxurrada de contestações judiciais perante as Varas Previdenciárias Estaduais. Cristóvam &amp; Hahn comprovam que as economias fantasmas de cortes em lote são de longe anuladas pelas polpudas condenações retroativas judiciais com honorários acumulados de sucumbência.`,
+      cidadao: `Sarlet &amp; Molinaro relembram que a dignidade exige o direito à notícia humana clara. O aplicativo gerou apenas um aviso enigmático de erro: 'Benefício Cessado por Renda Acima do Limite'. Sem letramento jurídico ou acesso digital, o deficiente se esbarra na indisponibilidade material do Meu INSS, gerando fome e profunda exclusão administrativa.`
+    },
+    rankings: [
+      { pos: 1, name: "Dr. Lucas Mendes (Defensoria)", score: "1.20", votes: 4 },
+      { pos: 2, name: "Sr. Arnaldo Rocha (Cidadão)", score: "1.92", votes: 4 },
+      { pos: 3, name: "Profª Clara Santos (Dados)", score: "2.68", votes: 4 },
+      { pos: 4, name: "Dr. Ricardo Hahn (Gestão)", score: "3.95", votes: 4 }
+    ],
+    final: {
+      sintese: "Suspensão de benefício assistencial BPC motivada por inferência unilateral de renda familiar, suprimindo o rito do contraditório processual e laudo social biopsicossocial.",
+      consenso: "Convergência integral estabelecida pelo tribunal de que: 1) O auxílio do BPC constitui mínimo de dignidade e não sofre cortes automáticos por cruzamento cego de bases cadastrais; 2) Núcleos habitacionais de fundo de terreno não presumem contabilidade unificada; 3) A perícia socioassistencial humana é etapa insubstituível do ato legal.",
+      dissenso: "Incongruência mínima sobre as exigências de contrapartidas cadastrais do beneficiário, minorada pelo reconhecimento de todos de que a falência no fluxo de triagem e a falta de rito prévio inquinam o ato de impermanência constitucional.",
+      fundamentacao: "Consubstancia-se sob o amparo do postulado impositivo do Artigo 203, inciso V, da Constituição Federal, que garante a transferência de renda continuada (BPC/LOAS) à pessoa com deficiência que comprove não possuir meios de prover a própria manutenção. O cancelamento por cruzamento seco em lote ofende o devido processo legal formal e substantivo (Art. 5º, LIV e LV, CF/88), além de esvaziar o direito de petição e revisão humana insculpido expressamente no Artigo 20 da Lei Geral de Proteção de Dados (LGPD). Conforme jurisprudência consagrada pacífica do Supremo Tribunal Federal (STF - RE 567.985/MT), o limite de renda per capita de 1/4 de salário mínimo é indicador objetivo maleável, impossibilitando a presunção legal absoluta de renda familiar compartilhada por moradias concomitantes sem laudo de assistente social humano, como bem adverte a doutrina de Ingo Wolfgang Sarlet.",
+      recomendacao: "1. Restabelecimento imediato dos pagamentos mensais do BPC sob pena de crime de desobediência e multa diária para o INSS;
+2. Determinação de realização de perícia social humana e presencial assistida pelo Centro de Referência de Assistência Social (CRAS) no prazo de 30 dias para análise da real economia domiciliar;
+3. Exclusão definitiva de novas rotinas algorítmicas de suspensão automática que operem análise territorial agregada de lotes sem laudo médico-social humano.",
+      alerta: "Sistemas federais de controle previdenciário que automatizam o cancelamento de direitos fundamentais sem callback de revisão humana institucionalizam a exclusão civil dos hipossuficientes."
     }
   }
 ];
