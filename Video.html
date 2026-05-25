@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Seminário 8 — Vídeo animado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&family=Spectral:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#fbfaf5"/>
+    <rect x="20" y="20" width="60" height="60" fill="none" stroke="#16140f" stroke-width=".6"/>
+    <path d="M50 30 C 52 38, 58 40, 66 42 C 58 44, 52 46, 50 54 C 48 46, 42 44, 34 42 C 42 40, 48 38, 50 30 Z" fill="#8b1a1a"/>
+    <text x="50" y="68" text-anchor="middle" font-family="EB Garamond, serif" font-style="italic" font-weight="600" font-size="8" fill="#16140f">Sem. VIII</text>
+  </svg>
+</template>
+
+<style>
+  html, body { margin:0; padding:0; height:100%; background:#0a0a0a; font-family:'Inter',system-ui,sans-serif; }
+  #app { position:fixed; inset:0; }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="animations.jsx"></script>
+<script type="text/babel" src="video-atoms.jsx"></script>
+<script type="text/babel" src="video-scenes.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+</head>
+<body>
+<div id="app"></div>
+
+<script type="text/babel">
+  const BASE_DURATION = 56;
+  const BASE_SCENES = {
+    frontispiece:{start:0,  end:9},
+    janus:       {start:9,  end:18},
+    columns:     {start:18, end:28},
+    caso:        {start:28, end:41},
+    conselho:    {start:41, end:49},
+    manifesto:   {start:49, end:56},
+  };
+
+  // ── PALETTES — four academic moods, all light-paper-on-dark-ink so type
+  //               stays legible. Accent shifts the dominant emotion.
+  const PALETTES = {
+    pergaminho: { name:'Pergaminho',
+      paper:'#fbfaf5', paperWarm:'#f5f1e6', paperDark:'#ebe6d8',
+      ink:'#16140f',   ink2:'#3a3733',     ink3:'#6a665e',
+      accent:'#8b1a1a', accent2:'#6a1212', gold:'#a67a2c' },
+    sepia: { name:'Sépia',
+      paper:'#f1e4c8', paperWarm:'#e6d6b0', paperDark:'#d4c198',
+      ink:'#2c1c0e',   ink2:'#5a4226',     ink3:'#8a7152',
+      accent:'#874a1c', accent2:'#6a3814', gold:'#b88a3e' },
+    toga: { name:'Toga',
+      paper:'#f4f1e8', paperWarm:'#ebe6d6', paperDark:'#dcd4be',
+      ink:'#15203a',   ink2:'#3a4458',     ink3:'#67708a',
+      accent:'#2a4878', accent2:'#1e3458', gold:'#a67a2c' },
+    verdigris: { name:'Verdigris',
+      paper:'#ebe9dc', paperWarm:'#dad6c4', paperDark:'#c5c0aa',
+      ink:'#1a201c',   ink2:'#3a4540',     ink3:'#6a7068',
+      accent:'#2f6a52', accent2:'#1f4d38', gold:'#a48538' },
+  };
+
+  // Hex → rgba helper for derived rule colors
+  function hexToRgba(hex, a){
+    const m = hex.match(/^#([0-9a-f]{6})/i);
+    if(!m) return hex;
+    const n = parseInt(m[1],16);
+    return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;
+  }
+
+  function applyPalette(key){
+    const p = PALETTES[key] || PALETTES.pergaminho;
+    Object.assign(window.TK, {
+      paper:p.paper, paperWarm:p.paperWarm, paperDark:p.paperDark,
+      ink:p.ink, ink2:p.ink2, ink3:p.ink3,
+      accent:p.accent, accent2:p.accent2, gold:p.gold,
+      rule: hexToRgba(p.ink, .18), ruleStrong: hexToRgba(p.ink, .4),
+    });
+  }
+
+  // ── CADENCE — speed multiplier; rewrites SCENES in place ────────────
+  const CADENCES = { lectio: 0.65, cursivo: 1.0, ictus: 1.45 };
+  function applyCadence(key){
+    const speed = CADENCES[key] || 1.0;
+    Object.keys(BASE_SCENES).forEach(k => {
+      window.SCENES[k].start = BASE_SCENES[k].start / speed;
+      window.SCENES[k].end   = BASE_SCENES[k].end   / speed;
+    });
+    return BASE_DURATION / speed;
+  }
+
+  // ── MOOD OVERLAYS ───────────────────────────────────────────────────
+  function MoodOverlay({ mood }){
+    if (mood === 'cinema') return (
+      <>
+        {/* letterbox bars → ~2.35:1 */}
+        <div style={{position:'absolute',top:0,left:0,right:0,height:135,
+          background:'#000',zIndex:120,pointerEvents:'none'}}/>
+        <div style={{position:'absolute',bottom:0,left:0,right:0,height:135,
+          background:'#000',zIndex:120,pointerEvents:'none'}}/>
+        {/* heavy film grain */}
+        <svg style={{position:'absolute',inset:0,zIndex:115,pointerEvents:'none',
+          mixBlendMode:'overlay',opacity:.45}}>
+          <filter id="cineGrainFx">
+            <feTurbulence baseFrequency="2.6" numOctaves="2" seed="11"/>
+            <feColorMatrix values="0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  0 0 0 1 0"/>
+          </filter>
+          <rect width="100%" height="100%" filter="url(#cineGrainFx)"/>
+        </svg>
+        {/* heavy vignette */}
+        <div style={{position:'absolute',inset:0,zIndex:114,pointerEvents:'none',
+          background:'radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,.65) 100%)'}}/>
+        {/* timecode in corner */}
+        <div style={{position:'absolute',top:155,right:60,zIndex:121,
+          fontFamily:TK.mono,fontSize:13,color:'rgba(255,80,80,.85)',
+          letterSpacing:'.18em',pointerEvents:'none',
+          display:'flex',alignItems:'center',gap:8}}>
+          <div style={{width:8,height:8,borderRadius:4,background:'#ff5050'}}/>
+          REC · 35mm · cap-{getActiveChap()}
+        </div>
+      </>
+    );
+    if (mood === 'manifesto') return (
+      <>
+        {/* thick accent rails on sides */}
+        <div style={{position:'absolute',left:0,top:0,bottom:0,width:24,
+          background:TK.accent,zIndex:110,pointerEvents:'none'}}/>
+        <div style={{position:'absolute',right:0,top:0,bottom:0,width:24,
+          background:TK.accent,zIndex:110,pointerEvents:'none'}}/>
+        {/* top inscription bar */}
+        <div style={{position:'absolute',top:0,left:24,right:24,height:32,
+          background:TK.ink,color:TK.paper,zIndex:111,pointerEvents:'none',
+          display:'flex',alignItems:'center',justifyContent:'space-between',
+          padding:'0 28px',fontFamily:TK.mono,fontSize:11,
+          letterSpacing:'.5em',textTransform:'uppercase'}}>
+          <span>· manifesto · poder-dever / dever-poder ·</span>
+          <span>Vanzin &amp; Oliveira · ufsc</span>
+        </div>
+        {/* tinted bleed at corners */}
+        <div style={{position:'absolute',left:24,top:32,bottom:0,width:60,
+          background:`linear-gradient(90deg, ${hexToRgba(TK.accent,.25)} 0%, transparent 100%)`,
+          zIndex:50,pointerEvents:'none'}}/>
+        <div style={{position:'absolute',right:24,top:32,bottom:0,width:60,
+          background:`linear-gradient(-90deg, ${hexToRgba(TK.accent,.25)} 0%, transparent 100%)`,
+          zIndex:50,pointerEvents:'none'}}/>
+      </>
+    );
+    return null;
+  }
+  function getActiveChap(){
+    try {
+      const v = parseFloat(localStorage.getItem('seminario8-video:t') || '0');
+      for (const [name, {start, end}] of Object.entries(window.SCENES||{})){
+        if (v >= start && v < end) return ({frontispiece:'I',janus:'II',columns:'III',caso:'IV',conselho:'V',manifesto:'VI'})[name];
+      }
+    } catch {}
+    return '—';
+  }
+
+  // ── App ─────────────────────────────────────────────────────────────
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "palette": "pergaminho",
+    "cadence": "cursivo",
+    "mood": "tratado"
+  }/*EDITMODE-END*/;
+
+  function App() {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+    // Apply theming + cadence on every render (before children read TK / SCENES)
+    applyPalette(t.palette);
+    const duration = applyCadence(t.cadence);
+    window.__MOOD = t.mood;
+
+    // Re-mount Stage whenever cadence changes (so persisted time clamps cleanly)
+    const stageKey = `${t.cadence}`;
+
+    // Build a swatch trio from each palette for the chip control
+    const paletteOpts = Object.keys(PALETTES).map(k => {
+      const p = PALETTES[k];
+      return [p.paper, p.ink, p.accent];
+    });
+    const palKeys = Object.keys(PALETTES);
+
+    return (
+      <div id="video-root" data-screen-label="t=00:00"
+        style={{position:'absolute',inset:0,
+          // Cinema postura desaturates a touch globally
+          filter: t.mood === 'cinema' ? 'saturate(.86) contrast(1.05)' : 'none',
+        }}>
+        <Stage key={stageKey}
+          width={1920} height={1080} duration={duration}
+          background={PALETTES[t.palette].paper}
+          persistKey={`seminario8-video-${t.cadence}`}>
+          <Video/>
+          <MoodOverlay mood={t.mood}/>
+        </Stage>
+
+        <TweaksPanel title="Tweaks · Seminário VIII">
+          <TweakSection label="Tonalidade"/>
+          <div style={{
+            fontFamily:'EB Garamond, Georgia, serif',
+            fontStyle:'italic', fontSize:11,
+            color:'rgba(41,38,27,.55)', lineHeight:1.35, marginTop:-4
+          }}>
+            Cada paleta evoca uma tradição editorial diferente — pergaminho cardealício, sépia oitocentista, toga judicial, verdigris de placa oxidada.
+          </div>
+          <div className="twk-chips" style={{marginTop:4}}>
+            {palKeys.map((k, i) => {
+              const colors = paletteOpts[i];
+              const on = t.palette === k;
+              return (
+                <button key={k} className="twk-chip" data-on={on?'1':'0'}
+                  onClick={() => setTweak('palette', k)}
+                  style={{background: colors[0]}}
+                  title={PALETTES[k].name}>
+                  <span>
+                    <i style={{background: colors[1]}}/>
+                    <i style={{background: colors[2]}}/>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          <div style={{
+            fontFamily:'JetBrains Mono, ui-monospace, monospace',
+            fontSize:10, color:'rgba(41,38,27,.55)',
+            letterSpacing:'.18em', textTransform:'uppercase',
+            textAlign:'center', marginTop:-2,
+          }}>· {PALETTES[t.palette].name} ·</div>
+
+          <TweakSection label="Cadência"/>
+          <div style={{
+            fontFamily:'EB Garamond, Georgia, serif',
+            fontStyle:'italic', fontSize:11,
+            color:'rgba(41,38,27,.55)', lineHeight:1.35, marginTop:-4
+          }}>
+            O tempo da exposição — do <i>lectio</i> contemplativo ao <i>ictus</i> de tese.
+          </div>
+          <TweakRadio
+            label="Tempo"
+            value={t.cadence}
+            options={[
+              { value:'lectio',  label:'Lectio'  },
+              { value:'cursivo', label:'Cursivo' },
+              { value:'ictus',   label:'Ictus'   },
+            ]}
+            onChange={(v) => setTweak('cadence', v)}
+          />
+          <div style={{
+            fontFamily:'JetBrains Mono, ui-monospace, monospace',
+            fontSize:10, color:'rgba(41,38,27,.5)',
+            letterSpacing:'.16em', textTransform:'uppercase',
+            textAlign:'center', marginTop:-2,
+          }}>
+            duração · {(BASE_DURATION / CADENCES[t.cadence]).toFixed(1)}s
+          </div>
+
+          <TweakSection label="Postura"/>
+          <div style={{
+            fontFamily:'EB Garamond, Georgia, serif',
+            fontStyle:'italic', fontSize:11,
+            color:'rgba(41,38,27,.55)', lineHeight:1.35, marginTop:-4
+          }}>
+            Como o vídeo se apresenta — discurso acadêmico, panfleto militante ou filme.
+          </div>
+          <TweakRadio
+            label="Modo"
+            value={t.mood}
+            options={[
+              { value:'tratado',   label:'Tratado'   },
+              { value:'manifesto', label:'Manifesto' },
+              { value:'cinema',    label:'Cinema'    },
+            ]}
+            onChange={(v) => setTweak('mood', v)}
+          />
+
+          <div style={{height:10}}/>
+          <div style={{
+            borderTop:'.5px solid rgba(0,0,0,.08)', paddingTop:10,
+            fontFamily:'EB Garamond, Georgia, serif',
+            fontStyle:'italic', fontSize:11,
+            color:'rgba(41,38,27,.55)',
+            textAlign:'center', lineHeight:1.35,
+          }}>
+            Ana Vitória Vanzin · Vinícius Oliveira<br/>
+            <span style={{fontFamily:'JetBrains Mono, monospace',fontStyle:'normal',fontSize:9,letterSpacing:'.32em',textTransform:'uppercase'}}>ppgd · ufsc · mmxxvi</span>
+          </div>
+        </TweaksPanel>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('app')).render(<App/>);
+</script>
+</body>
+</html>
