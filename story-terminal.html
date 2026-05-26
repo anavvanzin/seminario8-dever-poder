@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Story Terminal — Seminário 8</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1920px;overflow:hidden}
+  :root{
+    --green:#27c93f; --amber:#f5b942; --red:#ff5b4f; --blue:#5aa2ff; --pink:#ff5cc0;
+    --txt:#cdd6cf; --dim:#6a7a6a; --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  body{
+    width:1080px;height:1920px;
+    background:repeating-linear-gradient(0deg,#07090a 0,#07090a 3px,#080b0c 4px);
+    font-family:var(--mono);padding:70px 64px;display:flex;flex-direction:column;
+  }
+  .win{
+    flex:1;display:flex;flex-direction:column;
+    background:#0b0f0d;border:1px solid #1e2622;border-radius:20px;overflow:hidden;
+    box-shadow:0 30px 90px rgba(0,0,0,.6), 0 0 0 1px rgba(39,201,63,.06);
+  }
+  .bar{display:flex;align-items:center;gap:12px;padding:22px 26px;background:#111613;border-bottom:1px solid #1e2622}
+  .dot{width:20px;height:20px;border-radius:50%}
+  .dot.r{background:#ff5f56} .dot.y{background:#ffbd2e} .dot.g{background:#27c93f}
+  .bar .title{flex:1;text-align:center;color:#5f6b62;font-size:24px;letter-spacing:.02em}
+  .body{flex:1;padding:46px 48px;font-size:33px;line-height:1.62;color:var(--txt)}
+  .body .l{white-space:pre-wrap}
+  .pr{color:var(--green);font-weight:700}
+  .cmd{color:#fff}
+  .ok{color:var(--green)} .warn{color:var(--amber)} .err{color:var(--red)}
+  .blue{color:var(--blue);font-weight:500} .pink{color:var(--pink);font-weight:500}
+  .com{color:var(--dim)}
+  .q{color:#fff;font-weight:500}
+  .spacer{flex:1}
+  .out{color:var(--dim)}
+  .link{color:var(--blue)}
+  .cursor{display:inline-block;width:18px;height:34px;background:var(--amber);vertical-align:-5px;margin-left:4px}
+  .foot{display:flex;align-items:center;gap:28px;padding:34px 48px;border-top:1px solid #1e2622;background:#0a0e0c}
+  .foot img{width:150px;height:150px;background:#fff;border-radius:14px;padding:11px;flex-shrink:0}
+  .foot .ft{font-size:25px;line-height:1.5;color:var(--txt)}
+  .foot .ft .b{color:#fff;font-weight:700}
+  .foot .ft .u{color:var(--green)}
+  .foot .ft .sig{color:var(--dim);font-size:21px;margin-top:8px}
+</style>
+</head>
+<body>
+  <div class="win">
+    <div class="bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="title">ana@ufsc: ~/seminario8 — zsh</span>
+    </div>
+    <div class="body">
+<div class="l"><span class="pr">$</span> <span class="cmd">./seminario --tema "do-poder-dever→ao-dever-poder"</span></div>
+<div class="l">&nbsp;</div>
+<div class="l"><span class="ok">[ ok ]</span>  4 artigos carregados · 2019–2024</div>
+<div class="l"><span class="warn">[warn]</span>  Estado = <span class="blue">REGULADOR</span> ⇄ <span class="pink">REGULADO</span></div>
+<div class="l"><span class="err">[err ]</span>  caso INSS · decisão automática sem contraditório</div>
+<div class="l">&nbsp;</div>
+<div class="l"><span class="pink">?</span> pergunta:</div>
+<div class="l"><span class="q">  quando o Estado decide por algoritmo,</span></div>
+<div class="l"><span class="q">  quem perde o direito de compreender,</span></div>
+<div class="l"><span class="q">  contestar e participar?</span></div>
+<div class="l">&nbsp;</div>
+<div class="l"><span class="pr">$</span> <span class="cmd">open materiais --guia --slides --video --proto</span></div>
+<div class="l"><span class="out">  ↳ guia de estudo + demo de IA ao vivo</span></div>
+      <div class="spacer"></div>
+<div class="l"><span class="com"># se sobrar um tempinho, dá uma olhada :)</span><span class="cursor"></span></div>
+    </div>
+    <div class="foot">
+      <img src="assets/qr-guia.png" alt="QR guia">
+      <div class="ft">
+        <span class="b">aponte a câmera →</span><br>
+        <span class="u">anavanzin.com/seminario8-dever-poder</span>
+        <div class="sig">Ana Vanzin &amp; Vinícius Oliveira · PPGD/UFSC · 2026</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
