@@ -10,41 +10,39 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{width:1080px;height:1920px;overflow:hidden}
   :root{
-    --green:#27c93f; --amber:#f5b942; --red:#ff5b4f; --blue:#5aa2ff; --pink:#ff5cc0;
-    --txt:#cdd6cf; --dim:#6a7a6a; --mono:'JetBrains Mono',ui-monospace,monospace;
+    --green:#27c93f; --amber:#f5b942; --blue:#5aa2ff; --pink:#ff5cc0;
+    --txt:#cdd6cf; --dim:#76857a; --mono:'JetBrains Mono',ui-monospace,monospace;
   }
   body{
     width:1080px;height:1920px;
     background:repeating-linear-gradient(0deg,#07090a 0,#07090a 3px,#080b0c 4px);
-    font-family:var(--mono);padding:70px 64px;display:flex;flex-direction:column;
+    font-family:var(--mono);padding:84px 70px;display:flex;flex-direction:column;
   }
   .win{
     flex:1;display:flex;flex-direction:column;
-    background:#0b0f0d;border:1px solid #1e2622;border-radius:20px;overflow:hidden;
+    background:#0b0f0d;border:1px solid #1e2622;border-radius:22px;overflow:hidden;
     box-shadow:0 30px 90px rgba(0,0,0,.6), 0 0 0 1px rgba(39,201,63,.06);
   }
-  .bar{display:flex;align-items:center;gap:12px;padding:22px 26px;background:#111613;border-bottom:1px solid #1e2622}
-  .dot{width:20px;height:20px;border-radius:50%}
+  .bar{display:flex;align-items:center;gap:13px;padding:26px 30px;background:#111613;border-bottom:1px solid #1e2622}
+  .dot{width:22px;height:22px;border-radius:50%}
   .dot.r{background:#ff5f56} .dot.y{background:#ffbd2e} .dot.g{background:#27c93f}
-  .bar .title{flex:1;text-align:center;color:#5f6b62;font-size:24px;letter-spacing:.02em}
-  .body{flex:1;padding:46px 48px;font-size:33px;line-height:1.62;color:var(--txt)}
-  .body .l{white-space:pre-wrap}
+  .bar .title{flex:1;text-align:center;color:#5f6b62;font-size:26px;letter-spacing:.02em}
+  .body{flex:1;padding:64px 56px;font-size:39px;line-height:1.7;color:var(--txt);display:flex;flex-direction:column}
   .pr{color:var(--green);font-weight:700}
   .cmd{color:#fff}
-  .ok{color:var(--green)} .warn{color:var(--amber)} .err{color:var(--red)}
-  .blue{color:var(--blue);font-weight:500} .pink{color:var(--pink);font-weight:500}
-  .com{color:var(--dim)}
-  .q{color:#fff;font-weight:500}
-  .spacer{flex:1}
   .out{color:var(--dim)}
-  .link{color:var(--blue)}
-  .cursor{display:inline-block;width:18px;height:34px;background:var(--amber);vertical-align:-5px;margin-left:4px}
-  .foot{display:flex;align-items:center;gap:28px;padding:34px 48px;border-top:1px solid #1e2622;background:#0a0e0c}
-  .foot img{width:150px;height:150px;background:#fff;border-radius:14px;padding:11px;flex-shrink:0}
-  .foot .ft{font-size:25px;line-height:1.5;color:var(--txt)}
+  .ttl{color:#fff;font-weight:700}
+  .blue{color:var(--blue)} .pink{color:var(--pink)}
+  .com{color:var(--amber);opacity:.92}
+  .gap{height:48px}
+  .spacer{flex:1}
+  .cursor{display:inline-block;width:20px;height:40px;background:var(--amber);vertical-align:-6px;margin-left:6px}
+  .foot{display:flex;align-items:center;gap:30px;padding:38px 56px;border-top:1px solid #1e2622;background:#0a0e0c}
+  .foot img{width:158px;height:158px;background:#fff;border-radius:16px;padding:12px;flex-shrink:0}
+  .foot .ft{font-size:27px;line-height:1.5;color:var(--txt)}
   .foot .ft .b{color:#fff;font-weight:700}
   .foot .ft .u{color:var(--green)}
-  .foot .ft .sig{color:var(--dim);font-size:21px;margin-top:8px}
+  .foot .ft .sig{color:var(--dim);font-size:22px;margin-top:8px}
 </style>
 </head>
 <body>
@@ -54,28 +52,26 @@
       <span class="title">ana@ufsc: ~/seminario8 — zsh</span>
     </div>
     <div class="body">
-<div class="l"><span class="pr">$</span> <span class="cmd">./seminario --tema "do-poder-dever→ao-dever-poder"</span></div>
-<div class="l">&nbsp;</div>
-<div class="l"><span class="ok">[ ok ]</span>  4 artigos carregados · 2019–2024</div>
-<div class="l"><span class="warn">[warn]</span>  Estado = <span class="blue">REGULADOR</span> ⇄ <span class="pink">REGULADO</span></div>
-<div class="l"><span class="err">[err ]</span>  caso INSS · decisão automática sem contraditório</div>
-<div class="l">&nbsp;</div>
-<div class="l"><span class="pink">?</span> pergunta:</div>
-<div class="l"><span class="q">  quando o Estado decide por algoritmo,</span></div>
-<div class="l"><span class="q">  quem perde o direito de compreender,</span></div>
-<div class="l"><span class="q">  contestar e participar?</span></div>
-<div class="l">&nbsp;</div>
-<div class="l"><span class="pr">$</span> <span class="cmd">open materiais --guia --slides --video --proto</span></div>
-<div class="l"><span class="out">  ↳ guia de estudo + demo de IA ao vivo</span></div>
+<div><span class="pr">$</span> <span class="cmd">./seminario</span></div>
+<div><span class="out">  </span><span class="ttl">"Do Poder-Dever ao Dever-Poder"</span></div>
+<div><span class="out">  LGPD · algoritmo · Administração 4.0</span></div>
+<div><span class="out">  com <span class="blue">Vinícius Oliveira</span> · PPGD/UFSC</span></div>
+      <div class="gap"></div>
+<div><span class="com"># apresentamos ontem :)</span></div>
+<div><span class="com"># montei um kit com tudo — slides,</span></div>
+<div><span class="com"># vídeo e um protótipo de IA — pra</span></div>
+<div><span class="com"># turma e o professor.</span></div>
+<div><span class="com"># então... por que não mostrar</span></div>
+<div><span class="com"># pra vocês também?  👇</span></div>
       <div class="spacer"></div>
-<div class="l"><span class="com"># se sobrar um tempinho, dá uma olhada :)</span><span class="cursor"></span></div>
+<div><span class="pr">$</span> <span class="cmd">open colegas.html</span><span class="cursor"></span></div>
     </div>
     <div class="foot">
       <img src="assets/qr-guia.png" alt="QR guia">
       <div class="ft">
         <span class="b">aponte a câmera →</span><br>
         <span class="u">anavanzin.com/seminario8-dever-poder</span>
-        <div class="sig">Ana Vanzin &amp; Vinícius Oliveira · PPGD/UFSC · 2026</div>
+        <div class="sig">tá aberto pra todo mundo 🤍</div>
       </div>
     </div>
   </div>
