@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Story — Seminário 8</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1920px;overflow:hidden}
+  :root{
+    --paper:#f5f1e8; --dim:#b8b0a0; --faint:#7a7264;
+    --blue:#5aa2ff; --pink:#ff5cc0; --green:#4fd99b;
+    --font:'Geist',system-ui,sans-serif; --mono:'Geist Mono',monospace;
+  }
+  .story{
+    width:1080px;height:1920px;
+    background:radial-gradient(120% 80% at 50% 0%, #221d16 0%, #14110c 55%, #0d0b08 100%);
+    color:var(--paper);font-family:var(--font);
+    padding:96px 88px 84px;display:flex;flex-direction:column;
+  }
+  .kick{font-family:var(--mono);font-size:24px;letter-spacing:.28em;text-transform:uppercase;color:var(--faint)}
+  .janus{font-family:var(--mono);font-size:30px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:96px}
+  .janus .x{color:var(--pink);font-size:40px;vertical-align:-4px;margin:0 10px}
+  h1{font-size:128px;line-height:.92;font-weight:300;letter-spacing:-.04em;margin-top:26px;color:#fff}
+  h1 b{font-weight:600;background:linear-gradient(90deg,var(--blue),var(--pink));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{font-family:var(--mono);font-size:27px;letter-spacing:.04em;color:var(--dim);margin-top:34px}
+  .qbox{margin-top:80px;border-left:5px solid var(--pink);padding:8px 0 8px 34px}
+  .qbox .ql{font-family:var(--mono);font-size:21px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:18px}
+  .qbox p{font-size:52px;line-height:1.22;font-weight:300;color:#fff;letter-spacing:-.015em}
+  .spacer{flex:1}
+  .casual{font-size:38px;line-height:1.34;color:var(--paper);font-weight:400;margin-bottom:54px}
+  .casual b{color:var(--blue);font-weight:500}
+  .qr{display:flex;align-items:center;gap:32px}
+  .qr img{width:216px;height:216px;background:#fff;border-radius:22px;padding:16px;flex-shrink:0}
+  .qrtxt .qrt{font-size:30px;font-weight:600;color:#fff;letter-spacing:-.01em;line-height:1.25}
+  .qrtxt .qru{font-family:var(--mono);font-size:23px;color:var(--blue);margin-top:12px;letter-spacing:.01em}
+  .authors{font-family:var(--mono);font-size:25px;letter-spacing:.1em;color:var(--faint);margin-top:60px;border-top:1px solid #2e2820;padding-top:34px}
+  .authors b{color:var(--dim);font-weight:500}
+</style>
+</head>
+<body>
+<div class="story">
+  <div class="kick">Seminário VIII · PPGD/UFSC</div>
+
+  <div class="janus">Regulador <span class="x">⇄</span> Regulado</div>
+  <h1>Do Poder-Dever<br><b>ao Dever-Poder</b></h1>
+  <div class="sub">LGPD · decisão algorítmica · o caso INSS</div>
+
+  <div class="qbox">
+    <div class="ql">a pergunta que fica</div>
+    <p>Quando o Estado decide por algoritmo, quem perde o direito de compreender, contestar e participar?</p>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="casual">deixei os materiais do seminário abertos — <b>se sobrar um tempinho, dá uma olhada</b> 👀</div>
+
+  <div class="qr">
+    <img src="assets/qr-guia.png" alt="QR guia de estudo">
+    <div class="qrtxt">
+      <div class="qrt">guia de estudo · slides<br>vídeo · protótipo de IA</div>
+      <div class="qru">anavanzin.com/seminario8-dever-poder</div>
+    </div>
+  </div>
+
+  <div class="authors"><b>Ana Vanzin</b> &amp; <b>Vinícius Oliveira</b> · 2026</div>
+</div>
+</body>
+</html>
